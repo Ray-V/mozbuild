@@ -63,8 +63,9 @@ height: 2px;
     Build <span style="background:#FFFADD;">Firefox</span> with gtk2, mach,
     rust; and package it to install to /opt/firefox-{version} ...<br>
     and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that Firefox source.<br>
-    <p>With <span class="red">single localization</span> and <span class="green">user preferences</span> options and <span class="thtwo">32-bit build adjustments</span>.</p>
-    <p>This page has been laid out around a distro-independent <span class="gray">build script</span>, except for packaging, which is Slackware specific, but I assume could be adapted for packaging for other distros, or as a tar archive.
+    <p>With <span class="red">single localization</span> and <span class="green">user preferences</span> options and <span class="thtwo">32-bit build adjustments</span>.
+<hr>
+    <p>This page has been laid out around a distro-independent <span class="gray">build script</span>, except for Slackware specific packaging from the installation.
 <br>
 Packaging from the 'mach' built packages is generic.<br>
     <p>
@@ -81,30 +82,26 @@ Packaging from the 'mach' built packages is generic.<br>
     <b>
 
 <p>
-Build time</b>
-<br><i>Latest builds 2016-10-29.</i>
+Build times</b>
 <br>
-On a dual-core 2.2 GHz machine, with 'MOZ_MAKE_FLAGS="-j2"', the build times were:<br>
-    Firefox-49.0.3 ~ 85 mins <br>
-    SeaMonkey-2.46 ~ 92 mins <br>
-    Thunderbird-49.0 ~ 92 mins<br>
-Higher values for '-j' made no difference to these best build times and were prone to timing errors.
-<p>
-<i>Latest builds 2017-03-20 using rust-1.15.1</i><br>
-From Firefox 50.0, I'm using a 2x quad-core 3GHz machine with 'MOZ_MAKE_FLAGS="-j10"' which builds without any timing errors.
-<br>The build times were:<br>
-    Firefox-52.0.2 ~ 21 mins <br>
-    SeaMonkey-2.49 ~ 22 mins<br>
-    Thunderbird-52.0 ~ 22 mins
+<i>Latest builds 2017-04-02 using rust-1.16.0</i>
+<br>
+<code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
+MOZ_MAKE_FLAGS		-j2			-j10
 
-    <p>
+Firefox-52.0.3 		~90 mins		~21 mins
+SeaMonkey-2.49		~99 mins		~22 mins
+Thunderbird-52.0	~99 mins		~22 mins</code>
+<br>
+Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
+<p>
     <b>Directory structure</b><br>
     The build is done within this directory structure [key directories only]:<br>
-    <code>$MOZ_BUILD
+    <code>$MOZBUILD
 ├── comm-release				# mercurial clone
 │   └── mozilla					# unpacked mozilla-release bundle
 │       └── extensions
-│           └── {irc,inspector}			# mercurial clones
+<span class="green">│           └── {irc,inspector}			# mercurial clones</span>
 <span class="red">├── l10n
 │   ├── $L10N					# mercurial clone
 │   └── merge-$L10N 				# updated $L10N files</span>
@@ -130,9 +127,8 @@ From Firefox 50.0, I'm using a 2x quad-core 3GHz machine with 'MOZ_MAKE_FLAGS="-
 
 
     <b>Create build directories</b><br>
-    <code class="gray">mkdir /Moz-build
-export MOZ_BUILD=/Moz-build
-mkdir -p $MOZ_BUILD/{packaging-{FF,SM,TB},built,sources,l10n}
+    <code class="gray">export MOZBUILD=/mozbuild
+mkdir -p $MOZBUILD/{packaging-{FF,SM,TB},built,sources,l10n}
 </code>
 
     <p>
@@ -144,6 +140,8 @@ looking for '/lib64' is simple, or ARCH can be set manually.
 [[ ! -d /lib64 ]] &amp;&amp; export ARCH=i686
 <span class="red">export L10N=en-GB</span>
 <span class="red">export LOCN=-$(echo $L10N | tr - _)</span>
+export BLD_BR=build$(date +%m%d%H%M)
+export NUMJOBS=-j2
 </code>
 
 <p>
@@ -155,23 +153,24 @@ It also puts less of a load on the server - see <a class="extlink" href="http://
 <p>
 comm-release, chatzilla, inspector, and locale have to be cloned as no bundle is available.
 <p>comm-release<br>
-<code class="gray">(cd $MOZ_BUILD
+<code class="gray">(cd $MOZBUILD
 hg clone https://hg.mozilla.org/releases/comm-release/
 )
 </code>
 
 
 <p>mozilla-release<br>
-<code class="gray">(cd $MOZ_BUILD/sources
+Requires mercurial with zstd support [v4.1.1 works], otherwise view 'bundles' file and choose compression type<br>
+<code class="gray">(cd $MOZBUILD/sources
 # get mozilla-release bundle
 wget -O bundles https://hg.cdn.mozilla.net/
-BUNDLE=$(grep mozilla-release.*bzip2 bundles | sed 's|.*href="||;s|">.*$||')
-wget -O mozilla-release.bzip2.hg https://hg.cdn.mozilla.net/$BUNDLE)
+BUNDLE=$(grep mozilla-release.*zstd bundles | sed 's|.*href="||;s|">.*$||')
+wget -O mozilla-release.zstd.hg https://hg.cdn.mozilla.net/$BUNDLE)
 
-(cd $MOZ_BUILD/comm-release
+(cd $MOZBUILD/comm-release
 # unbundle mozilla-release
 hg init mozilla
-hg unbundle $MOZ_BUILD/sources/mozilla-release.bzip2.hg -R mozilla
+hg unbundle $MOZBUILD/sources/mozilla-release.zstd.hg -R mozilla
 # set default repo to pull from
 cat &gt; mozilla/.hg/hgrc &lt;&lt; "EOF"
 [paths]
@@ -185,76 +184,93 @@ hg update -R mozilla
 </code>
 
 <p> Add chatzilla [IRC] and inspector [DOM] repos if required.
-<br>These will be downloaded to $MOZ_BUILD/comm-release/mozilla/extensions/{irc,inspector}
+<br>These will be downloaded to $MOZBUILD/comm-release/mozilla/extensions/{irc,inspector}
 <br>
-<code class="green">(cd $MOZ_BUILD/comm-release
+<code class="green">(cd $MOZBUILD/comm-release
 python client.py --skip-comm --skip-mozilla checkout
 )
 </code>
 
 <p>
 non-US locale<br>
-<code class="red">(cd $MOZ_BUILD/l10n/
+<code class="red">(cd $MOZBUILD/l10n/
 hg clone https://hg.mozilla.org/releases/l10n/mozilla-release/$L10N/)
 </code>
-<br><a name="CompareLocReturn"></a>
-If the localization has not been updated for new files or strings in the en-US locale, then the build will fail or run-time failures will occur on these omissions.
 <br>
-A check should therefore be made to ensure that there are no missing files or strings in the localization,
+If the localization has not been updated for new files or strings in the en-US locale, then the build will fail or run-time failures will occur on those omissions.
 <br>
-which is done with <span class="red"><a href="#CompareLoc">compare-locales</a></span> [section includes setting up searchplugins for locale].
+A check should therefore be made to ensure that there are no missing files or strings in the localization, which is done with <i>compare-locales</i>.
 
 <a name="UpdateRepoReturn"></a>
 <p>
 Once these locally cloned repositories have been set up, they can be <a href="#UpdateRepo">kept up-to-date for future builds</a>.
 <p>
+
+<b>Dictionaries</b>
+<br>
+To avoid this build failure on installation:
+<br>
+<code class="console">Error: ...browser/installer/package-manifest.in:50: Missing file(s): bin/dictionaries/*</code>
+<br>
+comment out line 50 in package-manifest.in &hellip;
+<br>
+<b style="color: darkblue;">OR</b> download and install a dictionary:
+<br>
+Links to dictionaries available at <a class="extlink" href="https://addons.mozilla.org/language-tools/">Mozilla addons</a>
+<br>
+<code class="red">(cd $MOZBUILD/sources
+wget https://addons.mozilla.org/firefox/downloads/latest/british-english-dictionary-2/addon-461570-latest.xpi)
+</code>
+<p>
+
 <b>Autoconf</b>
 <br>Building needs autoconf-2.13 for the '--localdir=' option which the later versions don't have.
 <br>Build and install to temporary directory for use with this build only.
 <br>
-<code class="gray">(cd $MOZ_BUILD/sources
+<code class="gray">(cd $MOZBUILD/sources
 wget http://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz
 
 tar xf autoconf-2.13.tar.gz
 cd autoconf-2.13
-./configure --prefix=$MOZ_BUILD/sources/autoconf_213
+./configure --prefix=$MOZBUILD/sources/autoconf_213
 make
 make install)
 </code>
 <br>
-autoconf is now installed at $MOZ_BUILD/sources/autoconf_213/bin/autoconf and this path is included in mozconfig.common.
+autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and this path is included in mozconfig.common.
 <p>
 
 <b>Rust</b>
 <br>
 What is rust and why should I use it? - see <a class="extlink" href="https://hacks.mozilla.org/2016/07/shipping-rust-in-firefox/">here</a> and <a class="extlink" href="http://www.zdnet.com/article/mozilla-begins-process-of-letting-firefox-rust/">here</a>.
 <br>
-<code class="gray">(cd $MOZ_BUILD/sources/
+<code class="gray">(cd $MOZBUILD/sources/
 wget https://www.rust-lang.org/en-US/other-installers.html
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" other-installers.html | sed 's|.*href="||;s|">.*$||')
 wget $URL
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZ_BUILD/sources/rust-$ARCH --without=rust-docs)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --without=rust-docs)
 </code>
-<br>Building with rust enabled requires rustc to be in the PATH which is set pre-build as a shell variable.
+<br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable.
 <p>
-The pre-built versions of rust available for Linux are for ARCH={x86_64,i686}.
-<br>But the hard-coded target for rustc in the repo source is 'i586-unknown-linux-gnu' and if doing a build for i686 32-bit, this error will occur:
-<code class="console"> DEBUG: Executing: `/Moz-build/sources/rust-i686/bin/rustc --crate-type staticlib --target=i586-unknown-linux-gnu -o /tmp/conftestHkeIAq.rlib /tmp/conftest3c_qXZ.rs`
- DEBUG: The command returned non-zero exit status 101.
- DEBUG: Its error output was:
- DEBUG: | error[E0463]: can't find crate for `std`
-&nbsp;&nbsp;&nbsp;&vellip;
- ERROR: Cannot compile for i686-pc-linux-gnu with /Moz-build/sources/rust-i686/bin/rustc
-</code>
-<br>which is because the installed rustc 'crate' is for i686 not i586.
-<br>So point the build to the correct 'crate':
-<br><code class="thtwo">[[ $ARCH == i686 ]] &amp;&amp; sed -i 's|i586-unknown-linux-gnu|i686-unknown-linux-gnu|' $MOZ_BUILD/comm-release/mozilla/build/moz.configure/rust.configure
-</code>
 
+<b>Set up new branches</b> in the repositories for files created or modified for the build.<a name="SetUpBranch"></a>
+<br>
+This will keep the default branches clean and enable a straightforward update of those default branches for future releases.
+<br>
+<code class="green">(cd $MOZBUILD
+hg branch $BLD_BR -R comm-release/
+hg branch $BLD_BR -R comm-release/mozilla/
+hg branch $BLD_BR -R comm-release/mozilla/extensions/inspector
+hg branch $BLD_BR -R comm-release/mozilla/extensions/irc
+hg branch $BLD_BR -R l10n/$L10N)
+</code>
+<br>
+Each of those repositories is now in its '$BLD_BR' branch and any changes will be used in the build.
 <p>
+
 <b>Create mozconfigs</b>
 <br>
 As three packages are being built, set up mozconfig.{common,firefox,seamonkey,thunderbird}
@@ -265,7 +281,7 @@ Other options can be seen in 'old-configure'
 <p>
 mozconfig.common:
 <br>
-<code class="gray">(cd $MOZ_BUILD/comm-release/mozilla
+<code class="gray">(cd $MOZBUILD/comm-release/mozilla
 cat &gt; mozconfig.common &lt;&lt; "EOF"
 ## Note: The build system automatically makes an intelligent guess for how
 ## many CPU cores to use when building. The option below is typically not needed.
@@ -277,7 +293,7 @@ cat &gt; mozconfig.common &lt;&lt; "EOF"
 ## If you get timing errors [gmake[4]: *** Waiting for unfinished jobs.... is a
 ## sign of trouble], you might want to try the build without X or anything else
 ## running, or a lower value, e.g. -j1.
-mk_add_options MOZ_MAKE_FLAGS="-j2"
+mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
 
 # If you have installed DBus-Glib comment out this line:
 #ac_add_options --disable-dbus
@@ -310,11 +326,11 @@ ac_add_options --enable-url-classifier
 ac_add_options --with-pthreads
 ac_add_options --with-system-zlib
 
-mk_add_options AUTOCONF=$MOZ_BUILD/sources/autoconf_213/bin/autoconf
+mk_add_options AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf
 
 # enable rust for use where the source supports it
 ## mk_add_options has no affect - rustc has to be in the PATH
-#mk_add_options RUSTC="$MOZ_BUILD/sources/rust-$ARCH/bin/rustc"
+#mk_add_options RUSTC="$MOZBUILD/sources/rust-$ARCH/bin/rustc"
 ac_add_options --enable-rust
 
 EOF
@@ -325,7 +341,7 @@ EOF
 To be added for 32-bit version build where a 64-bit kernel is being used:<br>
 [<i>Can be built in a <a href="#Chroot">chroot</a> within a 64-bit system</i>]
 <br>
-<code class="thtwo">(cd $MOZ_BUILD/comm-release/mozilla
+<code class="thtwo">(cd $MOZBUILD/comm-release/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
 # For 32 bit version
 ac_add_options --target=i686-pc-linux-gnu
@@ -334,16 +350,30 @@ ac_add_options --host=i686-pc-linux-gnu
 EOF
 )
 </code>
-
-
 <p>
+
+The pre-built versions of rust available for Linux are for ARCH={x86_64,i686}.
+<br>But the hard-coded target for rustc in the repo source is 'i586-unknown-linux-gnu' and if doing a build for i686 32-bit, this error will occur:
+<code class="console"> DEBUG: Executing: `/mozbuild/sources/rust-i686/bin/rustc --crate-type staticlib --target=i586-unknown-linux-gnu -o /tmp/conftestHkeIAq.rlib /tmp/conftest3c_qXZ.rs`
+ DEBUG: The command returned non-zero exit status 101.
+ DEBUG: Its error output was:
+ DEBUG: | error[E0463]: can't find crate for `std`
+&nbsp;&nbsp;&nbsp;&vellip;
+ ERROR: Cannot compile for i686-pc-linux-gnu with /mozbuild/sources/rust-i686/bin/rustc
+</code>
+<br>which is because the installed rustc 'crate' is for i686 not i586.
+<br>So point the build to the correct 'crate':
+<br><code class="thtwo">[[ $ARCH == i686 ]] &amp;&amp; sed -i 's|i586-unknown-linux-gnu|i686-unknown-linux-gnu|' $MOZBUILD/comm-release/mozilla/build/moz.configure/rust.configure
+</code>
+<p>
+
 For optional single locale version:<br>
-<code class="red">(cd $MOZ_BUILD/comm-release/mozilla
+<code class="red">(cd $MOZBUILD/comm-release/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
 # To build a single locale version
 mk_add_options MOZ_CO_LOCALES=$L10N
 ac_add_options --enable-ui-locale=$L10N
-ac_add_options --with-l10n-base=$MOZ_BUILD/l10n
+ac_add_options --with-l10n-base=$MOZBUILD/l10n
 
 EOF
 )
@@ -353,15 +383,15 @@ EOF
 <p>
 mozconfig.firefox:
 <br>
-<code class="gray">(cd $MOZ_BUILD/comm-release/mozilla
+<code class="gray">(cd $MOZBUILD/comm-release/mozilla
 cat &gt; mozconfig.firefox &lt;&lt; "EOF"
 ## include the common mozconfig
-source $MOZ_BUILD/comm-release/mozilla/mozconfig.common
+source $MOZBUILD/comm-release/mozilla/mozconfig.common
 
 ## for Firefox build
 ac_add_options --enable-application=browser
-mk_add_options MOZ_OBJDIR=$MOZ_BUILD/firefox-build-dir
-ac_add_options --prefix=$MOZ_BUILD/packaging-FF
+mk_add_options MOZ_OBJDIR=$MOZBUILD/firefox-build-dir
+ac_add_options --prefix=$MOZBUILD/packaging-FF
 
 EOF
 )
@@ -371,20 +401,15 @@ EOF
 mozconfig.seamonkey:
 <br>
 
-<code class="gray">(cd $MOZ_BUILD/comm-release
+<code class="gray">(cd $MOZBUILD/comm-release
 cat &gt; mozconfig.seamonkey &lt;&lt; "EOF"
 ## include the common mozconfig
-source $MOZ_BUILD/comm-release/mozilla/mozconfig.common
+source $MOZBUILD/comm-release/mozilla/mozconfig.common
 
 ## for SeaMonkey build
 ac_add_options --enable-application=suite
-mk_add_options MOZ_OBJDIR=$MOZ_BUILD/seamonkey-build-dir
-ac_add_options --prefix=$MOZ_BUILD/packaging-SM
-
-## the default extensions - 'inspector irc' - are not in the source
-## and need to be cloned from their repos with 'client.py'
-## uncomment this option if not included in the build
-<span class="green">#ac_add_options --disable-extensions</span>
+mk_add_options MOZ_OBJDIR=$MOZBUILD/seamonkey-build-dir
+ac_add_options --prefix=$MOZBUILD/packaging-SM
 
 EOF
 )
@@ -392,19 +417,117 @@ EOF
 
 <p>mozconfig.thunderbird:
 <br>
-<code class="gray">(cd $MOZ_BUILD/comm-release
+<code class="gray">(cd $MOZBUILD/comm-release
 cat &gt; mozconfig.thunderbird &lt;&lt; "EOF"
 ## include the common mozconfig
-source $MOZ_BUILD/comm-release/mozilla/mozconfig.common
+source $MOZBUILD/comm-release/mozilla/mozconfig.common
 
 ## for Thunderbird build
 ac_add_options --enable-application=mail
-mk_add_options MOZ_OBJDIR=$MOZ_BUILD/thunderbird-build-dir
-ac_add_options --prefix=$MOZ_BUILD/packaging-TB
+mk_add_options MOZ_OBJDIR=$MOZBUILD/thunderbird-build-dir
+ac_add_options --prefix=$MOZBUILD/packaging-TB
 
 EOF
 )
 </code>
+<p>
+<b>Localization</b>
+<br>
+Go to <span class="red"><a href="#CompareLoc">compare-locales</a></span>.
+<p>
+<a name="CompareLocReturn"></a>
+<b>User preferences options</b>
+<br>
+There are a number of source code alterations that can be made for user preference, and these are done in the $BLD_BR branches in the repositories.
+<br>
+[1] To enable <a class="extlink" href="https://wiki.mozilla.org/Electrolysis">e10s</a> by default:
+<code class="green">cd $MOZBUILD
+## <b>Firefox</b>:
+sed -i 's|pref("browser.tabs.remote.autostart", false);|pref("browser.tabs.remote.autostart", true);|' comm-release/mozilla/browser/app/profile/firefox.js
+
+## <b>Seamonkey</b>:
+echo 'pref("browser.tabs.remote.autostart", true);' >> comm-release/suite/browser/browser-prefs.js
+echo 'pref("browser.tabs.remote.desktopbehavior", true);' >> comm-release/suite/browser/browser-prefs.js
+</code>
+<br>
+[2] Set default fallback encoding to UTF-8.
+<br>
+Where the server or meta tags don't identify file encoding, setting default fallback encoding to UTF-8 has been <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=967981#c4">deliberately blocked</a>.
+<br>
+<code class="green">## <b>Firefox and Seamonkey</b>:
+## remove UTF-8 block:
+sed -i 's|(mFallback).*$|(mFallback)) {|;/UTF-8/d' comm-release/mozilla/dom/encoding/FallbackEncoding.cpp
+
+## set "Fallback Text Encoding" to 'Unicode' by default
+## otherwise, "Fallback Text Encoding" will default to 'Default for Current Locale':
+sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' comm-release/mozilla/modules/libpref/init/all.js
+
+## <b>Firefox</b>:
+## To allow the default to be set to UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu.
+
+## add UTF-8/Unicode option:
+sed -i '272i\            &lt;menuitem label="\&amp;languages.customize.Fallback.unicode;"     value="UTF-8"/&gt;' comm-release/mozilla/browser/components/preferences/fonts.xul
+sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' comm-release/mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
+## replace/remove 'legacy' reference in menu:
+sed -i 's|Legacy|Unidentified|;s|legacy content|content|' comm-release/mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
+
+<code class="red">## <b>Firefox localization</b>:
+## Modify files in the ab-CD and merge-ab-CD directories - suppress error message if merge-ab-CD/.../file doesn't exist
+
+(cd $MOZBUILD/l10n/
+sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|' \
+-e '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' \
+{,merge-}$L10N/browser/chrome/browser/preferences/fonts.dtd  2>/dev/null)
+</code>
+
+## <b>Seamonkey</b>:
+## To allow the default to be set to UTF-8, add Unicode option to "Preferences|Browser|Languages|Fallback Text Encoding" menu.
+
+## add UTF-8/Unicode option:
+sed -i '116i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' comm-release/suite/common/pref/pref-languages.xul
+sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' comm-release/suite/locales/en-US/chrome/common/pref/prefutilities.dtd
+
+## replace/remove 'legacy' reference in menu:
+sed -i 's|Legacy|Unidentified|;s|legacy content|content|' comm-release/suite/locales/en-US/chrome/common/pref/pref-languages.dtd
+sed -i 's|Legacy|Unidentified|' comm-release/suite/locales/en-US/chrome/common/help/cs_nav_prefs_navigator.xhtml
+
+<code class="red">## <b>Seamonkey localization</b>:
+## Modify files in the ab-CD and merge-ab-CD directories - suppress error message if merge-ab-CD/.../file doesn't exist
+
+(cd $MOZBUILD/l10n/
+sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' {,merge-}$L10N/suite/chrome/common/pref/prefutilities.dtd 2>/dev/null
+sed -i 's|Legacy|Unidentified|;s|legacy content|content|' {,merge-}$L10N/suite/chrome/common/pref/pref-languages.dtd 2>/dev/null
+sed -i 's|Legacy|Unidentified|' {,merge-}$L10N/suite/chrome/common/help/cs_nav_prefs_navigator.xhtml 2>/dev/null)
+</code></code>
+<br>
+[3] To include the search box by default:
+<br>
+<code class="green">## <b>Seamonkey</b>:
+sed -i 's|nav-bar-inner,|nav-bar-inner,search-container,|' comm-release/suite/browser/navigator.xul
+</code>
+<br>
+[4] Extensions - Chatzilla &amp; Inspector:
+<br>
+Chatzilla can be built into Firefox, but can't be enabled without turning off Mozilla verification for extensions.
+<br>
+<code class="green">## <b>Seamonkey</b>:
+## The default extensions are " inspector irc gio", so to <b>exclude</b> all extensions:
+cat >> comm-release/mozconfig.seamonkey &lt;&lt; "EOF"
+## exclude all extensions
+ac_add_options --disable-extensions
+
+EOF
+</code>
+<br>
+[5] Commit changes to the '$BLD_BR' branches - needed so that the repositories can be updated later in the default branch:
+<br>
+<code class="green">hg commit -m "build options" -u me -R comm-release/
+hg commit -m "build options" -u me -R comm-release/mozilla/
+hg commit -m "build options" -u me -R comm-release/mozilla/extensions/inspector
+hg commit -m "build options" -u me -R comm-release/mozilla/extensions/irc
+hg commit -m "build options" -u me -R l10n/$L10N
+</code>
+<br>
 
 <p>
 If not building Firefox, skip to <b><a href="#Building_SeaMonkeyThunderbird">Building SeaMonkey/Thunderbird</a></b>
@@ -425,69 +548,30 @@ X5JoWs5ugluRXkhe5g/1Bl/0ZhIM5ghgSGNQFSlim6OYVZNeosaT2fbAm7DmTMzlmM+kK8Z8LvR6
 Exj07WWglzN4uVXA1ofw8/54yrTZJTs6594UCb42SAieB1HRJoL2cILOSILWcAY3VjDsfh7nPI11
 +ZtgOmURf5Z1upLj3HyZzxurWiJgK334bLH3ws9qsevrSKe5hTRmGcXmn7/RvEjhUswD6UwrqzW0
 l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><b> Building Firefox</b>
-<code class="gray">cd $MOZ_BUILD/comm-release/mozilla/
+<code class="gray">cd $MOZBUILD/comm-release/mozilla/
 </code>
-To enable <a class="extlink" href="https://wiki.mozilla.org/Electrolysis">e10s</a> by default:
-<code class="green">sed -i 's|pref("browser.tabs.remote.autostart", false);|pref("browser.tabs.remote.autostart", true);|' browser/app/profile/firefox.js
-</code>
-Where the server or meta tags don't identify file encoding, setting default fallback encoding to UTF-8 has been <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=967981#c4">deliberately blocked</a> in Firefox.
-To allow the default to be set to UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu.
-<code class="green">## remove UTF-8 block:
-sed -i 's|(mFallback).*$|(mFallback)) {|;/UTF-8/d' dom/encoding/FallbackEncoding.cpp
-
-## add UTF-8/Unicode option:
-sed -i '272i\            &lt;menuitem label="\&amp;languages.customize.Fallback.unicode;"     value="UTF-8"/&gt;' browser/components/preferences/fonts.xul
-sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-
-## set "Fallback Text Encoding" to 'Unicode' by default
-## otherwise, "Fallback Text Encoding" will default to 'Default for Current Locale':
-sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' modules/libpref/init/all.js
-
-## replace/remove 'legacy' reference in menu:
-sed -i 's|Legacy|Unidentified|;s|legacy content|content|' browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-
-<code class="red">(cd $MOZ_BUILD/l10n
-## check for fonts.dtd in merge-$L10N, and copy from $L10N if not there
-[[ ! -e merge-$L10N/browser/chrome/browser/preferences/fonts.dtd ]] \
-&amp;&amp; mkdir -p merge-$L10N/browser/chrome/browser/preferences/ \
-&amp;&amp; cp $L10N/browser/chrome/browser/preferences/fonts.dtd \
-merge-$L10N/browser/chrome/browser/preferences/fonts.dtd
-
-## modify the localized fonts.dtd in the merge directory:
-sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|' \
--e '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' \
-merge-$L10N/browser/chrome/browser/preferences/fonts.dtd)
-</code>
-</code>
-<code class="gray">export PATH=$MOZ_BUILD/sources/rust-$ARCH/bin:$PATH
+<code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 export NO_MERCURIAL_SETUP_CHECK=1
-export MOZCONFIG=$MOZ_BUILD/comm-release/mozilla/mozconfig.firefox
-<span class="red">[[ -e $MOZ_BUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZ_BUILD/l10n/merge-$L10N</span>
+export MOZCONFIG=$MOZBUILD/comm-release/mozilla/mozconfig.firefox
+<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mach build
 </code>
 A successful build will end with a message like:
-<code class="console">84:49.42 We know it took a while, but your build finally finished successfully!
+<code class="console">90:26.62 We know it took a while, but your build finally finished successfully!
 To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|
 </code>
-<b>Installation</b><a name="MachPackageReturn"></a>
-Use either './mach install' <a href="#MachPackage">or './mach package'</a>
-
-To avoid this build failure on installation:
-<code class="console">Error: ...browser/installer/package-manifest.in:50: Missing file(s): bin/dictionaries/*</code>
-comment out line 50 in package-manifest.in &hellip;
-
-<b style="color: darkblue;">OR</b> download and install a dictionary:
-Links to dictionaries available at <a class="extlink" href="https://addons.mozilla.org/language-tools/">Mozilla addons</a>
-<code class="red">(cd $MOZ_BUILD/sources
-wget https://addons.mozilla.org/firefox/downloads/latest/british-english-dictionary-2/addon-461570-latest.xpi)
-(cd $MOZ_BUILD/firefox-build-dir/dist/bin
-unzip $MOZ_BUILD/sources/addon-461570-latest.xpi dictionaries/*)
+<b>Installation</b>
+Install a dictionary:
+<code class="red">(cd $MOZBUILD/firefox-build-dir/dist/bin
+unzip $MOZBUILD/sources/addon-461570-latest.xpi dictionaries/*)
 </code>
 Let's take it for a test drive:
 <code>./mach run
 </code>
-Install to --prefix, which has been set to $MOZ_BUILD/packaging-FF:
+Use either './mach install' <a href="#MachPackage">or './mach package'</a>:<a name="MachPackageReturn"></a>
+
+Install to --prefix, which has been set to $MOZBUILD/packaging-FF:
 <code class="gray">./mach install
 </code>
 <b>Create package</b>
@@ -498,7 +582,7 @@ mv firefox-[0-9]* pkg/opt
 (cd pkg/usr/bin
 ln -s ../../opt/firefox-*/firefox .)
 cd pkg
-makepkg -l y -c n ../../../built/firefox-$(cat $MOZ_BUILD/comm-release/mozilla/browser/config/version.txt)${LOCN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../built/firefox-$(cat $MOZBUILD/comm-release/mozilla/browser/config/version.txt)${LOCN:-}-${ARCH:-}.txz
 </code>
 </div>
 <p>
@@ -524,39 +608,32 @@ HDxWKONstW5d2XyM4Fghwae3aQw+SjJWCkkijHAZExOvfFuHNN4FuIM3bh5UJssd6Nyjw9wEFqcN
 rH3N4MpICqkULFbOToiGhYVwL9A9ZymglJaPfEw+UfOcAWdEw9VzEfY5K5Oz8cjfEqPTtAhmZt73
 xmIX7nCswMDD7+bpbLUvH5XqcrDtzOsRUUxaTNwdjmyUJA2x2PTs1NRoew7MjbACzSyuE0LG8cf6
 yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><b> Building SeaMonkey</b>
-<code class="gray">cd $MOZ_BUILD/comm-release
+<code class="gray">cd $MOZBUILD/comm-release
 </code>
-To enable <a class="extlink" href="https://wiki.mozilla.org/Electrolysis">e10s</a> by default:
-<code class="green">echo 'pref("browser.tabs.remote.autostart", true);' >> suite/browser/browser-prefs.js
-echo 'pref("browser.tabs.remote.desktopbehavior", true);' >> suite/browser/browser-prefs.js
-</code>
-To include the search box by default:
-<code class="green">sed -i 's|nav-bar-inner,|nav-bar-inner,search-container,|' suite/browser/navigator.xul
-</code>
-<code class="gray">export PATH=$MOZ_BUILD/sources/rust-$ARCH/bin:$PATH
+<code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 export NO_MERCURIAL_SETUP_CHECK=1
-export MOZCONFIG=$MOZ_BUILD/comm-release/mozconfig.seamonkey
-<span class="red">[[ -e $MOZ_BUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZ_BUILD/l10n/merge-$L10N</span>
+export MOZCONFIG=$MOZBUILD/comm-release/mozconfig.seamonkey
+<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
 A successful build will end with a message like:
-<code class="console">92:00.04 We know it took a while, but your build finally finished successfully!
+<code class="console">99:39.20 We know it took a while, but your build finally finished successfully!
 To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
-Install a dictionary [download as for Firefox]:
-<code class="red">(cd $MOZ_BUILD/seamonkey-build-dir/dist/bin
-unzip $MOZ_BUILD/sources/addon-461570-latest.xpi dictionaries/*)
+Install a dictionary:
+<code class="red">(cd $MOZBUILD/seamonkey-build-dir/dist/bin
+unzip $MOZBUILD/sources/addon-461570-latest.xpi dictionaries/*)
 </code>
 Add searchplugins of choice::
-<code class="red">rm $MOZ_BUILD/seamonkey-build-dir/dist/bin/searchplugins/google*
-cp $MOZ_BUILD/comm-release/mozilla/browser/locales/searchplugins/{amazon,eBay,google}-$L10N.xml \
-$MOZ_BUILD/seamonkey-build-dir/dist/bin/searchplugins/
+<code class="red">rm $MOZBUILD/seamonkey-build-dir/dist/bin/searchplugins/google*
+cp $MOZBUILD/comm-release/mozilla/browser/locales/searchplugins/{amazon,eBay,google}-$L10N.xml \
+$MOZBUILD/seamonkey-build-dir/dist/bin/searchplugins/
 </code>
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZ_BUILD/packaging-SM:
+Install to --prefix, which has been set to $MOZBUILD/packaging-SM:
 <code class="gray">./mozilla/mach install
 </code>
 <b>Create package</b>
@@ -567,7 +644,7 @@ mv seamonkey-[0-9]* pkg/opt
 (cd pkg/usr/bin
 ln -s ../../opt/seamonkey-*/seamonkey .)
 cd pkg
-makepkg -l y -c n ../../../built/seamonkey-$(cat $MOZ_BUILD/comm-release/suite/config/version.txt)${LOCN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../built/seamonkey-$(cat $MOZBUILD/comm-release/suite/config/version.txt)${LOCN:-}-${ARCH:-}.txz
 </code>
 </div>
 
@@ -598,27 +675,27 @@ LKtpup4NTsWC32aExPOdHZcjhJpejnPAM8wDG+eE1WqFYRgwTROGpoDnU0O8kG5vamr+KhhLnt57
 4PDQAyfu83fVlJaUdEiigK7O81+u3/jFIVmUJzc8Vbc8Nz8/j8JkEpFY/ODREz+BGO1btny+a0RR
 UfHFy53OBUvq5fsGc6j/duKdOt1ccFeZBcAByAGQ98dxAXD8uaqSJFRTSv/5n+rpuY7/S78DHAti
 UD80RecAAAAASUVORK5CYII="><b> Building Thunderbird</b>
-<code class="gray">cd $MOZ_BUILD/comm-release
+<code class="gray">cd $MOZBUILD/comm-release
 </code>
-<code class="gray">export PATH=$MOZ_BUILD/sources/rust-$ARCH/bin:$PATH
+<code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 export NO_MERCURIAL_SETUP_CHECK=1
-export MOZCONFIG=$MOZ_BUILD/comm-release/mozconfig.thunderbird
-<span class="red">[[ -e $MOZ_BUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZ_BUILD/l10n/merge-$L10N</span>
+export MOZCONFIG=$MOZBUILD/comm-release/mozconfig.thunderbird
+<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
 A successful build will end with a message like:
-<code class="console">92:07.25 We know it took a while, but your build finally finished successfully!
+<code class="console">98:55.87 We know it took a while, but your build finally finished successfully!
 To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
-Install a dictionary [download as for Firefox]:
-<code class="red">(cd $MOZ_BUILD/thunderbird-build-dir/dist/bin
-unzip $MOZ_BUILD/sources/addon-461570-latest.xpi dictionaries/*)
+Install a dictionary:
+<code class="red">(cd $MOZBUILD/thunderbird-build-dir/dist/bin
+unzip $MOZBUILD/sources/addon-461570-latest.xpi dictionaries/*)
 </code>
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZ_BUILD/packaging-TB:
+Install to --prefix, which has been set to $MOZBUILD/packaging-TB:
 <code class="gray">./mozilla/mach install
 </code>
 <b>Create package</b>
@@ -629,7 +706,7 @@ mv thunderbird-[0-9]* pkg/opt
 (cd pkg/usr/bin
 ln -s ../../opt/thunderbird-*/thunderbird .)
 cd pkg
-makepkg -l y -c n ../../../built/thunderbird-$(cat $MOZ_BUILD/comm-release/mail/config/version.txt)${LOCN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../built/thunderbird-$(cat $MOZBUILD/comm-release/mail/config/version.txt)${LOCN:-}-${ARCH:-}.txz
 </code>
 </div>
 <p>
@@ -648,7 +725,7 @@ The <b>new</b> files will need to be checked and edited for localization strings
 <p>
 Download, build, install.
 <br>
-<code class="red">(cd $MOZ_BUILD/sources
+<code class="red">(cd $MOZBUILD/sources
 wget https://hg.mozilla.org/l10n/compare-locales/archive/tip.tar.bz2
 tar xf tip.tar.bz2
 cd compare-locales*
@@ -658,39 +735,39 @@ python setup.py install)
 <p>
 Create a list of default en-US localization files:
 <br>
-<code class="red">tree -fi $MOZ_BUILD/comm-release/{mozilla,suite,mail} | grep en-US | grep ".*\..*$" > $MOZ_BUILD/sources/en-US-l10n-files
+<code class="red">tree -fi $MOZBUILD/comm-release/{mozilla,suite,mail} | grep en-US | grep ".*\..*$" > $MOZBUILD/sources/en-US-l10n-files
 </code>
 <p>
 Add 'irc' paths for <i>compare-locales</i> to include Chatzilla:
-<code class="green"><code class="red">sed -i 's|devtools_client.*$|&amp;\nextensions_irc = mozilla/extensions/irc/locales/l10n.ini|' $MOZ_BUILD/comm-release/suite/locales/l10n.ini
-sed -i 's|devtools/client",|&amp; "extensions/irc",|' $MOZ_BUILD/comm-release/suite/locales/filter.py
+<code class="green"><code class="red">sed -i 's|devtools_client.*$|&amp;\nextensions_irc = mozilla/extensions/irc/locales/l10n.ini|' $MOZBUILD/comm-release/suite/locales/l10n.ini
+sed -i 's|devtools/client",|&amp; "extensions/irc",|' $MOZBUILD/comm-release/suite/locales/filter.py
 </code></code>
 <p>
-Look for new files to be placed in $MOZ_BUILD/l10n/merge-$L10N.
+Look for new files to be placed in $MOZBUILD/l10n/merge-$L10N.
 <br>
 compare-locales will automatically append any new lines to existing localization files and create copies in merge-$L10N
 <br>
 <code class="red">echo -e 'mozilla/browser\nsuite\nmail' | while read line ; do
-compare-locales -m $MOZ_BUILD/l10n/merge-$L10N $MOZ_BUILD/comm-release/$line/locales/l10n.ini $MOZ_BUILD/l10n $L10N \
-| tee $MOZ_BUILD/sources/$(echo $line | tr / _)-compare-locales-output | grep -B 1  "add and localize this file" \
-| grep -Ev "\-\-|localize" > $MOZ_BUILD/sources/$(echo $line | tr / _)-new-files
+compare-locales -m $MOZBUILD/l10n/merge-$L10N $MOZBUILD/comm-release/$line/locales/l10n.ini $MOZBUILD/l10n $L10N \
+| tee $MOZBUILD/sources/$(echo $line | tr / _)-compare-locales-output | grep -B 1  "add and localize this file" \
+| grep -Ev "\-\-|localize" > $MOZBUILD/sources/$(echo $line | tr / _)-new-files
 done
 </code>
 <p>
 Find paths of new files and remove duplications where suite/mail use mozilla files &hellip;
 <br>
 <code class="red">echo -e "mozilla_browser\nsuite\nmail" | while read line ; do
-cat $MOZ_BUILD/sources/$line-new-files | while read line ; do
-grep $line $MOZ_BUILD/sources/en-US-l10n-files
-done ; done | sort -u | tee $MOZ_BUILD/sources/new-files-en-US-path \
+cat $MOZBUILD/sources/$line-new-files | while read line ; do
+grep $line $MOZBUILD/sources/en-US-l10n-files
+done ; done | sort -u | tee $MOZBUILD/sources/new-files-en-US-path \
 | sed 's|locales/en-US/||g' \
-| sed "s|^.*/comm-release/mozilla|$MOZ_BUILD/l10n/merge-$L10N|g" \
-| sed "s|^.*/comm-release|$MOZ_BUILD/l10n/merge-$L10N|g" > $MOZ_BUILD/sources/new-files-$L10N-path
+| sed "s|^.*/comm-release/mozilla|$MOZBUILD/l10n/merge-$L10N|g" \
+| sed "s|^.*/comm-release|$MOZBUILD/l10n/merge-$L10N|g" > $MOZBUILD/sources/new-files-$L10N-path
 </code>
 <br>
 &hellip; and copy the new en-US files to the merge-$L10N directory &hellip;
 <br>
-<code class="red">(cd $MOZ_BUILD/sources/
+<code class="red">(cd $MOZBUILD/sources/
 paste -d ' ' new-files-en-US-path new-files-$L10N-path | while read line
 do
 cp $line
@@ -700,68 +777,82 @@ done)
 &hellip; and then edit for localizations:
 <br>
 <code class="red">MY_FAV_EDITOR=kate
-$MY_FAV_EDITOR $(cat $MOZ_BUILD/sources/new-files-$L10N-path)
+$MY_FAV_EDITOR $(cat $MOZBUILD/sources/new-files-$L10N-path)
 </code>
 <p>
+
+
+Display the additional lines to determine whether any of them need localizing.
+<br>
+Edit the merge-ab-CD file because that has priority over the equivalent ab-CD file during the build [except Chatzilla - see later].
+<br>
+<code class="red">(cd $MOZBUILD/sources/
+## list the files that have been added to:
+echo -e 'mozilla_browser\nsuite\nmail' | while read line ; do
+grep "adding to" $line-compare-locales-output | sed 's|adding to ||g' | tee -a adding-to | sed 's|merge-||g' >> added-from
+done
+
+## extract the additional lines:
+paste -d " " added-from adding-to | while read line
+do
+diff -U 0 $line
+done > added-diffs
+
+## display the diff in a context highlighting editor to more easily show lines that might need localizing:
+$MY_FAV_EDITOR added-diffs)
+</code>
+<p>
+
 <i>compare-locales</i> doesn't pick up the locale.version change in chatzilla.properties, so if it is in the list of files that have been modified, replace the locale.version string:
 <br>
-<code class="green"><code class="red">[[ $(grep chatzilla.properties $MOZ_BUILD/sources/suite-compare-locales-output) ]] \
+<code class="green"><code class="red">[[ $(grep chatzilla.properties $MOZBUILD/sources/suite-compare-locales-output) ]] \
 &amp;&amp; sed -i "s|locale.version =.*$|$(grep "locale.version =" \
-$MOZ_BUILD/comm-release/mozilla/extensions/irc/locales/en-US/chrome/chatzilla.properties)|" \
-$MOZ_BUILD/l10n/merge-en-GB/extensions/irc/chrome/chatzilla.properties
+$MOZBUILD/comm-release/mozilla/extensions/irc/locales/en-US/chrome/chatzilla.properties)|" \
+$MOZBUILD/l10n/merge-$L10N/extensions/irc/chrome/chatzilla.properties
 </code></code>
 <br>
 The en-GB chatzilla.properties file needs a string localized:
 <br>
-<code class="green"><code class="red">sed -i 's|msg.mnu.motifs.*$|msg.mnu.motifs     = Co\&amp;lour Scheme|' $MOZ_BUILD/l10n/merge-$L10N/extensions/irc/chrome/chatzilla.properties
+<code class="green"><code class="red">sed -i 's|msg.mnu.motifs.*$|msg.mnu.motifs     = Co\&amp;lour Scheme|' $MOZBUILD/l10n/merge-$L10N/extensions/irc/chrome/chatzilla.properties
 </code></code>
 
 <p>
 A further issue with <i>compare-locales</i> and Chatzilla is that the build doesn't include merge-ab-CD in the comparison with en-US.
 <br>
-So, copy any new or modified 'irc' files from merge-ab-CD to a new branch in ab-CD.
+So, copy any new or modified 'irc' files from merge-ab-CD to the $BLD_BR branch in ab-CD.
 <br>
-This will avoid altering the default branch, leaving it clean for future updates:
-<br>
-<code class="green"><code class="red">(cd $MOZ_BUILD/l10n/$L10N/
-hg branch merge
-cp -a ../merge-$L10N/extensions/irc/* extensions/irc
-hg commit -m "updated chatzilla files")
+<code class="green"><code class="red">(cd $MOZBUILD/l10n/$L10N/
+cp -a ../merge-$L10N/extensions/irc/* extensions/irc)
 </code></code>
-<br>
-The ab-CD repository is now in the 'merge' branch, where the differences to the 'default' branch are the 'irc/chatzilla' files.
-<br>
-As this only affects the Seamonkey/Chatzilla build, this branch is equally as valid for Firefox and Thunderbird builds as the default branch; and the ab-CD repository can therefore be left in this branch.
-
 <p>
+
 <b>Set up searchplugins for locale.</b>
 <br>
 This is en-GB specific, but should be adaptable for other locales &hellip;
 <br>
 Set up google search on google.co.uk:
 <br>
-<code class="red">(cd $MOZ_BUILD/comm-release/mozilla/browser/locales/searchplugins/
-cat google.xml | sed 's|google.com|google.co.uk|g' > google-en-GB.xml)
+<code class="red">(cd $MOZBUILD/comm-release/mozilla/browser/locales/searchplugins/
+cat google.xml | sed 's|google.com|google.co.uk|g' > google-$L10N.xml)
 </code>
 <br>
-eBay has been removed from the list of built-in searchplugins.
+eBay has been removed from the list of built-in searchplugins - <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1303636">because &hellip;</a>
 <br>
 To recover it, revert the en-GB repo to a suitable changeset - 2461:da03657b636d will do:
 <br>
-<code class="red">(cd $MOZ_BUILD/l10n/en-GB
-hg update da0365
-cp mail/searchplugins/eBay-en-GB.xml $MOZ_BUILD/comm-release/mozilla/browser/locales/searchplugins
-[[ $(hg update merge 2>&amp;1>/dev/null) == abort* ]] &amp;&amp; hg update default)
+<code class="red">(cd $MOZBUILD/l10n/$L10N
+hg revert -r da0365 mail/searchplugins/eBay-$L10N.xml
+mv mail/searchplugins/eBay-en-GB.xml $MOZBUILD/comm-release/mozilla/browser/locales/searchplugins)
 </code>
 <br>
 Set the default Firefox searchplugins of choice:
 <br>
 <code class="red">sed -i 's|.*yahoo-en-GB.*wikipedia"|          "google-en-GB", "eBay-en-GB", "amazon-en-GB", "ddg", "wikipedia", "bing", "chambers-en-GB"|' \
-$MOZ_BUILD/comm-release/mozilla/browser/locales/search/list.json
+$MOZBUILD/comm-release/mozilla/browser/locales/search/list.json
 </code>
 
 <p>
-All done - back to the main build <a class="return" href="#CompareLocReturn">[Return]</a>
+All done - <a href="#CompareLocReturn">back to the main build</a>
 <p>
 
 <hr>
@@ -769,12 +860,12 @@ All done - back to the main build <a class="return" href="#CompareLocReturn">[Re
 <b>Update</b> repositories <a class="return" href="#UpdateRepoReturn">[Return]</a>
 <br>Update all cloned repositories prior to any <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">future release builds</a>.
 <br>Firstly pull down all the changes:
-<br><code class="appx">cd $MOZ_BUILD
+<br><code class="appx">cd $MOZBUILD
 hg pull -R comm-release
 hg pull -R comm-release/mozilla
 hg pull -R comm-release/mozilla/extensions/inspector
 hg pull -R comm-release/mozilla/extensions/irc
-<span class="red">hg pull -R l10n/en-GB
+<span class="red">hg pull -R l10n/$L10N
 </span></code>
 <br>
 Then ensure that the repos are updated in the default branch:<br>
@@ -782,20 +873,15 @@ Then ensure that the repos are updated in the default branch:<br>
 hg update default -R comm-release/mozilla/
 hg update default -R comm-release/mozilla/extensions/inspector
 hg update default -R comm-release/mozilla/extensions/irc
-<span class="red">hg update default -R l10n/en-GB
+<span class="red">hg update default -R l10n/$L10N
 </span></code>
 <br>
-This may not work with uncommitted changes in the repo,<br>
-<code class="console">abort: uncommitted changes
-(commit or update --clean to discard changes)</code><br>
-in which case do:<br>
-<code class="appx">hg update default -C -R {repo}</code><br>
-OR<br>
-.. with an error message like:<br>
-<code class="console">warning: conflicts while merging &lt;file&gt;! (edit, then use 'hg resolve --mark')</code><br>
-edit the offending file, which will be one of those changed above, back to its original state and run:<br>
-<code class="appx">hg resolve --mark --cwd {repo}</code><br>
-Either of the 'clean' or 'resolve' actions will remove some of the patches applied, so they need to be checked before the next build.
+Set up new branches in the repositories for files created or modified for the build:
+<br>
+<code class="appx">export BLD_BR=build$(date +%m%d%H%M)
+</code>
+<br>
+Continue from <a href="#SetUpBranch">Set up new branches</a>
 <p>
 
 <hr>
@@ -804,14 +890,14 @@ Either of the 'clean' or 'resolve' actions will remove some of the patches appli
 <br>In this scenario, the installed version of rust is 64-bit, so download and install the 32-bit version
 <br>
 <code class="thtwo">ARCH=i686
-(cd $MOZ_BUILD/sources/
+(cd $MOZBUILD/sources/
 wget https://www.rust-lang.org/en-US/other-installers.html
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" other-installers.html | sed 's|.*href="||;s|">.*$||')
 wget $URL
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZ_BUILD/sources/rust-$ARCH --without=rust-docs)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --without=rust-docs)
 </code>
 <p>Set up and switch to chroot.<br>
 <b><i>Either</i></b>:<br>
@@ -830,19 +916,24 @@ or
 <code class="thtwo">mount --bind /dev $CHRT/dev
 mount -t proc proc $CHRT/proc
 
-mkdir $CHRT$MOZ_BUILD
-mount -B $MOZ_BUILD $CHRT$MOZ_BUILD
+mkdir -p $CHRT$MOZBUILD/{packaging-{FF,SM,TB},built,sources,l10n,comm-release}
 
-chroot $CHRT /bin/env MOZ_BUILD=$MOZ_BUILD ARCH=$ARCH L10N=$L10N /bin/bash
+mount -B $MOZBUILD/comm-release $CHRT$MOZBUILD/comm-release
+mount -B $MOZBUILD/sources $CHRT$MOZBUILD/sources
+<span class="red">mount -B $MOZBUILD/l10n $CHRT$MOZBUILD/l10n</span>
+
+chroot $CHRT /bin/env MOZBUILD=$MOZBUILD ARCH=$ARCH L10N=$L10N /bin/bash
 
 . /etc/profile
 </code>
-<br>&nbsp;&hellip; and then continue as for 'Building <a href="#BuildingFFReturn">Firefox</a>/<a href="#BuildingSMReturn">SeaMonkey</a>/<a href="#BuildingTBReturn">Thunderbird</a>'
+<br>
+<b>Set up</b> 32 bit build <a href="#ChrootReturn">configuration &hellip;</a>
+<p>&nbsp;&hellip; and then continue as for 'Building <a href="#BuildingFFReturn">Firefox</a> or <a href="#BuildingSMReturn">SeaMonkey</a> or <a href="#BuildingTBReturn">Thunderbird</a>'
 <p>
 
-<p>The macro path for autoconf is set as an absolute path in the autoconf script and if MOZ_BUILD is not the same in both the host and chroot environments, would fail to find the macros.
+<p>The macro path for autoconf is set as an absolute path in the autoconf script and if MOZBUILD is not the same in both the host and chroot environments, would fail to find the macros.
 <br>In this case, autoconf would have to be re-compiled within this chroot &hellip;
-<br>&hellip; or, just edit the path <span class="thtwo">${AC_MACRODIR=/Moz-build/sources/autoconf_213/share/autoconf}</span> in the autoconf script to show the path in the chroot.
+<br>&hellip; or, just edit the path <span class="thtwo">${AC_MACRODIR=/mozbuild/sources/autoconf_213/share/autoconf}</span> in the autoconf script to show the path in the chroot.
 
 
 <hr>
@@ -854,8 +945,8 @@ chroot $CHRT /bin/env MOZ_BUILD=$MOZ_BUILD ARCH=$ARCH L10N=$L10N /bin/bash
 <br>
 will create:
 <br>
-<code class="console">$MOZ_BUILD/firefox-build-dir/dist/firefox-{version}.<span class="red">en-GB.</span>linux-x86_64.tar.bz2
-<span class="red">$MOZ_BUILD/firefox-build-dir/dist/linux-x86_64/xpi/firefox-{version}.en-GB.langpack.xpi
+<code class="console">$MOZBUILD/firefox-build-dir/dist/firefox-{version}.<span class="red">$L10N.</span>linux-x86_64.tar.bz2
+<span class="red">$MOZBUILD/firefox-build-dir/dist/linux-x86_64/xpi/firefox-{version}.$L10N.langpack.xpi
 </span></code>
 
 <hr>
@@ -866,6 +957,5 @@ Any alterations to the source code may only be relevant to its revision at the t
 <br>
 2017-03-10 <span style="text-decoration: line-through">to place patches for en-GB localization into one patch file.</span>
 <br>
-2017-03-20 Firefox security updates, and to include compare-locales and new searchplugins locations.
-<br>
+2017-03-20 Firefox security updates, and to include compare-locales and new locations for searchplugins.
 </body></html>
