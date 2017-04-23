@@ -3,6 +3,11 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Ray V's mozbuild</title>
+<style>
+a, a:visited {
+text-decoration: none;
+color: #0000c5;line-height:1.5;}
+</style>
   </head>
 <body>
 <font face="Sans">
@@ -10,14 +15,15 @@
 <hr style="border:solid #e2e2e2 3px;width:100%;max-width:600px;float:left">
 <br>
 <h3>Build Firefox, Seamonkey, and Thunderbird from mercurial repositories</h3>
+With '--disable-official-branding', the builds are Nightly, Seamonkey, and Earlybird.
 <p>
-<a href="Building_release_versions.html">Building release versions </a>- 52.0.3, 2.49, 52.0
-<p>
-<a href="Building_beta_versions.html">Building beta versions </a>- 53.0b9, 2.50, 53.0
+<a href="building-firefox-seamonkey-thunderbird-using-mercurial-sources.html">Build <b>release</b>, <b>beta</b>, <b>esr52</b>, or <b>central</b> </a>
 <p>
 The builds are done on a 64 bit machine as they must be.
 <br>
-The OS/kernel are 64 bit and 32 bit versions are built in a chroot.
+The OS is 64 bit and 32 bit versions are built in a chroot.
+<br>
+Builds in a 32-bit environment only are untested.
 <p>
 Colour coding is:<br>
 <span style="line-height:1.5;background:#e7e7e7">Main build script</span><br>
