@@ -70,14 +70,10 @@ Packaging from the 'mach' built packages is generic.
 <p>
 <b>Build times</b>
 <br>
-<i>Latest builds 2017-05-07 using rust-1.16.0</i>
-<br>
 <code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j10
-
 Firefox 		~ 95 mins		~22 mins
-SeaMonkey		~104 mins		~23 mins
-Thunderbird		~103 mins		~23 mins</code>
+SeaMonkey/Thunderbird	~104 mins		~23 mins</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 <p>
@@ -124,7 +120,7 @@ export NUMJOBS=-j2
 From system:
 <br>
 <code class="gray"><span class="dastx">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
-export ARCH=x86_64 &amp;&amp; [[ ! -d /lib64 ]] &amp;&amp; export ARCH=i686
+export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686
 <span class="dastx">##</span> the mercurial server directory structure differs for 'central'
 export RELEASES="/releases" &amp;&amp; [[ $REL == central ]] &amp;&amp; unset RELEASES
 <span class="dastx">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
@@ -250,10 +246,6 @@ wget $URL
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --without=rust-docs)
-
-<span class="dastx">##</span> <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a> for rustc-1.17.0/cargo-0.18.0:
-[[ $($MOZBUILD/sources/rust-$ARCH/bin/cargo -V | cut -d " " -f 2) == 0.18.0 ]] &amp;&amp; \
-sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
 </code>
 <br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable.
 
@@ -287,7 +279,7 @@ done)
 Add new changesets - end
 -->
 
-Remove any changes made for previous builds and set up the local repositories for chosen $REL:<br>
+Set up the local repositories for chosen $REL, removing any changes made for previous builds:<br>
 <code class="gray">(cd $MOZBUILD
 hg update default -C -R $REL/comm-$REL/
 hg update $REL -C -R mozilla
@@ -516,7 +508,8 @@ User preferences - end
 <!--
 Tooltip box - start
 -->
-<a name="close_ttip"></a><br>
+<a name="close_ttip"></a>
+<br>
 <span class="tabs prefs"><a href="#Ttipbox">Gtk3 configuration</a><span style="vertical-align:-30%">&nbsp; Not a part of the build, just some customization options, for example where the defaults for gtk2/gtk3 differ &hellip;</span></span>
 <p>
 <div id="Ttipbox" class="tab"><span class="tabs"><a href="#close_ttip">close</a></span>
@@ -887,24 +880,13 @@ sed -i 's|Legacy|Unidentified|' {,merge-}$L10N/suite/chrome/common/help/cs_nav_p
 Localization - end
 -->
 
-<br>
-<b>This patch</b> is required for the Seamonkey esr52 build, pending its inclusion in the mozilla repository:
-<br>
-Re: <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1353765">bug</a> &amp; <a class="extlink" href="https://bugzilla.mozilla.org/attachment.cgi?id=8854911">fix</a>
-<br>
-<code class="appx">[[ $REL == esr52 ]] &amp;&amp; \
-(cd $MOZBUILD/mozilla/dom/filesystem/compat/
-[[ ! $(grep FileSystemDirectoryEntry.h FileSystemDirectoryReader.h) ]] &amp;&amp; \
-sed -i '13i#include "mozilla/dom/FileSystemDirectoryEntry.h"' FileSystemDirectoryReader.h)
-</code>
-
 <!--
 32-bit - start
 -->
-<p>
 <a name="close_32bit"></a>
 <br>
 <span class="tabs th2"><a href="#Th2bit">32-bit version build</a><span style="vertical-align:-30%">&nbsp;&nbsp;Configuration where a 64-bit kernel is being used.</span></span>
+<p>
 <div id="Th2bit" class="tab"><span class="tabs"><a href="#close_32bit">close</a></span>
 <!-- leave this space -->
 <div class="b_32bit"><code class="thtwo">ARCH=i686
@@ -976,7 +958,7 @@ mount -B $MOZBUILD/mozilla $MOZBUILD/$REL/comm-$REL/mozilla
 <!--
 32-bit - end
 -->
-<p>
+<p><br>
 <b>Set up rust.configure</b> for i686.
 <br>
 This applies only to 52.x versions because for 53.x versions onwards, rust.configure includes i686-unknown-linux-gnu.
@@ -987,9 +969,12 @@ To avoid a "can't find crate for `std`" error:
 &amp;&amp; sed -i 's|i586-unknown-linux-gnu|i686-unknown-linux-gnu|' $MOZBUILD/mozilla/build/moz.configure/rust.configure
 </code>
 
-
-
-
+<p>
+<b><a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a></b> for cargo-0.1[8,9].0:
+<br>
+<code class="gray">[[ $($MOZBUILD/sources/rust-$ARCH/bin/cargo -V | cut -d " " -f 2) == 0.1[8,9].0 ]] &amp;&amp; \
+sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
+</code>
 
 
 <p><br>
