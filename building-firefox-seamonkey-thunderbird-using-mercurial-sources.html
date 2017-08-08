@@ -70,6 +70,8 @@ Packaging from the 'mach' built packages is generic.
 <p>
 <b>Build times</b>
 <br>
+Latest builds -- FF55.0 &amp; FF52.3 &amp; SM2.49.[3?] using rust 1.18.0
+<br>
 <code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j10
 Firefox 		~ 95 mins		~22 mins
@@ -514,7 +516,7 @@ Tooltip box - start
 <p>
 <div id="Ttipbox" class="tab"><span class="tabs"><a href="#close_ttip">close</a></span>
 <!-- leave this space -->
-<div class="b_prefs">[1] The <b>tooltip box</b> for the default gtk3 Adwaita theme has white text on a black background with some padding:
+<div class="b_prefs">[1] The default <b>tooltip box</b> for the default gtk3 Adwaita theme has white text on a black background with some padding:
 
 <img
 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAABuCAIAAADZBgomAAAUhUlEQVR4nO2de1QU593HfzM7
@@ -900,10 +902,6 @@ wget $URL
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --without=rust-docs)
-
-<span class="dastx">##</span> <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a> for rustc-1.17.0/cargo-0.18.0:
-[[ $($MOZBUILD/sources/rust-$ARCH/bin/cargo -V | cut -d " " -f 2) == 0.18.0 ]] &amp;&amp; \
-sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
 </code>
 <code class="thtwo">[[ $(uname -m) == x86_64 ]] &amp;&amp; \
 (cd $MOZBUILD/mozilla
@@ -973,6 +971,7 @@ To avoid a "can't find crate for `std`" error:
 <b><a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a></b> for cargo-0.1[8,9].0:
 <br>
 <code class="gray">[[ $($MOZBUILD/sources/rust-$ARCH/bin/cargo -V | cut -d " " -f 2) == 0.1[8,9].0 ]] &amp;&amp; \
+[[ ! $(grep build $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml) ]] &amp;&amp; \
 sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
 </code>
 
@@ -1013,11 +1012,13 @@ Install a dictionary:
 <code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
-<span class="central"><i>For 'central' build</i>
-[2] The installation doesn't allow eyedropper.properties to be duplicated, so remove one of them:
-<code class="red">[[ $REL == central ]] &amp;&amp; \
-rm $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/client/eyedropper.properties
-</code></span>
+
+The installation doesn't allow eyedropper.properties to be duplicated - so remove one of them:
+<code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
+[[ -e client/eyedropper.properties ]] &amp;&amp; \
+[[ -e shared/eyedropper.properties ]] &amp;&amp; \
+rm client/eyedropper.properties)
+</code>
 
 Let's take it for a test drive:
 <code>./mach run
