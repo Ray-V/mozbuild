@@ -70,12 +70,12 @@ Packaging from the 'mach' built packages is generic.
 <p>
 <b>Build times</b>
 <br>
-Latest builds -- FF55.0 &amp; FF52.3 &amp; SM2.49.[3?] using rust 1.18.0
+Latest builds -- FF56.0 &amp; FF52.4 &amp; SM2.49.4 [based on mozilla for FF52.4] using rust 1.20.0
 <br>
 <code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j10
-Firefox 		~ 95 mins		~22 mins
-SeaMonkey/Thunderbird	~104 mins		~23 mins</code>
+Firefox 		~ 95 mins		~22 mins [FF52]  ~37 mins [FF56]
+SeaMonkey/Thunderbird	~104 mins		~22 mins</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 <p>
@@ -469,6 +469,10 @@ echo 'pref("browser.tabs.remote.desktopbehavior", true);' >> $REL/comm-$REL/suit
 To enable default fallback encoding to be set to UTF-8:
 <code class="green"><span class="dastx">##</span> <b>Firefox and Seamonkey</b>:
 <span class="dastx">##</span> remove UTF-8 block:
+<span class="dastx">##</span> this has changed in FF 56:
+sed -i 's|IsAsciiCompatible() .*$|IsAsciiCompatible() ) {|;/UTF_8/d' mozilla/dom/encoding/FallbackEncoding.cpp
+<span class="dastx">##</span> if that hasn't worked, we are building an earlier version:
+[[ $(grep UTF mozilla/dom/encoding/FallbackEncoding.cpp) ]] &amp;&amp; \
 sed -i 's|(mFallback).*$|(mFallback)) {|;/UTF-8/d' mozilla/dom/encoding/FallbackEncoding.cpp
 
 <span class="dastx">##</span> set "Fallback Text Encoding" to 'Unicode' by default
@@ -477,7 +481,8 @@ sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' mozilla/modu
 
 <span class="dastx">##</span> <b>Firefox</b>:
 <span class="dastx">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu:
-sed -i '272i\            &lt;menuitem label="\&amp;languages.customize.Fallback.unicode;"     value="UTF-8"/&gt;' mozilla/browser/components/preferences/fonts.xul
+[[ $(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1) -lt 56 ]] &amp;&amp; line_no=272 || line_no=293
+sed -i "${line_no}i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
 sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
 <span class="dastx">##</span> replace/remove 'legacy' reference in menu:
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
@@ -487,8 +492,8 @@ sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locale
 sed -i '116i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/common/pref/pref-languages.xul
 sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' $REL/comm-$REL/suite/locales/en-US/chrome/common/pref/prefutilities.dtd
 <span class="dastx">##</span> and for "Preferences|Mail &amp; Newsgroups|Text Encoding" menu:
+sed -i '98i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/mailnews/prefs/pref-character_encoding.xul
 sed -i '60i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/mailnews/prefs/pref-character_encoding.xul
-sed -i '99i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/mailnews/prefs/pref-character_encoding.xul
 <span class="dastx">##</span> replace/remove 'legacy' reference in menu:
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' $REL/comm-$REL/suite/locales/en-US/chrome/common/pref/pref-languages.dtd
 sed -i 's|Legacy|Unidentified|' $REL/comm-$REL/suite/locales/en-US/chrome/common/help/cs_nav_prefs_navigator.xhtml
@@ -968,10 +973,9 @@ To avoid a "can't find crate for `std`" error:
 </code>
 
 <p>
-<b><a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a></b> for cargo-0.1[8,9].0:
+<b><a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1339162">Patch required</a></b> for cargo-0.18.0+:
 <br>
-<code class="gray">[[ $($MOZBUILD/sources/rust-$ARCH/bin/cargo -V | cut -d " " -f 2) == 0.1[8,9].0 ]] &amp;&amp; \
-[[ ! $(grep build $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml) ]] &amp;&amp; \
+<code class="gray">[[ ! $(grep build $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml) ]] &amp;&amp; \
 sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
 </code>
 
@@ -1013,7 +1017,7 @@ Install a dictionary:
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
 
-The installation doesn't allow eyedropper.properties to be duplicated - so remove one of them:
+The installation doesn't allow eyedropper.properties to be duplicated; if it is, remove one of them:
 <code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
 [[ -e client/eyedropper.properties ]] &amp;&amp; \
 [[ -e shared/eyedropper.properties ]] &amp;&amp; \
