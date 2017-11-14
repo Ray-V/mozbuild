@@ -70,14 +70,16 @@ Packaging from the 'mach' built packages is generic.
 <p>
 <b>Build times</b>
 <br>
-Latest builds -- FF56.0 &amp; FF52.4 &amp; SM2.49.4 [based on mozilla for FF52.4] using rust 1.20.0
+Latest builds -- FF57.0 &amp; FF52.5.0 &amp; SM2.49.5.0/TB52.5.0 [based on mozilla for FF52.5.0] using rust 1.21.0
 <br>
-<code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
+<code>Machine			dual-core 2.2 GHz [*]	2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j10
-Firefox 		~ 95 mins		~22 mins [FF52]  ~37 mins [FF56]
+Firefox 		~ 95 mins		~22 mins [FF52]  ~37 mins [FF57]
 SeaMonkey/Thunderbird	~104 mins		~22 mins</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
+<br>
+[*] estimates based on previous builds - FF 56+ is probably a lot longer now clang is used - see 2xquad-core build time for the % difference
 <p>
     <b>Directory structure</b><br>
     The build is done within this directory structure [key directories only]:<br>
@@ -303,16 +305,6 @@ mozconfig.common:
 <br>
 <code class="gray">(cd $MOZBUILD/mozilla
 cat &gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dastx">##</span> Note: The build system automatically makes an intelligent guess for how
-<span class="dastx">##</span> many CPU cores to use when building. The option below is typically not needed.
-<span class="dastx">##</span> Most modern systems have multiple cores or CPUs, and they can be optionally
-<span class="dastx">##</span> used concurrently to make the build faster. The -j flag controls how many
-<span class="dastx">##</span> parallel builds will run concurrently. You will see (diminishing) returns up
-<span class="dastx">##</span> to a value approximately 1.5× to 2.0× the number of cores on your system.
-<span class="dastx">##</span> If your machine is overheating, you might want to try a lower value, e.g. -j1.
-<span class="dastx">##</span> If you get timing errors [gmake[4]: *** Waiting for unfinished jobs.... is a
-<span class="dastx">##</span> sign of trouble], you might want to try the build without X or anything else
-<span class="dastx">##</span> running, or a lower value, e.g. -j1.
 mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
 
 <span class="dastx">##</span> If you have installed DBus-Glib comment out this line:
@@ -335,15 +327,8 @@ ac_add_options --disable-gconf
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
 ac_add_options --disable-tests
-
 ac_add_options --enable-optimize
-
-<span class="dastx">##</span> gio is enabled by default and this causes a build failure in 55.x
-#ac_add_options --enable-gio
 ac_add_options --disable-official-branding
-ac_add_options --enable-safe-browsing
-ac_add_options --enable-url-classifier
-
 ac_add_options --with-pthreads
 ac_add_options --with-system-zlib
 
@@ -352,19 +337,19 @@ mk_add_options AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf
 EOF
 )
 </code>
+
 <br>
-Building with rust is the default for 54.x onwards - in that case do not include this option which causes a build failure:
+These options are not recognized from 57.x and cause a build failure:
 <br>
-<code class="gray">[[ $(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1) -lt 54 ]] \
+<code class="gray">[[ $(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1) -lt 57 ]] \
 &amp;&amp; (cd $MOZBUILD/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dastx">##</span> enable rust
-ac_add_options --enable-rust
+ac_add_options --enable-safe-browsing
+ac_add_options --enable-url-classifier
 
 EOF
 )
 </code>
-
 
 <p>
 For optional non-US single locale version:<br>
@@ -705,25 +690,25 @@ W0uyMAv3ypVLrR0Dy38z7PxhLMzC1pIszMIqjIVZWIWxMAurMBZmYRXGwiyswliY5f8BffA27MDf5s0A
 
 [2] <b><i>~/.config/gtk-3.0/gtk.css</b></i>
 Show scroll-bar stepper icons and set the slider width/height:
-
-  * {
-    -GtkScrollbar-has-backward-stepper: true;
-    -GtkScrollbar-has-forward-stepper: true; }
-  scrollbar slider {
-    min-width: 10px;
-    min-height: 10px; }
-  scrollbar.horizontal slider {
-    min-width: 40px; }
-  scrollbar.vertical slider {
-    min-height: 40px; }
-
+<pre>
+* {
+  -GtkScrollbar-has-backward-stepper: true;
+  -GtkScrollbar-has-forward-stepper: true; }
+scrollbar slider {
+  min-width: 10px;
+  min-height: 10px; }
+scrollbar.horizontal slider {
+  min-width: 40px; }
+scrollbar.vertical slider {
+  min-height: 40px; }
+</pre>
 [3] <b><i>/etc/gtk-3.0/settings.ini</b></i>
 Set 'Print to &hellip;' options, and scroll by one page when clicking in the scroll-bar:
-
+<pre>
 [Settings]
 gtk-print-backends=lpr,file,cups
 gtk-primary-button-warps-slider=false
-
+</pre>
 See ../gtk-doc/html/gtk3/GtkSettings.html for defaults and more options.
 </div>
 <span class="tabs"><a href="#close_ttip">close</a></span>
@@ -737,7 +722,7 @@ Localization - start
 -->
 <a name="close_l10n"></a>
 <br>
-<span class="tabs locn"><a href="#l10n">Localization</a></span>
+<span class="tabs locn"><a href="#l10n">Localization</a><span style="vertical-align:-30%">&nbsp; TODO: This doesn't work for FF57, but is still relevant for esr52 builds &hellip;</span></span>
 <p>
 <div id="l10n" class="tab"><span class="tabs"><a href="#close_l10n">close</a></span>
 <!-- leave this space -->
@@ -755,8 +740,9 @@ python setup.py build install)
 </code>
 
 <b>Known issues</b>
-Remove any previously created merge-$L10N directories:
-<code class="red">rm -rf $MOZBUILD/$REL/l10n/merge-$L10N
+Remove any previously created temporary file lists and merge-$L10N directory:
+<code class="red">rm -f $MOZBUILD/$REL/l10n/* 2>/dev/null
+rm -rf $MOZBUILD/$REL/l10n/merge-$L10N
 </code>
 <i>compare-locales</i> doesn't pick up any locale.version change in chatzilla.properties, so to ensure that it matches the en-US string:
 <code class="green"><code class="red">sed -i "s|locale.version =.*$|$(grep "locale.version =" $MOZBUILD/mozilla/extensions/irc/locales/en-US/chrome/chatzilla.properties)|" \
@@ -979,6 +965,13 @@ To avoid a "can't find crate for `std`" error:
 sed -i '21ibuild = false\n' $MOZBUILD/mozilla/media/libstagefright/binding/mp4parse_capi/Cargo.toml
 </code>
 
+<p>
+For esr52, set Seamonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
+<code class="green">[[ $REL == esr52 ]] &amp;&amp; \
+{ echo 2.49.$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
+cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
+}
+</code>
 
 <p><br>
 If not building Firefox, skip to <b><a href="#Building_SeaMonkeyThunderbird">Building SeaMonkey/Thunderbird</a></b>
@@ -1014,11 +1007,14 @@ To take your build for a test drive, run: |mach run|
 <b>Installation</b>
 Install a dictionary:
 <code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin
+rm -rf dictionaries
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
 
-The installation doesn't allow eyedropper.properties to be duplicated; if it is, remove one of them:
-<code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
+The installation doesn't allow eyedropper.properties to be duplicated; if the file is, remove one of them.
+Test for FF version because localization as currently set up doesn't work from 57.x.
+<code class="red">[[ $(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1) -lt 57 ]] &amp;&amp; \
+(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
 [[ -e client/eyedropper.properties ]] &amp;&amp; \
 [[ -e shared/eyedropper.properties ]] &amp;&amp; \
 rm client/eyedropper.properties)
@@ -1160,11 +1156,13 @@ Install a dictionary:
 <code class="red">(cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
-<span class="central"><i>For 'central' build</i>
-[2] The installation doesn't allow eyedropper.properties to be duplicated, so remove one of them:
-<code class="red">[[ $REL == central ]] &amp;&amp; \
-rm $MOZBUILD/$REL/thunderbird-build-dir/dist/bin/chrome/$L10N/locale/$L10N/devtools/client/eyedropper.properties
-</code></span>
+
+The installation doesn't allow eyedropper.properties to be duplicated; if the file is, remove one of them:
+<code class="red">(cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin/chrome/$L10N/locale/$L10N/devtools/
+[[ -e client/eyedropper.properties ]] &amp;&amp; \
+[[ -e shared/eyedropper.properties ]] &amp;&amp; \
+rm client/eyedropper.properties)
+</code>
 
 Let's take it for a test drive:
 <code>./mozilla/mach run
