@@ -70,16 +70,16 @@ Packaging from the 'mach' built packages is generic.
 <p>
 <b>Build times</b>
 <br>
-Latest builds -- FF57.0 &amp; FF52.5.0 &amp; SM2.49.5.0/TB52.5.0 [based on mozilla for FF52.5.0] using rust 1.21.0
+Latest builds -- FF58.0 &amp; FF52.6.0 &amp; SM2.49.6.0/TB52.6.0 [based on mozilla for FF52.6.0] using rust 1.21.0
 <br>
-<code>Machine			dual-core 2.2 GHz [*]	2x quad-core 3GHz
-MOZ_MAKE_FLAGS		-j2			-j10
-Firefox 		~ 95 mins		~22 mins [FF52]  ~37 mins [FF57]
-SeaMonkey/Thunderbird	~104 mins		~22 mins</code>
+<code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
+MOZ_MAKE_FLAGS		-j2					-j10
+Firefox 		~ 95 mins [FF52]*  ~142 mins [FF58]	~22 mins [FF52]  ~37 mins [FF57]
+SeaMonkey/Thunderbird	~104 mins [FF52]*			~22 mins [FF52]</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 <br>
-[*] estimates based on previous builds - FF 56+ is probably a lot longer now clang is used - see 2xquad-core build time for the % difference
+[*] estimates based on previous builds - FF 56+ builds are a lot longer
 <p>
     <b>Directory structure</b><br>
     The build is done within this directory structure [key directories only]:<br>
@@ -352,11 +352,10 @@ EOF
 </code>
 
 <p>
-For optional non-US single locale version:<br>
+For optional non-US single locale version:&nbsp; TODO: This doesn't work for FF57+, but is still relevant for esr52 builds &hellip;<br>
 <code class="red">(cd $MOZBUILD/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
 <span class="dastx">##</span> To build a single locale version
-mk_add_options MOZ_CO_LOCALES=$L10N
 ac_add_options --enable-ui-locale=$L10N
 ac_add_options --with-l10n-base=$MOZBUILD/$REL/l10n
 
@@ -722,7 +721,7 @@ Localization - start
 -->
 <a name="close_l10n"></a>
 <br>
-<span class="tabs locn"><a href="#l10n">Localization</a><span style="vertical-align:-30%">&nbsp; TODO: This doesn't work for FF57, but is still relevant for esr52 builds &hellip;</span></span>
+<span class="tabs locn"><a href="#l10n">Localization</a><span style="vertical-align:-30%">&nbsp; TODO: This doesn't work for FF57+, but is still relevant for esr52 builds &hellip;</span></span>
 <p>
 <div id="l10n" class="tab"><span class="tabs"><a href="#close_l10n">close</a></span>
 <!-- leave this space -->
@@ -1011,8 +1010,8 @@ rm -rf dictionaries
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
 
-The installation doesn't allow eyedropper.properties to be duplicated; if the file is, remove one of them.
-Test for FF version because localization as currently set up doesn't work from 57.x.
+The installation doesn't allow eyedropper.properties to be duplicated; if the file is, remove one of them:
+[Test for FF version because from 57.x, there is no duplication and the file is in a different location]
 <code class="red">[[ $(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1) -lt 57 ]] &amp;&amp; \
 (cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
 [[ -e client/eyedropper.properties ]] &amp;&amp; \
