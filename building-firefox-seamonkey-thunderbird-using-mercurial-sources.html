@@ -156,21 +156,17 @@ l10n files are updated from these l10n-central base revisions during <a href="#l
 <br>
 <b><i>esr52</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
-<code class="appx">        52.7.3                                  c3e447e07077    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        52.7.3                                  c3e447e07077    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="thtwo"> </span>
-                  2.49.7.0                      ef21d2157756    1216b956d1b0    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              52.7.0            ef21d2157756    1216b956d1b0    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        52.8.0                                  20f775af7b06    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.49.8.0                      20f775af7b06    ae24724700fe    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              52.8.0            20f775af7b06    ae24724700fe    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        59.0                                    c61f5f5ead48    <span class="comment">n/a</span>             4be371ba0b12   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        59.0.2                                  239e434d6d2b    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                  2.56                          c61f5f5ead48    026949d91908    4be371ba0b12   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              59.0              c61f5f5ead48    026949d91908    4be371ba0b12   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        60.0                                    ea4f3168c604    <span class="comment">n/a</span>             24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57                          ea4f3168c604    4bd4065b53b0    24a583bfc5c7   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              60.0b6            ea4f3168c604    4bd4065b53b0    24a583bfc5c7   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
-<br>
-<span class="comment">SM2.56 builds but doesn't run - the last Nightly 2.56 release candidate from 22 Jan exhibits the same run-time error.</span>
 <br>
 <b><i>beta</i></b>
 <br>
@@ -192,8 +188,8 @@ This SM2.58a1 build completes, but URLs will not launch from the address bar or 
 <b>Build times</b>
 <br><code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2					-j10
-Firefox 		~ 95 mins [FF52]  ~152 mins [FF57+]	~23 mins [FF52]  ~37 mins [FF57+]
-SeaMonkey/Thunderbird	~104 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~38 mins [FF57+]</code>
+Firefox 		~110 mins [FF52]  ~152 mins [FF57+]	~23 mins [FF52]  ~37 mins [FF57+]
+SeaMonkey/Thunderbird	~111 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~38 mins [FF57+]</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 
@@ -487,20 +483,22 @@ The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEAS
 ESR_SUFF="" &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; ESR_SUFF=esr
 
 (cd $MOZBUILD/mozilla/
-REL_CAND_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
+REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
 <span class="dastx">##</span> Create new bookmark to that release changeset
-hg bookmark -r $REL_CAND_CS ${REL}_$REL_TAG
+hg bookmark -r $REL_CS ${REL}_$REL_TAG
 <span class="dastx">##</span> Set the new bookmark active
 hg checkout ${REL}_$REL_TAG)
 </code>
 
-<b>Building to any other revision</b>
+<b><i>Or</b></i>: Building to any other revision
 
-List last NUM_CS changesets for REL only:
+<b><u>mozilla</b></u>
+Find the changesets within mozilla-unified applicable to REL only.
+List last NUM_CS changesets:
 <code class="appx"><b>NUM_CS</b>=<span class="comment">5</span>
 hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla/ | colrm 1 3
 </code>
-<b><i>Or</b></i>: To any other changeset.
+Create a bookmark and set it active.
 <code class="green"><span class="dastx">##</span> <b>Firefox</b>:
 <b>BUILD_CS</b>=<span class="comment">666fc84ec72d</span>
 
@@ -514,8 +512,25 @@ Delete bookmark when no longer required:
 <code class="appx">hg bookmark --delete ${REL}_$BUILD_CS -R $MOZBUILD/mozilla/
 </code>
 
+Check that required bookmark is active:
+<code class="green">hg bookmarks -R $MOZBUILD/mozilla/
+</code>
+
+<b><u>comm-$REL</b></u>
+There are no formal SeaMonkey releases and Thunderbird is released in a beta version.
+
+Download the relevant thunderbird-&lt;version>.txt file and extract the build revisions data.
+This is at, for example for the latest TB build 60.0b6:
+<code class="console">https://archive.mozilla.org/pub/thunderbird/candidates/60.0b6-candidates/build1/linux-x86_64/en-US/thunderbird-60.0b6.txt</code>
+which contains the repository revisions the build was based on:
+<code class="console">https://hg.mozilla.org/releases/comm-beta/rev/4bd4065b53b00dd2233d9ef34f27fd6192d732f8
+https://hg.mozilla.org/releases/mozilla-beta/rev/88497e338153dbe5aac3d17af326cd79ae840eaa</code>
+For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=4bd4065b53b0</span>, and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>].
+
 <code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
-** WiP **
+<b>COMM_BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
+
+hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 </code>
 <span class="tabs"><a href="#close_known_rel">close</a></span>
 </div></div>
@@ -1066,8 +1081,9 @@ Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
 </code>
-To build to a FFesr52 release version, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
-<code class="green"><code class="red"><span class="dastx">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
+To build to a release version:
+<code class="green">For FFesr52, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
+<code class="red"><span class="dastx">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
 <span class="dastx">##</span> &hellip; override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 echo $FF_VER
@@ -1092,12 +1108,17 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 <span class="dastx">##</span> Check that l10n repo is at the correct changeset:
 <span class="dastx">##</span> echo $L10N_CS ; hg parent -R $MOZBUILD/l10n/$L10N/
 }
-</code></code>
+</code>
 From FF59.0, the corresponding l10n revisions are contained in a .json file:
-<code class="green"><code class="red">[[ $MAJ_VER -ge 59 ]] &amp;&amp; {
+<code class="red">[[ $MAJ_VER -ge 59 ]] &amp;&amp; {
 export L10N_CS=$(grep -A 13 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 }
+</code>
+For a known changeset:
+<code class="red"><span class="dastx">##</span> <b>Firefox</b>:
+export <b>L10N_CS</b>=<span class="comment">3b1783bdb6fd</span>
+hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 </code></code>
 <i>compare-locales</i> doesn't pick up any locale.version change in chatzilla.properties, so to ensure that it matches the en-US string:
 <code class="green"><code class="red">[[ $REL == esr52 ]] &amp;&amp; \
@@ -1424,7 +1445,7 @@ export MOZCONFIG=$MOZBUILD/mozilla/mozconfig.firefox
 ./mach build
 </code>
 A successful build will end with a message like:
-<code class="console">95:38.04 We know it took a while, but your build finally finished successfully!
+<code class="console">110:34.94 We know it took a while, but your build finally finished successfully!
 To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|
 </code>
@@ -1467,7 +1488,7 @@ Install to --prefix, which has been set to $MOZBUILD/packaging-FF:
 Includes setting up a relative link for /usr/bin/firefox &hellip;
 <code class="gray">cd ../$REL/packaging-FF/lib
 mkdir -p pkg/{opt,usr/bin}
-[[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
+unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv firefox${FF_SUFF:-} pkg/opt/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 <span class="red"><span class="dastx">##</span> 'for the record', add the l10n revision that this build is based on:
 sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/firefox-*/application.ini</span>
@@ -1531,7 +1552,7 @@ Install to --prefix, which has been set to $MOZBUILD/packaging-SM:
 Includes setting up a relative link for /usr/bin/seamonkey &hellip;
 <code class="gray">cd ../packaging-SM/lib
 mkdir -p pkg/{opt,usr/bin}
-[[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
+unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv seamonkey${FF_SUFF:-} pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)
 <span class="green"><span class="dastx">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/seamonkey-*/application.ini</span>
@@ -1603,7 +1624,7 @@ Install to --prefix, which has been set to $MOZBUILD/packaging-TB:
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
 <code class="gray">cd ../packaging-TB/lib
 mkdir -p pkg/{opt,usr/bin}
-[[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
+unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv thunderbird${FF_SUFF:-} pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
 <span class="green"><span class="dastx">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
