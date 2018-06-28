@@ -18,6 +18,7 @@ body {font:14px sans;max-width: 1000px;padding:0px 10px;margin: 0 auto; /* cente
 .console {border-left: 3px solid lightgrey;margin-left: 15px;}
 .dastx {color: #978DFF;}
 .comment {color: #acacac;}
+.off_rel  {color: magenta;}
 div {padding: 5px;white-space: pre-wrap;}
 code {font-size:12px;padding: 5px;display: inline-block;white-space: pre-wrap;margin: 5px 0;}
 pre {font-size:12px;}
@@ -123,8 +124,8 @@ color:darkred;
 Covers building from the release repositories <b>release</b>, <b>beta</b>, and <b>esr52</b>; and from <b>central</b>.
 <br>
 The <b>mozilla-unified</b> repository is used to avoid having up to 4 different copies of mozilla repositories, and is smaller than most of them.
-<p>This page has been laid out around a distro-independent <span class="gray">build script</span>, 
-defaulting to an en-US build on unmodified source.
+<p>This page has been laid out around a distro-independent build script, 
+defaulting to an <span class="gray">en-US build</span> on unmodified source.
 <br>
 Packaging from the installation is Slackware specific, which should be adaptable to other packaging systems.
 <br>
@@ -147,31 +148,28 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 &hellip; and other Mozilla Developer pages &hellip;
 
 <p><a name="Latest"></a><br>
-<b>Latest builds</b> using rust 1.24.0
+<b>Latest builds</b>
 <br>
 l10n files are updated from these l10n-central base revisions during <a href="#l10n">Localization</a> using compare-locales 
-<br><code class="appx">                                                      built to revision [changeset]
+<br><code class="appx">                                                   built to <span class="off_rel">{official}</span> revision/changeset
         <u>Firefox</u>   <u>SeaMonkey</u>   <u>Thunderbird</u>       <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
 </code>
 <br>
 <b><i>esr52</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
-<code class="appx">        52.8.1                                  06c78da4b87a    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        52.8.0                                  20f775af7b06    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.49.8.0                      20f775af7b06    ae24724700fe    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              52.8.0            20f775af7b06    ae24724700fe    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        52.9.0                                  <span class="off_rel">755067c14b06</span>    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.49.9.0                      755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              52.9.0            755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
-<br>
-<span class="comment">52.8.1 release was built to mozilla-release CS 087eeb5396d1, but this does not appear in the mozilla-unified esr52 bookmark.
-<br>However, the key reason for the update is applying the patch, CS e76e2e481b17 [unified] or e972d4086a13 [release], for Bug 1462682 - Skia path bounds rounding fix.
-<br>Building 52.8.1 to CS 06c78da4b87a, which tags CS 087eeb5396d1, includes that patch.</span>
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        60.0                                    ea4f3168c604    <span class="comment">n/a</span>             24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57                          ea4f3168c604    4bd4065b53b0    24a583bfc5c7   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                              60.0b6            ea4f3168c604    4bd4065b53b0    24a583bfc5c7   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<code class="appx">        61.0                                    <span class="off_rel">785d242a5b01</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                  <span class="comment">2.58                          785d242a5b01    c31c128cd17a    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
+                              61.0              785d242a5b01    c31c128cd17a    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
+<br>
+<span class="comment">SM2.58 builds but continues to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1452448">unusable</a>.</span>
 <br>
 <b><i>beta</i></b>
 <br>
@@ -182,7 +180,7 @@ l10n files are updated from these l10n-central base revisions during <a href="#l
 <b><i>central [Nightly]</i></b>
 <br>
 <code class="appx">        61.0a1                                  445255800255    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                  2.58a1                        445255800255    c79eb711d4d4    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
+                  <span class="comment">2.58a1                        445255800255    c79eb711d4d4    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span></span>
 </code>
 <br>
 <span class="comment">[Nightly] builds from mozilla changeset f080a35baf6a require gcc 6.1+.<br>
@@ -193,8 +191,8 @@ This SM2.58a1 build completes, but URLs will not launch from the address bar or 
 <b>Build times</b>
 <br><code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2					-j10
-Firefox 		~110 mins [FF52]  ~152 mins [FF57+]	~23 mins [FF52]  ~37 mins [FF57+]
-SeaMonkey/Thunderbird	~111 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~38 mins [FF57+]</code>
+Firefox 		~110 mins [FF52]  ~152 mins [FF57+]	~23 mins [FF52]  ~43 mins [FF61]
+SeaMonkey/Thunderbird	~111 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~44 mins [SM2.58/TB61]</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 
