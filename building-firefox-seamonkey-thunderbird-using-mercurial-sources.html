@@ -121,11 +121,10 @@ color:darkred;
 </head><body>
 <br>
 <h3> Building Firefox, SeaMonkey and Thunderbird from mercurial repositories</h3>
-Covers building from the release repositories <b>release</b>, <b>beta</b>, and <b>esr52</b>; and from <b>central</b>.
+Covers building from the release repositories <b>release</b>, <b>beta</b>, and <b>esr52/60</b>; and from <b>central</b>.
 <br>
 The <b>mozilla-unified</b> repository is used to avoid having up to 4 different copies of mozilla repositories, and is smaller than most of them.
-<p>This page has been laid out around a distro-independent build script, 
-defaulting to an <span class="gray">en-US build</span> on unmodified source.
+<p>This page has been laid out around a distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
 Packaging from the installation is Slackware specific, which should be adaptable to other packaging systems.
 <br>
@@ -150,16 +149,16 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <p><a name="Latest"></a><br>
 <b>Latest builds</b>
 <br>
-l10n files are updated from these l10n-central base revisions during <a href="#l10n">Localization</a> using compare-locales 
+l10n files are updated from the l10n-central base revisions during <a href="#l10n">Localization</a> using compare-locales 
 <br><code class="appx">                                                   built to <span class="off_rel">{official}</span> revision/changeset
         <u>Firefox</u>   <u>SeaMonkey</u>   <u>Thunderbird</u>       <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
 </code>
 <br>
-<b><i>esr52</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
+<b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
-<code class="appx">        52.9.0                                  <span class="off_rel">755067c14b06</span>    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.49.9.0                      755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              52.9.0            755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        60.3.1                                  <span class="">a23dce703d2b</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57.3.1                      a23dce703d2b    a6e340fe4c07    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              60.3.1            a23dce703d2b    a6e340fe4c07    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <b><i>release</i></b>
@@ -185,14 +184,21 @@ l10n files are updated from these l10n-central base revisions during <a href="#l
 <br>
 <span class="comment">[Nightly] builds from mozilla changeset f080a35baf6a require gcc 6.1+.<br>
 This SM2.58a1 build completes, but URLs will not launch from the address bar or CLI.</span>
+<br>
+<b><i>esr52</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
+<br>
+<code class="appx">        52.9.0                                  <span class="off_rel">755067c14b06</span>    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.49.9.0                      755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              52.9.0            755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+</code>
 <p>
 
 <br>
 <b>Build times</b>
 <br><code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
-MOZ_MAKE_FLAGS		-j2					-j10
-Firefox 		~110 mins [FF52]  ~152 mins [FF57+]	~23 mins [FF52]  ~43 mins [FF61]
-SeaMonkey/Thunderbird	~111 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~44 mins [SM2.58/TB61]</code>
+MOZ_MAKE_FLAGS		-j2					-j10		 -j12
+Firefox 		~110 mins [FF52]  ~196 mins [FF61]	~23 mins [FF52]  ~40 mins [FF60esr]
+SeaMonkey/Thunderbird	~111 mins [FF52]  ~172 mins [FF57+]	~24 mins [FF52]  ~41 mins [SM2.57esr/TB60esr]</code>
 <br>
 Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
 
@@ -217,6 +223,7 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 └──$REL							# build tree for each of release, beta, esr52, central
     ├── comm-$REL					# mercurial clone
     │   └── mozilla					# bind to $MOZBUILD/mozilla
+    │        <span class="thtwo">└── comm					# work-around for <a href="#SM_build_error">SM2.57esr</a></span>
     ├── {firefox,seamonkey,thunderbird}-build-dir	# build directories
     ├── packaging-{FF,SM,TB}
     │   └── lib						# package source to install to /opt/..
@@ -232,11 +239,11 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 <br>
 <code class="gray">export MOZBUILD=<b>/mozbuild</b>
 <span class="dastx">##</span> Set which repositories to clone:
-export REPOS="<b>release</b> <b>beta</b> <b>esr52</b> <b>central</b>"
+export REPOS="<b>release</b> <b>beta</b> <b>esr52</b> <b>esr60</b> <b>central</b>"
 <span class="dastx">##</span> choose which to build:
-export REL=<b>esr52</b>
+export REL=<b>esr60</b>
 <span class="dastx">##</span> set number of parallel jobs
-export NUMJOBS=<b>-j2</b>
+export NUMJOBS=<b>-j$(getconf _NPROCESSORS_ONLN)</b> &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
 <span class="dastx">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
 export GTK=gtk3 <b>&amp;&amp; [[ $REL == esr52 ]] &amp;&amp; export GTK=gtk2</b>
 <span class="dastx">##</span> the default for quantum [FF57+] stylo builds only
@@ -454,10 +461,10 @@ This finds the latest release candidate build for any specific Firefox version, 
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 echo $FF_VER
 <span class="dastx">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
-ESR_SUFF="" &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; ESR_SUFF=esr
+ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 (cd $MOZBUILD/sources/
-<span class="dastx">##</span> [1] Get list of release candidates and find the latest for this release/esr52 version
+<span class="dastx">##</span> [1] Get list of release candidates and find the latest for this release/esr52/esr60 version
 wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
 
@@ -483,7 +490,7 @@ The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEAS
 <b>LOG_NUM</b>=<span class="comment">4000</span>
 <span class="dastx">##</span> Set the Firefox version
 <b>REL_TAG</b>=<span class="comment">52_7_3</span>
-ESR_SUFF="" &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; ESR_SUFF=esr
+ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 (cd $MOZBUILD/mozilla/
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
@@ -501,9 +508,9 @@ List last NUM_CS changesets:
 <code class="appx"><b>NUM_CS</b>=<span class="comment">5</span>
 hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla/ | colrm 1 3
 </code>
-Create a bookmark and set it active.
+Select a changeset from that list, and create a bookmark and set it active:
 <code class="green"><span class="dastx">##</span> <b>Firefox</b>:
-<b>BUILD_CS</b>=<span class="comment">666fc84ec72d</span>
+<b>BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 
 (cd $MOZBUILD/mozilla/
 <span class="dastx">##</span> Create new bookmark to that changeset
@@ -523,7 +530,7 @@ Check that required bookmark is active:
 There are no formal SeaMonkey releases and Thunderbird is released in a beta version.
 
 Download the relevant thunderbird-&lt;version>.txt file and extract the build revisions data.
-This is at, for example for the latest TB build 60.0b6:
+This is at, for example for the Thunderbird build 60.0b6:
 <code class="console">https://archive.mozilla.org/pub/thunderbird/candidates/60.0b6-candidates/build1/linux-x86_64/en-US/thunderbird-60.0b6.txt</code>
 which contains the repository revisions the build was based on:
 <code class="console">https://hg.mozilla.org/releases/comm-beta/rev/4bd4065b53b00dd2233d9ef34f27fd6192d732f8
@@ -531,7 +538,7 @@ https://hg.mozilla.org/releases/mozilla-beta/rev/88497e338153dbe5aac3d17af326cd7
 For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=4bd4065b53b0</span>, and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>].
 
 <code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
-<b>COMM_BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
+<b>COMM_BUILD_CS</b>=<span class="comment">4bd4065b53b0</span>
 
 hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 </code>
@@ -781,10 +788,10 @@ sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/n
 Chatzilla can be built into Firefox, but can't be enabled without turning off Mozilla verification for extensions <span class="comment">[xpinstall.signatures.required;false]</span> - so it's not included in this build. As a download from Mozilla addons, it IS verified.
 The default extensions for SeaMonkey are "inspector irc gio" <span class="comment">[suite/confvars.sh:MOZ_EXTENSIONS_DEFAULT=" inspector irc gio"]</span>.
 
-<b>[5]</b> For esr52, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
+<b>[5]</b> For esr52/60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
 <code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
-[[ $REL == esr52 ]] &amp;&amp; {
-echo 2.49.$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
+[[ $REL == esr* ]] &amp;&amp; {
+echo 2.$[$MAJ_VER-3].$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
 cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
 }
 </code>
@@ -1085,7 +1092,8 @@ Remove any previously created temporary file lists and merge-$L10N directory:
 rm -rf $MOZBUILD/l10n/merge-$L10N
 </code>
 To build to a release version:
-<code class="green">For FFesr52, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
+<code class="green"><b>Either:</b>
+For FFesr52, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
 <code class="red"><span class="dastx">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
 <span class="dastx">##</span> &hellip; override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
@@ -1112,15 +1120,17 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 <span class="dastx">##</span> echo $L10N_CS ; hg parent -R $MOZBUILD/l10n/$L10N/
 }
 </code>
+<b>Or:</b>
 From FF59.0, the corresponding l10n revisions are contained in a .json file:
 <code class="red">[[ $MAJ_VER -ge 59 ]] &amp;&amp; {
 export L10N_CS=$(grep -A 13 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 }
 </code>
+<b>Or:</b>
 For a known changeset:
 <code class="red"><span class="dastx">##</span> <b>Firefox</b>:
-export <b>L10N_CS</b>=<span class="comment">3b1783bdb6fd</span>
+export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 </code></code>
 <i>compare-locales</i> doesn't pick up any locale.version change in chatzilla.properties, so to ensure that it matches the en-US string:
@@ -1202,7 +1212,8 @@ $MY_FAV_EDITOR added-diffs)
 
 A further issue with <i>compare-locales</i> is that the SeaMonkey build doesn't include any Chatzilla files from merge-$L10N.
 So, copy any new or modified 'irc' files from merge-$L10N to $L10N.
-<code class="green"><code class="red">(cd $MOZBUILD/l10n/$L10N/
+<code class="green"><code class="red">[[ $REL == esr52 ]] &amp;&amp; \
+(cd $MOZBUILD/l10n/$L10N/
 cp -a ../merge-$L10N/extensions/irc/* extensions/irc)
 </code></code>
 
@@ -1260,7 +1271,7 @@ LOCALE_MERGEDIR=
 
 This enabled the additional lines and files identified by compare-locales to be localized prior to the build.
 
-The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I don't want to change the build method before esr52 EOL [c. 2018-08-20], and am not sure it would allow a pre-set merge-ab-CD directory which is necessary for the prior localization.
+The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I'm not sure it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
 
 What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary and localization messages are in the intended locale.
 <code class="red"><span class="dastx">##</span> Copy en-US and $L10N to a working area:
@@ -1318,7 +1329,7 @@ Set the default Firefox searchplugins of choice by overriding the en-US string:
 <code class="red">cp $MOZBUILD/mozilla/browser/locales/search/list.json $MOZBUILD/l10n/wip
 sed -i "s|.*amazondotcom.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $MOZBUILD/mozilla/browser/locales/search/list.json
 </code>
-Set the default SeaMonkey searchplugins of choice - source them from the browser locale or the L10N repo:
+Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
 <code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
 cp $MOZBUILD/mozilla/browser/locales/searchplugins/{{eBay,google}-$L10N,bing,wikipedia,ddg}.xml $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/
 cp $MOZBUILD/l10n/$L10N/mail/searchplugins/amazon-$L10N.xml $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/
@@ -1471,7 +1482,7 @@ Let's take it for a test drive:
 <b>Installation:</b> <a name="close_machpk"></a>
 Use either './mach install' or &nbsp;<span class="tabs prefs"><a href="#Mpack">'./mach package'</a></span>
 <div id="Mpack" class="tab">
-<div class="b_prefs"><span class="tabs"><a href="#close_machpk">close</a>
+<div class="b_prefs"><span class="tabs th2"><a href="#close_machpk">close</a></span>
 <!-- leave this space -->
 <b>Using './mach package'</b>&nbsp;
 <code class="gray">./mach package</code>
@@ -1482,9 +1493,9 @@ for esr52 builds:
 </code>
 for 57+ builds:
 <code class="console">** WiP **</code>
-<span class="tabs"><a href="#close_machpk">close</a></span>
+<span class="tabs th2"><a href="#close_machpk">close</a></span>
 </div></div>                                                     <!-- mach package - end -->
-Install to --prefix, which has been set to $MOZBUILD/packaging-FF:
+Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-FF:
 <code class="gray">./mach install
 </code>
 <b>Create package</b>
@@ -1519,6 +1530,43 @@ HDxWKONstW5d2XyM4Fghwae3aQw+SjJWCkkijHAZExOvfFuHNN4FuIM3bh5UJssd6Nyjw9wEFqcN
 rH3N4MpICqkULFbOToiGhYVwL9A9ZymglJaPfEw+UfOcAWdEw9VzEfY5K5Oz8cjfEqPTtAhmZt73
 xmIX7nCswMDD7+bpbLUvH5XqcrDtzOsRUUxaTNwdjmyUJA2x2PTs1NRoew7MjbACzSyuE0LG8cf6
 yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="vertical-align:20%"><b> Building SeaMonkey</b></span></span>
+</code> <a name="close_SM_build_error"></a>                                                    <!-- SM build error - start -->
+<span class="tabs th2"><a href="#SM_build_error">SM 2.57esr build error</a></span>
+<div id="SM_build_error" class="tab">
+<div class="b_32bit"><span class="tabs th2"><a href="#close_SM_build_error">close</a></span>
+<!-- leave this space -->
+This error occurred building SM 2.57.3.1 to revision a6e340fe4c07
+<code class="console">==============================
+FATAL ERROR PROCESSING MOZBUILD FILE
+==============================
+The error occurred while processing the following file:
+    /mozbuild/esr60/comm-esr60/mozilla/moz.build
+
+The underlying problem is we referenced a path that does not exist. That path is:
+    /mozbuild/esr60/comm-esr60/mozilla/comm/mailnews/mailnews.mozbuild
+</code>
+The file does exist, but its path is:
+/mozbuild/esr60/comm-esr60/mailnews/mailnews.mozbuild
+
+More, similar errors occur, but only for the SeaMonkey build - Thunderbird builds OK.
+This is caused by changeset 21774e0f8d4d, as the fix for bug <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1481067">1481067</a> - Remove option to build comm-central as topsourcedir from suite.
+
+The reason is that the paths for SM have been set to /comm/&hellip;
+Re: /mozbuild/esr60/comm-esr60/suite/app.mozbuild:
+<code class="console">include('/comm/mailnews/mailnews.mozbuild')
+</code>
+&hellip; whereas for TB, the paths are relative:
+Re: /mozbuild/esr60/comm-esr60/mail/app.mozbuild:
+<code class="console">include('../mailnews/mailnews.mozbuild')
+</code>
+My work-around for this is to bind-mount comm-esr60 into the mozilla tree &hellip;
+<code class="thtwo">mkdir $MOZBUILD/esr60/comm-esr60/mozilla/comm
+mount -B $MOZBUILD/esr60/comm-esr60 $MOZBUILD/esr60/comm-esr60/mozilla/comm
+</code>
+&hellip; whether it will work for release, beta, and central builds is currently unknown.
+
+<span class="tabs th2"><a href="#close_SM_build_error">close</a></span>
+</div></div>                                                     <!-- SM build error - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
 export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 export NO_MERCURIAL_SETUP_CHECK=1
@@ -1548,7 +1596,7 @@ $MOZBUILD/$REL/seamonkey-build-dir/dist/bin/searchplugins/
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZBUILD/packaging-SM:
+Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-SM:
 <code class="gray">./mozilla/mach install
 </code>
 <b>Create package</b>
@@ -1620,7 +1668,7 @@ rm client/eyedropper.properties)
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZBUILD/packaging-TB:
+Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-TB:
 <code class="gray">./mozilla/mach install
 </code>
 <b>Create package</b>
