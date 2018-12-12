@@ -156,9 +156,9 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br>
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
-<code class="appx">        60.3.1                                  <span class="">a23dce703d2b</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57.3.1                      a23dce703d2b    a6e340fe4c07    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              60.3.1            a23dce703d2b    a6e340fe4c07    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57.4.0                      6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <b><i>release</i></b>
@@ -213,7 +213,7 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 │   ├── autoconf_213				# autoconf-2.13 installation
 │   ├── llvm					# for LLVM_CONFIG for stylo build
 │   ├── mozilla-unified.zstd.hg			# mercurial bundle
-│   ├── rust					# latest binaries
+│   ├── rust&hellip;					# download and installation
 │   <span class="red">└── compare-locales				# to create merge-$L10N</span>
 ├<span class="thtwo">── chrt					# chroot for 32-bit builds</span>
 ├<span class="red">── l10n</span>
@@ -390,15 +390,17 @@ autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and thi
 What is rust and why should I use it? - see <a class="extlink" href="https://hacks.mozilla.org/2016/07/shipping-rust-in-firefox/">here</a> and <a class="extlink" href="http://www.zdnet.com/article/mozilla-begins-process-of-letting-firefox-rust/">here</a>. Building with rust is the default for 54.x onwards.
 <br>
 <code class="gray">(cd $MOZBUILD/sources/
-wget -O rust.html https://www.rust-lang.org/en-US/other-installers.html
+wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||')
 wget $URL
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --without=rust-docs)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu)
 </code>
-<br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable.
+<br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable:<br>
+<code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
+</code>
 
 
 <p>
@@ -584,6 +586,7 @@ mozconfig.common:
 <code class="gray">(cd $MOZBUILD/mozilla
 cat &gt; mozconfig.common &lt;&lt; "EOF"
 mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
+mk_add_options NO_MERCURIAL_SETUP_CHECK=1
 
 <span class="dastx">##</span> If you have installed DBus-Glib comment out this line:
 #ac_add_options --disable-dbus
@@ -717,10 +720,12 @@ Needed for SeaMonkey/Thunderbird builds, and to simplify the use of compare-loca
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 mkdir -p mozilla
-mount -B $MOZBUILD/mozilla mozilla
-
-<span class="dastx">##</span> Remove any stale configure file:
-rm -f $MOZBUILD/mozilla/configure)
+mount -B $MOZBUILD/mozilla mozilla)
+</code>
+<p>
+Remove any stale configure file:
+<br>
+<code class="gray">rm -f $MOZBUILD/mozilla/configure
 </code>
 <p>
 
@@ -1090,6 +1095,7 @@ python setup.py build install)
 Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
+rm -rf $MOZBUILD/l10n/wip/*
 </code>
 To build to a release version:
 <code class="green"><b>Either:</b>
@@ -1273,7 +1279,7 @@ This enabled the additional lines and files identified by compare-locales to be 
 
 The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I'm not sure it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
 
-What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary and localization messages are in the intended locale.
+What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary, texts and messages are in the intended localization.
 <code class="red"><span class="dastx">##</span> Copy en-US and $L10N to a working area:
 while read file
 do
@@ -1452,8 +1458,6 @@ Exj07WWglzN4uVXA1ofw8/54yrTZJTs6594UCb42SAieB1HRJoL2cILOSILWcAY3VjDsfh7nPI11
 +ZtgOmURf5Z1upLj3HyZzxurWiJgK334bLH3ws9qsevrSKe5hTRmGcXmn7/RvEjhUswD6UwrqzW0
 l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><span style="vertical-align:20%"><b> Building Firefox [Nightly]</b></span></span>
 <code class="gray">cd $MOZBUILD/mozilla/
-export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
-export NO_MERCURIAL_SETUP_CHECK=1
 export MOZCONFIG=$MOZBUILD/mozilla/mozconfig.firefox
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mach build
@@ -1551,11 +1555,11 @@ The file does exist, but its path is:
 More, similar errors occur, but only for the SeaMonkey build - Thunderbird builds OK.
 This is caused by changeset 21774e0f8d4d, as the fix for bug <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1481067">1481067</a> - Remove option to build comm-central as topsourcedir from suite.
 
-The reason is that the paths for SM have been set to /comm/&hellip;
+The reason is that the relative paths for SM have now been set to /comm/&hellip;
 Re: /mozbuild/esr60/comm-esr60/suite/app.mozbuild:
 <code class="console">include('/comm/mailnews/mailnews.mozbuild')
 </code>
-&hellip; whereas for TB, the paths are relative:
+&hellip; whereas for TB, the paths are unchanged:
 Re: /mozbuild/esr60/comm-esr60/mail/app.mozbuild:
 <code class="console">include('../mailnews/mailnews.mozbuild')
 </code>
@@ -1568,8 +1572,6 @@ mount -B $MOZBUILD/esr60/comm-esr60 $MOZBUILD/esr60/comm-esr60/mozilla/comm
 <span class="tabs th2"><a href="#close_SM_build_error">close</a></span>
 </div></div>                                                     <!-- SM build error - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
-export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
-export NO_MERCURIAL_SETUP_CHECK=1
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.seamonkey
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
@@ -1643,8 +1645,6 @@ LKtpup4NTsWC32aExPOdHZcjhJpejnPAM8wDG+eE1WqFYRgwTROGpoDnU0O8kG5vamr+KhhLnt57
 UfHFy53OBUvq5fsGc6j/duKdOt1ccFeZBcAByAGQ98dxAXD8uaqSJFRTSv/5n+rpuY7/S78DHAti
 UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderbird [Daily]</b></span></span>
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
-export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
-export NO_MERCURIAL_SETUP_CHECK=1
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
