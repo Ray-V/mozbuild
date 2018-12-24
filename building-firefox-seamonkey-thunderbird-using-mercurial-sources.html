@@ -364,7 +364,7 @@ comment out line 50 in package-manifest.in &hellip;
 Links to dictionaries are available at <a class="extlink" href="https://addons.mozilla.org/language-tools/">Mozilla addons</a>
 <br>
 <code class="red">(cd $MOZBUILD/sources
-wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/british-english-dictionary-2/addon-461570-latest.xpi)
+wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span class="comment">british-english-dictionary-2/addon-461570-latest.xpi</span>)
 </code>
 
 <p>
@@ -536,13 +536,13 @@ This is at, for example for the Thunderbird build 60.0b6:
 which contains the repository revisions the build was based on:
 <code class="console">https://hg.mozilla.org/releases/comm-beta/rev/4bd4065b53b00dd2233d9ef34f27fd6192d732f8
 https://hg.mozilla.org/releases/mozilla-beta/rev/88497e338153dbe5aac3d17af326cd79ae840eaa</code>
-For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=4bd4065b53b0</span>, and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>].
-
+For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=4bd4065b53b0</span> &hellip;
 <code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
 <b>COMM_BUILD_CS</b>=<span class="comment">4bd4065b53b0</span>
-
 hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 </code>
+&hellip; and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>]
+
 <span class="tabs"><a href="#close_known_rel">close</a></span>
 </div></div>
 <!--
@@ -668,6 +668,9 @@ cat >> $MOZBUILD/mozilla/mozconfig.common << "EOF"
 mk_add_options MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla
 
 EOF
+
+<span class="dastx">##</span> [5] With mozilla as the topsrcdir, need to set the applications to the 'comm' directory
+export COMM=comm/
 }
 </code>
 <p>
@@ -700,7 +703,6 @@ ac_add_options --prefix=$MOZBUILD/$REL/packaging-FF
 EOF
 )
 </code>
-
 <p>
 mozconfig.seamonkey:
 <br>
@@ -710,7 +712,7 @@ cat &gt; mozconfig.seamonkey &lt;&lt; "EOF"
 source $MOZBUILD/mozilla/mozconfig.common
 
 <span class="dastx">##</span> for SeaMonkey build
-ac_add_options --enable-application=suite
+ac_add_options --enable-application=${COMM:-}suite
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
 ac_add_options --prefix=$MOZBUILD/$REL/packaging-SM
 
@@ -727,7 +729,7 @@ cat &gt; mozconfig.thunderbird &lt;&lt; "EOF"
 source $MOZBUILD/mozilla/mozconfig.common
 
 <span class="dastx">##</span> for Thunderbird build
-ac_add_options --enable-application=mail
+ac_add_options --enable-application=${COMM:-}mail
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
 ac_add_options --prefix=$MOZBUILD/$REL/packaging-TB
 
@@ -739,14 +741,24 @@ EOF
 <p>
 Bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
 <br>
-This is being reversed for SM2.57, and SM2.61/TB64 onwards [maybe earlier - I didn't build SM2.59-60/TB62-63] - building requires comm-$REL to be set as a directory comm in the mozilla tree.
-<br>
 Needed for SeaMonkey/Thunderbird builds, and to simplify the use of compare-locales for localization.
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 mkdir -p mozilla
 mount -B $MOZBUILD/mozilla mozilla)
 </code>
+
+<p>
+<b>mozilla as topsrcdir</b>
+<br>
+The comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and SM2.61/TB64 onwards [maybe earlier - I didn't build SM2.59-60/TB62-63].
+<br>
+This won't be used for, nor affect, builds of prior versions, so doesn't need a build version check.
+<br>
+<code class="gray">mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
+mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
+</code>
+
 <p>
 Remove any stale configure file:
 <br>
@@ -1559,94 +1571,10 @@ HDxWKONstW5d2XyM4Fghwae3aQw+SjJWCkkijHAZExOvfFuHNN4FuIM3bh5UJssd6Nyjw9wEFqcN
 rH3N4MpICqkULFbOToiGhYVwL9A9ZymglJaPfEw+UfOcAWdEw9VzEfY5K5Oz8cjfEqPTtAhmZt73
 xmIX7nCswMDD7+bpbLUvH5XqcrDtzOsRUUxaTNwdjmyUJA2x2PTs1NRoew7MjbACzSyuE0LG8cf6
 yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="vertical-align:20%"><b> Building SeaMonkey</b></span></span>
-<a name="close_SM_build_error"></a>                                                    <!-- SM build error - start -->
-<span class="tabs th2"><a href="#SM_build_error">SM 2.57esr build error</a></span>
-<div id="SM_build_error" class="tab">
-<div class="b_32bit"><span class="tabs th2"><a href="#close_SM_build_error">close</a></span>
-<!-- leave this space -->
-This error occurred building SM 2.57.3.1 to revision a6e340fe4c07
-<code class="console">==============================
-FATAL ERROR PROCESSING MOZBUILD FILE
-==============================
-The error occurred while processing the following file:
-    /mozbuild/esr60/comm-esr60/mozilla/moz.build
-
-The underlying problem is we referenced a path that does not exist. That path is:
-    /mozbuild/esr60/comm-esr60/mozilla/comm/mailnews/mailnews.mozbuild
-</code>
-The file does exist, but its path is:
-/mozbuild/esr60/comm-esr60/mailnews/mailnews.mozbuild
-
-More, similar errors occur, but only for the SeaMonkey build - Thunderbird builds OK.
-This is caused by changeset 21774e0f8d4d, as the fix for bug <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1481067">1481067</a> - Remove option to build comm-central as topsourcedir from suite.
-
-The reason is that the relative paths for SM have now been set to /comm/&hellip;
-Re: /mozbuild/esr60/comm-esr60/suite/app.mozbuild:
-<code class="console">include('/comm/mailnews/mailnews.mozbuild')
-</code>
-&hellip; whereas for TB, the paths are unchanged:
-Re: /mozbuild/esr60/comm-esr60/mail/app.mozbuild:
-<code class="console">include('../mailnews/mailnews.mozbuild')
-</code>
-My work-around for this is to bind-mount comm-esr60 into the mozilla tree &hellip;
-<code class="thtwo">mkdir $MOZBUILD/esr60/comm-esr60/mozilla/comm
-mount -B $MOZBUILD/esr60/comm-esr60 $MOZBUILD/esr60/comm-esr60/mozilla/comm
-</code>
-
-<span class="tabs th2"><a href="#close_SM_build_error">close</a></span>
-</div></div>                                                     <!-- SM build error - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.seamonkey
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
-</code>
-<a name="close_SM_261"></a>                                                    <!-- SM 2.61+ - start -->
-<span class="tabs th2"><a href="#SM_261">SM 2.61release build</a><span style="vertical-align:-30%">&nbsp; Additional measures required for the partially implemented move from comm-$REL to mozilla as topsrcdir</span></span>
-<div id="SM_261" class="tab">
-<div class="b_32bit"><span class="tabs th2"><a href="#close_SM_261">close</a></span>
-<code>The build setup is moving from mozilla within comm-$REL:
-$MOZBUILD
-├── mozilla
-└───$REL
-    └── comm-$REL
-        └── mozilla				# bind to $MOZBUILD/mozilla
-
-to comm within mozilla:
-$MOZBUILD
-└── mozilla
-    └── comm					# aka comm-$REL
-
-
-but for compatibility with the current setup, temporarily implemented here as:
-$MOZBUILD
-├── mozilla
-└───$REL
-    └── comm-$REL
-        └── mozilla				# bind to $MOZBUILD/mozilla
-            └── comm				# bind to $MOZBUILD/$REL/comm-$REL [non-recursive]
-</code>
-Running './mozilla/mach build' requires the following work-arounds to fix the errors:
-<code class="console"> ERROR: Cannot find project suite</code>
-<code class="gray">ln -sf ../suite ./mozilla/
-</code>
-<code class="console"> IOError: [Errno 2] No such file or directory: u'/mozbuild/release/comm-release/mozilla/mailnews/moz.configure'</code>
-<code class="gray">ln -sf ../mailnews ./mozilla/
-</code>
-<code class="console"> IOError: [Errno 2] No such file or directory: u'/mozbuild/release/comm-release/mozilla/mozilla/toolkit/moz.configure'</code>
-<code class="gray">sed -i 's|mozilla/toolkit|toolkit|' $MOZBUILD/$REL/comm-$REL/mozilla/suite/moz.configure
-</code>
-<code class="console"> ==============================
- FATAL ERROR PROCESSING MOZBUILD FILE
- ==============================
- The error occurred while processing the following file:
-     /mozbuild/release/comm-release/mozilla/moz.build
- The underlying problem is we referenced a path that does not exist. That path is:
-     /mozbuild/release/comm-release/mozilla/comm/mailnews/mailnews.mozbuild</code>
-<code class="gray">mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
-mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
-</code>
-<span class="tabs th2"><a href="#close_SM_261">close</a></span>
-</div></div>                                                     <!-- SM 2.61+ - end -->
-<code class="gray">./mozilla/mach build
+./mozilla/mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
@@ -1719,55 +1647,7 @@ UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderb
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
-</code>
-<a name="close_TB_64"></a>                                                    <!-- TB 64+ - start -->
-<span class="tabs th2"><a href="#TB_64">TB 64release build</a><span style="vertical-align:-30%">&nbsp; Additional measures required for the partially implemented move from comm-$REL to mozilla as topsrcdir</span></span>
-<div id="TB_64" class="tab">
-<div class="b_32bit"><span class="tabs th2"><a href="#close_TB_64">close</a></span>
-<code>The build setup is moving from mozilla within comm-$REL:
-$MOZBUILD
-├── mozilla
-└───$REL
-    └── comm-$REL
-        └── mozilla				# bind to $MOZBUILD/mozilla
-
-to comm within mozilla:
-$MOZBUILD
-└── mozilla
-    └── comm					# aka comm-$REL
-
-
-but for compatibility with the current setup, temporarily implemented here as:
-$MOZBUILD
-├── mozilla
-└───$REL
-    └── comm-$REL
-        └── mozilla				# bind to $MOZBUILD/mozilla
-            └── comm				# bind to $MOZBUILD/$REL/comm-$REL [non-recursive]
-</code>
-Running './mozilla/mach build' requires the following work-arounds to fix the errors:
-<code class="console"> ERROR: Cannot find project mail</code>
-<code class="gray">ln -sf ../mail ./mozilla/
-</code>
-<code class="console"> IOError: [Errno 2] No such file or directory: u'/mozbuild/release/comm-release/mozilla/mailnews/moz.configure'</code>
-<code class="gray">ln -sf ../mailnews ./mozilla/
-</code>
-<code class="console"> mozbuild.configure.ConfigureError: Cannot include `/mozbuild/release/comm-release/toolkit/moz.configure` because it is not in a subdirectory of `/mozbuild/release/comm-release/mozilla`</code>
-<code class="gray">sed -i 's|../toolkit|toolkit|' $MOZBUILD/$REL/comm-$REL/mail/moz.configure
-</code>
-<code class="console"> ==============================
- FATAL ERROR PROCESSING MOZBUILD FILE
- ==============================
- The error occurred while processing the following file:
-     /mozbuild/release/comm-release/mozilla/moz.build
- The underlying problem is we referenced a path that does not exist. That path is:
-     /mozbuild/release/comm-release/mozilla/comm/ldap/moz.build</code>
-<code class="gray">mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
-mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
-</code>
-<span class="tabs th2"><a href="#close_TB_64">close</a></span>
-</div></div>                                                     <!-- TB 64+ - end -->
-<code class="gray">./mozilla/mach build
+./mozilla/mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
