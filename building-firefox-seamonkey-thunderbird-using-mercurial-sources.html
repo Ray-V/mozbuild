@@ -16,7 +16,7 @@ body {font:14px sans;max-width: 1000px;padding:0px 10px;margin: 0 auto; /* cente
 .central {border: dashed 1px;display: inline-block;padding: 2px;}
 .appx {background-color: #Fafafa;}
 .console {border-left: 3px solid lightgrey;margin-left: 15px;}
-.dastx {color: #978DFF;}
+.dhash {color: #978DFF;}
 .comment {color: #acacac;}
 .off_rel  {color: magenta;}
 div {padding: 5px;white-space: pre-wrap;}
@@ -134,7 +134,8 @@ Build <span style="background:#FFFADD;">Firefox</span> with gtk2 optionally for 
 and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that Firefox source.
 <br>
 <p>Builds can be customized with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a> options and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
-
+<br>
+<p><a href="#FF_xcompile"><span class="green">Firefox-esr</span></a>/<a href="#SM_xcompile"><span class="green">Seamonkey</span></a>/<a href="#TB_xcompile"><span class="green">Thunderbird</span></a> can be cross compiled [X], without stylo, for the Raspberry Pi3 [armv7].
 <br>
 
 <hr>
@@ -157,8 +158,11 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
 <code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
                   2.57.4.0                      6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57                          6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
                               60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
 </code>
 <br>
 <b><i>release</i></b>
@@ -226,7 +230,7 @@ Higher values for '-j' on the dual-core machine made no difference to these best
     │       <span class="thtwo">└── comm					# work-around for FF/TB 64+ &amp; SM 2.57+</span>
     ├── {firefox,seamonkey,thunderbird}-build-dir	# build directories
     ├── packaging-{FF,SM,TB}
-    │   └── lib						# package source to install to /opt/..
+    │   └── usr/lib					# install here to create package
     └── built
         ├── firefox-{version}$LOCZN-$ARCH.txz		# the Firefox Slackware package
         ├── seamonkey-{version}$LOCZN-$ARCH.txz		# the SeaMonkey Slackware package
@@ -238,20 +242,20 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 <b>Set variables</b>
 <br>
 <code class="gray">export MOZBUILD=<b>/mozbuild</b>
-<span class="dastx">##</span> Set which repositories to clone:
+<span class="dhash">##</span> Set which repositories to clone:
 export REPOS="<b>release</b> <b>beta</b> <b>esr52</b> <b>esr60</b> <b>central</b>"
-<span class="dastx">##</span> choose which to build:
+<span class="dhash">##</span> choose which to build:
 export REL=<b>esr60</b>
-<span class="dastx">##</span> set number of parallel jobs
+<span class="dhash">##</span> set number of parallel jobs
 export NUMJOBS=<b>-j$(getconf _NPROCESSORS_ONLN)</b> &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
-<span class="dastx">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
+<span class="dhash">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
 export GTK=gtk3 <b>&amp;&amp; [[ $REL == esr52 ]] &amp;&amp; export GTK=gtk2</b>
-<span class="dastx">##</span> the default for quantum [FF57+] stylo builds only
+<span class="dhash">##</span> the default for quantum [FF57+] stylo builds only
 export STYLO=<b>yes</b>
-<span class="dastx">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
+<span class="dhash">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
 export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686
-<span class="red">export L10N=<b>en-GB</b></span>
-export LOCZN=-$(echo ${L10N:-"en-US"} | tr - _)
+export LOCZN=-$(echo en-US | tr - _)
+<span class="red">export L10N=<b>en-GB</b> &amp;&amp; export LOCZN=-$(echo $L10N | tr - _)</span>
 </code>
 
 <p>
@@ -259,7 +263,7 @@ export LOCZN=-$(echo ${L10N:-"en-US"} | tr - _)
 <code class="gray">mkdir -p $MOZBUILD/sources
 <span class="red">mkdir -p $MOZBUILD/l10n/wip</span>
 
-<span class="dastx">##</span> Set which directories to create:
+<span class="dhash">##</span> Set which directories to create:
 REPOS=$REPOS
 (for repo in $REPOS
 do
@@ -277,21 +281,21 @@ It also puts less of a load on the server - see <a class="extlink" href="http://
 <p>mozilla-unified<br>
 Requires mercurial with zstd support [v4.1.2 works], otherwise view 'bundles' file and choose compression type<br>
 <code class="gray">(cd $MOZBUILD/sources
-<span class="dastx">##</span> get mozilla-unified bundle
+<span class="dhash">##</span> get mozilla-unified bundle
 wget -O bundles https://hg.cdn.mozilla.net/
 BUNDLE=$(grep mozilla-unified.*zstd bundles | sed 's|.*href="||;s|">.*$||')
 wget -O mozilla-unified.bundle https://hg.cdn.mozilla.net/$BUNDLE)
 
 (cd $MOZBUILD
-<span class="dastx">##</span> unbundle mozilla-unified
+<span class="dhash">##</span> unbundle mozilla-unified
 hg init mozilla
 hg unbundle sources/mozilla-unified.bundle -R mozilla
-<span class="dastx">##</span> set default repo to pull from
+<span class="dhash">##</span> set default repo to pull from
 echo "[paths]
 default = https://hg.mozilla.org/mozilla-unified/" > mozilla/.hg/hgrc
-<span class="dastx">##</span> get new changesets since bundle was created
+<span class="dhash">##</span> get new changesets since bundle was created
 hg pull -R mozilla
-<span class="dastx">##</span> update local repo
+<span class="dhash">##</span> update local repo
 hg update -R mozilla)
 </code>
 
@@ -300,7 +304,7 @@ comm-$REL, chatzilla, inspector, and locale have to be cloned as no bundle is av
 <br>
 There is a comm-central bundle, but to keep things consistent, let's clone that too &hellip;
 <br>
-<code class="gray"><span class="dastx">##</span> Set which repositories to clone:
+<code class="gray"><span class="dhash">##</span> Set which repositories to clone:
 REPOS=$REPOS
 
 (for repo in $REPOS
@@ -410,7 +414,7 @@ Add new changesets - start
 <br>
 <span class="tabs"><a href="#Locrep">Add new changesets</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;to all cloned repositories prior to any <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">future release builds</a> [or as required].</span>
 <div id="Locrep" class="tab"><div class="b_32bit"><span class="tabs"><a href="#close_chset">close</a></span>
-<code class="appx"><span class="dastx">##</span> Set which repositories to update:
+<code class="appx"><span class="dhash">##</span> Set which repositories to update:
 REPOS=$REPOS
 
 (cd $MOZBUILD
@@ -424,7 +428,7 @@ do
 hg pull -R $repo/comm-$repo
 done)
 
-<span class="dastx">##</span> De-clutter the mozilla[-unified] bookmarks list
+<span class="dhash">##</span> De-clutter the mozilla[-unified] bookmarks list
 sed -i '/aurora/d;/esr[1-4]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
 </code>
 <span class="tabs"><a href="#close_chset">close</a></span>
@@ -457,47 +461,47 @@ This is relevant for release versions only, beta builds have been specifically e
 <b><i>Either</b></i>: Prior to the release date, the changesets on which the release candidates are built can be obtained from mozilla.org.
 The final release candidate can be as late as the weekend before the scheduled release date.
 This finds the latest release candidate build for any specific Firefox version, and sets up a new bookmark to that revision &hellip;
-<code class="green"><span class="dastx">##</span> <b>Firefox</b>:
-<span class="dastx">##</span> FF_VER defaults to the current repo Firefox version and will only give a resultant release candidate changeset [REL_CAND_CS] when the release candidate loses its beta suffix which should be 7-12 days before the release date
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> FF_VER defaults to the current repo Firefox version and will only give a resultant release candidate changeset [REL_CAND_CS] when the release candidate loses its beta suffix which should be 7-12 days before the release date
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 echo $FF_VER
-<span class="dastx">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
+<span class="dhash">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 (cd $MOZBUILD/sources/
-<span class="dastx">##</span> [1] Get list of release candidates and find the latest for this release/esr52/esr60 version
+<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr52/esr60 version
 wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
 
-<span class="dastx">##</span> [2] Get list of release candidate builds and find the latest
+<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
 wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/
 BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
 
-<span class="dastx">##</span> [3] Download the .json file which includes the changeset reference for that build and find the changeset
+<span class="dhash">##</span> [3] Download the .json file which includes the changeset reference for that build and find the changeset
 JSON="firefox-$(echo $REL_CAND |cut -d- -f1).json"
 wget -O $JSON https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/linux-$ARCH/en-US/$JSON
 REL_CAND_CS=$(grep stamp $JSON |colrm 1 23|colrm 13)
 
 cd $MOZBUILD/mozilla/
-<span class="dastx">##</span> Create new bookmark to that release candidate changeset
+<span class="dhash">##</span> Create new bookmark to that release candidate changeset
 hg bookmark -r $REL_CAND_CS ${REL}_$FF_VER
-<span class="dastx">##</span> Set the new bookmark active
+<span class="dhash">##</span> Set the new bookmark active
 hg checkout ${REL}_$FF_VER)
 </code>
 <b><i>Or</b></i>: Where the FF version is known, i.e. after its release date, the changeset on which it was built can be determined from the repo log and then the repo reverted to that changeset.
 The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEASE on the official release date.
-<code class="green"><span class="dastx">##</span> <b>Firefox</b>:
-<span class="dastx">##</span> Set to a sufficiently high number for the changeset to be found
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> Set to a sufficiently high number for the changeset to be found
 <b>LOG_NUM</b>=<span class="comment">4000</span>
-<span class="dastx">##</span> Set the Firefox version
+<span class="dhash">##</span> Set the Firefox version
 <b>REL_TAG</b>=<span class="comment">52_7_3</span>
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 (cd $MOZBUILD/mozilla/
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
-<span class="dastx">##</span> Create new bookmark to that release changeset
+<span class="dhash">##</span> Create new bookmark to that release changeset
 hg bookmark -r $REL_CS ${REL}_$REL_TAG
-<span class="dastx">##</span> Set the new bookmark active
+<span class="dhash">##</span> Set the new bookmark active
 hg checkout ${REL}_$REL_TAG)
 </code>
 
@@ -510,13 +514,13 @@ List last NUM_CS changesets:
 hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla/ | colrm 1 3
 </code>
 Select a changeset from that list, and create a bookmark and set it active:
-<code class="green"><span class="dastx">##</span> <b>Firefox</b>:
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 <b>BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 
 (cd $MOZBUILD/mozilla/
-<span class="dastx">##</span> Create new bookmark to that changeset
+<span class="dhash">##</span> Create new bookmark to that changeset
 hg bookmark -r $BUILD_CS ${REL}_$BUILD_CS
-<span class="dastx">##</span> Set the new bookmark active
+<span class="dhash">##</span> Set the new bookmark active
 hg checkout ${REL}_$BUILD_CS)
 </code>
 Delete bookmark when no longer required:
@@ -537,11 +541,15 @@ which contains the repository revisions the build was based on:
 <code class="console">https://hg.mozilla.org/releases/comm-beta/rev/4bd4065b53b00dd2233d9ef34f27fd6192d732f8
 https://hg.mozilla.org/releases/mozilla-beta/rev/88497e338153dbe5aac3d17af326cd79ae840eaa</code>
 For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=4bd4065b53b0</span> &hellip;
-<code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
+<code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 <b>COMM_BUILD_CS</b>=<span class="comment">4bd4065b53b0</span>
 hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 </code>
 &hellip; and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>]
+
+Check the revision
+<code class="green">hg parent -R $MOZBUILD/$REL/comm-$REL
+</code>
 
 <span class="tabs"><a href="#close_known_rel">close</a></span>
 </div></div>
@@ -588,21 +596,21 @@ mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
 mk_add_options NO_MERCURIAL_SETUP_CHECK=1
 mk_add_options AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf
 
-<span class="dastx">##</span> If you have installed DBus-Glib comment out this line:
+<span class="dhash">##</span> If you have installed DBus-Glib comment out this line:
 #ac_add_options --disable-dbus
 
-<span class="dastx">##</span> If you have installed dbus-glib, and you have installed (or will install)
-<span class="dastx">##</span> wireless-tools, and you wish to use geolocation web services, comment out
-<span class="dastx">##</span> this line
+<span class="dhash">##</span> If you have installed dbus-glib, and you have installed (or will install)
+<span class="dhash">##</span> wireless-tools, and you wish to use geolocation web services, comment out
+<span class="dhash">##</span> this line
 ac_add_options --disable-necko-wifi
 
-<span class="dastx">##</span> Build with gtk2 or gtk3
+<span class="dhash">##</span> Build with gtk2 or gtk3
 ac_add_options --enable-default-toolkit=cairo-$GTK
 
-<span class="dastx">##</span> Uncomment this option if you don't have PulseAudio installed
+<span class="dhash">##</span> Uncomment this option if you don't have PulseAudio installed
 #ac_add_options --disable-pulseaudio
 
-<span class="dastx">##</span> If you have installed GConf, comment out this line
+<span class="dhash">##</span> If you have installed GConf, comment out this line
 ac_add_options --disable-gconf
 
 ac_add_options --disable-crashreporter
@@ -638,7 +646,8 @@ For FF57+, with the default stylo build, set LLVM_CONFIG to avoid this error:
 Unless otherwise required, install llvm off-PATH for this build use only.
 <br>
 <code class="gray">[[ $MAJ_VER -ge 57 ]] &amp;&amp; { [[ $STYLO == yes ]] &amp;&amp; \
-export LLVM_CONFIG=$MOZBUILD/sources/llvm/usr/bin/llvm-config || \
+ROOT=$MOZBUILD/sources/llvm-$ARCH installpkg <span class="comment">/path/to/</span>llvm-*-$ARCH-*.txz
+export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-config || \
 (cd $MOZBUILD/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
 ac_add_options --disable-stylo
@@ -651,25 +660,26 @@ EOF
 <b>FF64</b>+ needs additional setting up
 <br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
-<span class="dastx">##</span> [1] remove 'ac_add_options --with-pthreads' which is no longer recognized as an option
+<span class="dhash">##</span> [1] remove 'ac_add_options --with-pthreads' which is no longer recognized as an option
 sed -i '/with-pthreads/d' $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dastx">##</span> [2] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
+<span class="dhash">##</span> [2] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
 <span style="color: #c50000;">wget -O cbindgen-0.6.7.tar.gz https://github.com/eqrion/cbindgen/archive/v0.6.7.tar.gz</span>
 tar xf cbindgen-0.6.7.tar.gz
 cd cbindgen-0.6.7/
 cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 
-<span class="dastx">##</span> [3] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
+<span class="dhash">##</span> [3] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
+installpkg nodejs-8.12.0-x86_64-1_SBo.txz
 
-<span class="dastx">##</span> [4] Set MOZBUILD_STATE_PATH so the build completes without prompting
+<span class="dhash">##</span> [4] Set MOZBUILD_STATE_PATH so the build completes without prompting
 cat >> $MOZBUILD/mozilla/mozconfig.common << "EOF"
 mk_add_options MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla
 
 EOF
 
-<span class="dastx">##</span> [5] With mozilla as the topsrcdir, need to set the applications to the 'comm' directory
+<span class="dhash">##</span> [5] With mozilla as the topsrcdir, need to set the suite/mail applications to the 'comm' directory
 export COMM=comm/
 }
 </code>
@@ -679,7 +689,7 @@ For optional non-US single locale version for esr52 builds only:&nbsp;
 <br><code class="red">[[ $MAJ_VER -lt 57 ]] &amp;&amp; \
 (cd $MOZBUILD/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dastx">##</span> To build a single locale version
+<span class="dhash">##</span> To build a single locale version
 ac_add_options --enable-ui-locale=$L10N
 ac_add_options --with-l10n-base=$MOZBUILD/l10n
 
@@ -692,13 +702,13 @@ mozconfig.firefox:
 <br>
 <code class="gray">(cd $MOZBUILD/mozilla
 cat &gt; mozconfig.firefox &lt;&lt; "EOF"
-<span class="dastx">##</span> include the common mozconfig
+<span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dastx">##</span> for Firefox build
+<span class="dhash">##</span> for Firefox build
 ac_add_options --enable-application=browser
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
-ac_add_options --prefix=$MOZBUILD/$REL/packaging-FF
+ac_add_options --prefix=/usr
 
 EOF
 )
@@ -708,13 +718,13 @@ mozconfig.seamonkey:
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 cat &gt; mozconfig.seamonkey &lt;&lt; "EOF"
-<span class="dastx">##</span> include the common mozconfig
+<span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dastx">##</span> for SeaMonkey build
+<span class="dhash">##</span> for SeaMonkey build
 ac_add_options --enable-application=${COMM:-}suite
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
-ac_add_options --prefix=$MOZBUILD/$REL/packaging-SM
+ac_add_options --prefix=/usr
 
 EOF
 )
@@ -725,13 +735,13 @@ mozconfig.thunderbird:
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 cat &gt; mozconfig.thunderbird &lt;&lt; "EOF"
-<span class="dastx">##</span> include the common mozconfig
+<span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dastx">##</span> for Thunderbird build
+<span class="dhash">##</span> for Thunderbird build
 ac_add_options --enable-application=${COMM:-}mail
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
-ac_add_options --prefix=$MOZBUILD/$REL/packaging-TB
+ac_add_options --prefix=/usr
 
 EOF
 )
@@ -751,9 +761,9 @@ mount -B $MOZBUILD/mozilla mozilla)
 <p>
 <b>mozilla as topsrcdir</b>
 <br>
-The comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and SM2.61/TB64 onwards [maybe earlier - I didn't build SM2.59-60/TB62-63].
+The comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63].
 <br>
-This won't be used for, nor affect, builds of prior versions, so doesn't need a build version check.
+This won't be used for, nor affect, builds of prior versions.
 <br>
 <code class="gray">mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
 mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
@@ -777,52 +787,52 @@ User preferences - start
 <b>User preferences options</b>
 <b>[1]</b> To enable <a class="extlink" href="https://wiki.mozilla.org/Electrolysis">e10s</a> by default:
 <code class="green">cd $MOZBUILD
-<span class="dastx">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> <b>Firefox</b>:
 sed -i 's|pref("browser.tabs.remote.autostart", false);|pref("browser.tabs.remote.autostart", true);|' mozilla/browser/app/profile/firefox.js
 
-<span class="dastx">##</span> <b>SeaMonkey</b>:
+<span class="dhash">##</span> <b>SeaMonkey</b>:
 echo 'pref("browser.tabs.remote.autostart", true);' >> $REL/comm-$REL/suite/browser/browser-prefs.js
 echo 'pref("browser.tabs.remote.desktopbehavior", true);' >> $REL/comm-$REL/suite/browser/browser-prefs.js
 </code>
 <b>[2]</b> Where the server or meta tags don't identify file encoding, setting default fallback encoding to UTF-8 has been <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=967981#c4">deliberately blocked</a>.
 To enable default fallback encoding to be set to UTF-8:
-<code class="green"><span class="dastx">##</span> <b>Firefox and SeaMonkey</b>:
-<span class="dastx">##</span> remove UTF8 block:
+<code class="green"><span class="dhash">##</span> <b>Firefox and SeaMonkey</b>:
+<span class="dhash">##</span> remove UTF8 block:
 [[ $MAJ_VER -ge 56 ]] &amp;&amp; \
 sed -i 's|IsAsciiCompatible() .*$|IsAsciiCompatible() ) {|;/UTF_8/d' mozilla/dom/encoding/FallbackEncoding.cpp || \
 sed -i 's|(mFallback).*$|(mFallback)) {|;/UTF-8/d' mozilla/dom/encoding/FallbackEncoding.cpp
 
-<span class="dastx">##</span> set "Fallback Text Encoding" to 'Unicode' by default
-<span class="dastx">##</span> otherwise, "Fallback Text Encoding" will default to 'Default for Current Locale':
+<span class="dhash">##</span> set "Fallback Text Encoding" to 'Unicode' by default
+<span class="dhash">##</span> otherwise, "Fallback Text Encoding" will default to 'Default for Current Locale':
 sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' mozilla/modules/libpref/init/all.js
 
-<span class="dastx">##</span> <b>Firefox</b>:
-<span class="dastx">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu:
+<span class="dhash">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu:
 [[ $MAJ_VER -lt 56 ]] &amp;&amp; line_no=272 || line_no=293
 sed -i "${line_no}i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
 sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-<span class="dastx">##</span> replace/remove 'legacy' reference in menu:
+<span class="dhash">##</span> replace/remove 'legacy' reference in menu:
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-<span class="dastx">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
+<span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/mozilla/browser/locales/en-US/chrome/browser/preferences/{colors,fonts}.dtd
 
-<span class="dastx">##</span> <b>SeaMonkey</b>:
-<span class="dastx">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Browser|Languages|Fallback Text Encoding" menu:
+<span class="dhash">##</span> <b>SeaMonkey</b>:
+<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Browser|Languages|Fallback Text Encoding" menu:
 sed -i '116i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/common/pref/pref-languages.xul
 sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' $REL/comm-$REL/suite/locales/en-US/chrome/common/pref/prefutilities.dtd
-<span class="dastx">##</span> and for "Preferences|Mail &amp; Newsgroups|Text Encoding" menu:
+<span class="dhash">##</span> and for "Preferences|Mail &amp; Newsgroups|Text Encoding" menu:
 sed -i '98i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/mailnews/prefs/pref-character_encoding.xul
 sed -i '60i\            &lt;menuitem label="\&FallbackCharset.unicode;"     value="UTF-8"/>' $REL/comm-$REL/suite/mailnews/prefs/pref-character_encoding.xul
-<span class="dastx">##</span> replace/remove 'legacy' reference in menu:
+<span class="dhash">##</span> replace/remove 'legacy' reference in menu:
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' $REL/comm-$REL/suite/locales/en-US/chrome/common/pref/pref-languages.dtd
 sed -i 's|Legacy|Unidentified|' $REL/comm-$REL/suite/locales/en-US/chrome/common/help/cs_nav_prefs_navigator.xhtml
 
-<span class="dastx">##</span> <b>Thunderbird</b>:
-<span class="dastx">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
+<span class="dhash">##</span> <b>Thunderbird</b>:
+<span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
 sed -i 's| [a-z]* selections| the selections|' $REL/comm-$REL/mail/locales/en-US/chrome/messenger/preferences/colors.dtd
 </code>
 <b>[3]</b> To include the SeaMonkey search box by default:
-<code class="green"><span class="dastx">##</span> <b>SeaMonkey</b>:
+<code class="green"><span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/navigator.xul
 </code>
 <b>[4]</b> Extensions - Chatzilla &amp; Inspector:</span>
@@ -831,14 +841,14 @@ Chatzilla can be built into Firefox, but can't be enabled without turning off Mo
 The default extensions for SeaMonkey are "inspector irc gio" <span class="comment">[suite/confvars.sh:MOZ_EXTENSIONS_DEFAULT=" inspector irc gio"]</span>.
 
 <b>[5]</b> For esr52/60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
-<code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
+<code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 [[ $REL == esr* ]] &amp;&amp; {
 echo 2.$[$MAJ_VER-3].$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
 cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
 }
 </code>
 <b>[6a]</b> For esr52, set new tab page to blank:
-<code class="green"><span class="dastx">##</span> <b>Firefox</b>:
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 [[ $REL == esr52 ]] &amp;&amp; \
 echo "body { display:none; }" > $MOZBUILD/mozilla/browser/base/content/newtab/newTab.css
 </code>
@@ -862,19 +872,19 @@ Ref. aboutNewTabService.js:
  *
  * NOTE: "about:newtab" will always result in a default newtab page, and never an overridden URL.
  *</code>
-<code class="green"><span class="dastx">##</span> <b>Firefox</b>:
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 [[ $MAJ_VER -ge 57 ]] &amp;&amp; {
-<span class="dastx">##</span> Default to blank page on start ...
+<span class="dhash">##</span> Default to blank page on start ...
 sed -i 's|about:home|about:blank|' $MOZBUILD/mozilla/browser/branding/*/locales/browserconfig.properties
-<span class="dastx">##</span> ... and stop the privacy page loading:
+<span class="dhash">##</span> ... and stop the privacy page loading:
 sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareporting-prefs.js
-<span class="dastx">##</span> Load a blank page with Ctrl+T or new tab button - about:newtab continues to load the newtab page.
-<span class="dastx">##</span> This <span class="appx">"about:blank";</span> replacement could be <span class="appx">"file:///path/to/my/newtab_page.html";</span> to load a customized page:
+<span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button - about:newtab continues to load the newtab page.
+<span class="dhash">##</span> This <span class="appx">"about:blank";</span> replacement could be <span class="appx">"file:///path/to/my/newtab_page.html";</span> to load a customized page:
 sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/aboutNewTabService.js
 }
 </code>
 <b>[7]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
-<code class="green"><span class="dastx">##</span> <b>SeaMonkey/Thunderbird</b>:
+<code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla/ | grep \* |cut -d: -f2)
 </code>
 <span class="tabs"><a href="#close_prefs">close</a></span>
@@ -1137,30 +1147,30 @@ rm -rf $MOZBUILD/l10n/wip/*
 To build to a release version:
 <code class="green"><b>Either:</b>
 For FFesr52, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
-<code class="red"><span class="dastx">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
-<span class="dastx">##</span> &hellip; override with <b>FF_VER</b>=xx.x[.x] for an earlier version
+<code class="red"><span class="dhash">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
+<span class="dhash">##</span> &hellip; override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 echo $FF_VER
 
 [[ $REL == esr52 ]] &amp;&amp; {
 cd $MOZBUILD/sources/
-<span class="dastx">##</span> [1] Get list of release candidates and find the latest for this esr52 version
+<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this esr52 version
 wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o ${FF_VER}esr-candidates | head -n1)
 
-<span class="dastx">##</span> [2] Get list of release candidate builds and find the latest
+<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
 wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/
 BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
 
-<span class="dastx">##</span> [3] Download the .txt file which includes the changeset reference for that build and find the changeset
+<span class="dhash">##</span> [3] Download the .txt file which includes the changeset reference for that build and find the changeset
 wget -O ${FF_VER}_${BUILD}_l10n_changesets.txt https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/l10n_changesets.txt 
 export L10N_CS=$(grep $L10N ${FF_VER}_${BUILD}_l10n_changesets.txt|cut -d" " -f2)
 
-<span class="dastx">##</span> Revert l10n repo to changeset
+<span class="dhash">##</span> Revert l10n repo to changeset
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 
-<span class="dastx">##</span> Check that l10n repo is at the correct changeset:
-<span class="dastx">##</span> echo $L10N_CS ; hg parent -R $MOZBUILD/l10n/$L10N/
+<span class="dhash">##</span> Check that l10n repo is at the correct changeset:
+<span class="dhash">##</span> echo $L10N_CS ; hg parent -R $MOZBUILD/l10n/$L10N/
 }
 </code>
 <b>Or:</b>
@@ -1172,7 +1182,7 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 </code>
 <b>Or:</b>
 For a known changeset:
-<code class="red"><span class="dastx">##</span> <b>Firefox</b>:
+<code class="red"><span class="dhash">##</span> <b>Firefox</b>:
 export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 </code></code>
@@ -1238,18 +1248,18 @@ $MY_FAV_EDITOR $(cat $MOZBUILD/l10n/new-files-$L10N-path)
 The following displays the additional lines to show whether any of them need localizing.
 Edit the <b><i>merge-$L10N</b></i> file because that has priority over the equivalent $L10N file during the build [except Chatzilla - see next].
 <code class="red">(cd $MOZBUILD/l10n/
-<span class="dastx">##</span> list the files that have been added to:
+<span class="dhash">##</span> list the files that have been added to:
 echo -e 'mozilla_browser\nsuite\nmail' | while read line ; do
 grep "adding to" $line-compare-locales-output | sed 's|adding to ||g' | tee -a adding-to | sed 's|merge-||g' >> added-from
 done
 
-<span class="dastx">##</span> remove duplicate files and display the additional lines:
+<span class="dhash">##</span> remove duplicate files and display the additional lines:
 paste -d " " added-from adding-to | sort -u | while read line
 do
 diff -U 0 $line
 done > added-diffs
 
-<span class="dastx">##</span> display the diff in a syntax highlighting editor to more easily show lines that might need localizing:
+<span class="dhash">##</span> display the diff in a syntax highlighting editor to more easily show lines that might need localizing:
 $MY_FAV_EDITOR added-diffs)
 </code>
 
@@ -1278,16 +1288,16 @@ Set the default Firefox searchplugins of choice:
 
 <b>To enable default fallback encoding to be set to UTF-8</b>:
 Requires <b>[2]</b> in the previous section '<a href="#Prefs">User preferences</a>' to have been set up.
-<code class="green"><code class="red"><span class="dastx">##</span> <b>Firefox</b>:
-<span class="dastx">##</span> Modify files in the $L10N and merge-$L10N directories
+<code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
 
 (cd $MOZBUILD/l10n/
 sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|' \
 -e '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' \
 {,merge-}$L10N/browser/chrome/browser/preferences/fonts.dtd  2>/dev/null)
 </code>
-<code class="red"><span class="dastx">##</span> <b>SeaMonkey</b>:
-<span class="dastx">##</span> Modify files in the $L10N and merge-$L10N directories
+<code class="red"><span class="dhash">##</span> <b>SeaMonkey</b>:
+<span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
 
 (cd $MOZBUILD/l10n/
 sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' {,merge-}$L10N/suite/chrome/common/pref/prefutilities.dtd 2>/dev/null
@@ -1296,10 +1306,10 @@ sed -i 's|Legacy|Unidentified|' {,merge-}$L10N/suite/chrome/common/help/cs_nav_p
 </code></code>
 
 Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
-<code class="green"><code class="red"><span class="dastx">##</span> <b>Firefox</b>:
+<code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/chrome/browser/preferences/{colors,fonts}.dtd
 
-<span class="dastx">##</span> <b>Thunderbird</b>:
+<span class="dhash">##</span> <b>Thunderbird</b>:
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/mail/chrome/messenger/preferences/colors.dtd
 </code></code>
 
@@ -1317,40 +1327,40 @@ This enabled the additional lines and files identified by compare-locales to be 
 The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I'm not sure it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
 
 What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary, texts and messages are in the intended localization.
-<code class="red"><span class="dastx">##</span> Copy en-US and $L10N to a working area:
+<code class="red"><span class="dhash">##</span> Copy en-US and $L10N to a working area:
 while read file
 do
 cp -a --parents $file $MOZBUILD/l10n/wip
 done &lt; $MOZBUILD/l10n/en-US-l10n-files
 cp -a --parents $MOZBUILD/l10n/$L10N $MOZBUILD/l10n/wip
 
-<span class="dastx">##</span> Remove unwanted mercurial files:
+<span class="dhash">##</span> Remove unwanted mercurial files:
 rm -rf $MOZBUILD/l10n/wip$MOZBUILD/l10n/$L10N/.hg*
 
-<span class="dastx">##</span> Overwrite wip&hellip;$L10N with merge-$L10N files:
+<span class="dhash">##</span> Overwrite wip&hellip;$L10N with merge-$L10N files:
 cp -a $MOZBUILD/l10n/merge-$L10N/* $MOZBUILD/l10n/wip/$MOZBUILD/l10n/$L10N
 
-<span class="dastx">##</span> Create a list of all localized files [unchanged, added to, and new files]:
+<span class="dhash">##</span> Create a list of all localized files [unchanged, added to, and new files]:
 (cd $MOZBUILD/l10n/wip/
 tree -fi * | grep ".*\..*$" | grep -v en-US > $MOZBUILD/l10n/wip/$L10N-l10n-files)
 
-<span class="dastx">##</span> Copy localized files to en-US locations with a test run if required:
+<span class="dhash">##</span> Copy localized files to en-US locations with a test run if required:
 <b>TEST_CP=no</b>
-<span class="dastx">##</span> Read from the list of localized files ...
+<span class="dhash">##</span> Read from the list of localized files ...
   cat $MOZBUILD/l10n/wip/$L10N-l10n-files | while read line
   do
-<span class="dastx">##</span> ... extract the filename ...
+<span class="dhash">##</span> ... extract the filename ...
   FILE=$(echo $line | rev | cut -d/ -f1 | rev)
-<span class="dastx">##</span> ... find the path of all en-US file occurrences ...
+<span class="dhash">##</span> ... find the path of all en-US file occurrences ...
   en_US_file_PATHS=$(grep $FILE $MOZBUILD/l10n/en-US-l10n-files)
-<span class="dastx">##</span> ... for each en-US file occurrence, convert it to $L10N path/filename ...
+<span class="dhash">##</span> ... for each en-US file occurrence, convert it to $L10N path/filename ...
     for en_US_file in $en_US_file_PATHS
     do
     ab_CD_file_PATH=$(echo $en_US_file \
     | sed 's|locales/en-US/||' \
     | sed "s|^.*/comm-$REL/mozilla|$MOZBUILD/l10n/$L10N|" \
     | sed "s|^.*/comm-$REL|$MOZBUILD/l10n/$L10N|")
-<span class="dastx">##</span> ... and if the conversion matches the list entry, copy that $L10N file to en-US
+<span class="dhash">##</span> ... and if the conversion matches the list entry, copy that $L10N file to en-US
       for path in $ab_CD_file_PATH
       do
       [[ $TEST_CP == no ]] &amp;&amp; \
@@ -1403,7 +1413,7 @@ Localization - end
 <code class="thtwo">[[ $(uname -m) == x86_64 ]] &amp;&amp; \
 (cd $MOZBUILD/mozilla
 cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dastx">##</span> For 32 bit version
+<span class="dhash">##</span> For 32 bit version
 ac_add_options --target=i686-pc-linux-gnu
 ac_add_options --host=i686-pc-linux-gnu
 
@@ -1441,7 +1451,7 @@ or partition:
 mkdir -p $CHRT$MOZBUILD/$REL/{packaging-{FF,SM,TB},built,comm-$REL/mozilla}
 <span class="red">mkdir -p $CHRT$MOZBUILD/l10n</span>
 
-<span class="dastx">##</span> mount the required existing directories into the chroot:
+<span class="dhash">##</span> mount the required existing directories into the chroot:
 mount -B /dev $CHRT/dev
 mount -t proc proc $CHRT/proc
 mount -B $MOZBUILD/mozilla $CHRT$MOZBUILD/mozilla
@@ -1450,14 +1460,14 @@ mount -B $MOZBUILD/$REL/comm-$REL $CHRT$MOZBUILD/$REL/comm-$REL
 <span class="red">mount -B $MOZBUILD/l10n $CHRT$MOZBUILD/l10n</span>
 
 chroot $CHRT /bin/bash
-<code class="thtwo"><span class="dastx">##</span> Now, in the chroot:
+<code class="thtwo"><span class="dhash">##</span> Now, in the chroot:
 source /etc/profile
 
-<span class="dastx">##</span> Remove any stale configure file:
+<span class="dhash">##</span> Remove any stale configure file:
 rm -f $MOZBUILD/mozilla/configure
-<span class="dastx">##</span> set a dummy variable to be able to test whether the build is in a chroot
+<span class="dhash">##</span> set a dummy variable to be able to test whether the build is in a chroot
 CHRT_TEST=" "
-<span class="dastx">##</span> Bind the mozilla repository into the comm-$REL tree:
+<span class="dhash">##</span> Bind the mozilla repository into the comm-$REL tree:
 mount -B $MOZBUILD/mozilla $MOZBUILD/$REL/comm-$REL/mozilla
 </code></code></code>
 <span class="tabs"><a href="#close_32bit">close</a></span>
@@ -1494,8 +1504,215 @@ X5JoWs5ugluRXkhe5g/1Bl/0ZhIM5ghgSGNQFSlim6OYVZNeosaT2fbAm7DmTMzlmM+kK8Z8LvR6
 Exj07WWglzN4uVXA1ofw8/54yrTZJTs6594UCb42SAieB1HRJoL2cILOSILWcAY3VjDsfh7nPI11
 +ZtgOmURf5Z1upLj3HyZzxurWiJgK334bLH3ws9qsevrSKe5hTRmGcXmn7/RvEjhUswD6UwrqzW0
 l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><span style="vertical-align:20%"><b> Building Firefox [Nightly]</b></span></span>
+<code class="gray">unset XCOMPILE
+</code>
+</code> <a name="close_FF_xcompile"></a>                                                    <!-- FF xcompile - start -->
+<span class="tabs prefs"><a href="#FF_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<div id="FF_xcompile" class="tab">
+<div class="b_prefs"><span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
+<!-- leave this space -->
+<b>Note:</b>
+This is a work-in-progress and has only been done for FF60.4esr en-US [built on x86_64 for armv7_hf].
+
+The additions fit into the build tree like this:
+<code>$MOZBUILD
+<span class="comment">├── sources
+│   └── rust-&hellip;
+│       └── lib
+│           └── rustlib
+│               ├── x86_64-unknown-linux-gnu</span>
+│               └── armv7-unknown-linux-gnueabihf	<i>armv7 crate</i>
+└── FF-RPi3-sysroot					<i>bind mounted to sysroot</i> *
+
+opt
+└── cross-pi-gcc
+    ├── bin						<i>cross compiler</i>
+    └── sysroot *					<i>set in cross compiler build</i>
+</code>
+
+[1] Stylo
+
+Stylo has been disabled because of this error which I haven't found a fix for:
+<code class="console">error: failed to run custom build command for `style v0.0.1 (/mozbuild/mozilla/servo/components/style)`
+ 5:13.67 process didn't exit successfully: `/mozbuild/esr60/firefox-build-dir/toolkit/library/release/build/style-d0a15782b59421df/build-script-build` (exit code: 101)'</code>
+Create a new mozconfig
+<code class="green">(cd $MOZBUILD/mozilla
+cat > mozconfig.firefox.cross << "EOF"
+ac_add_options --disable-stylo
+
+EOF
+)
+</code>
+
+[2] Additional rust requirements
+
+For <b>rust</b>, host relates to the architecture that the program is built on, and target relates to the architecture that the program will run on.
+
+For this build, target is set as armv7. rustc and cargo and the rust-std crate are already installed for x86 [host].
+Download and install the armv7 crate for building RPi3 apps.
+This <b>must</b> be the same version as the host crate, and installed to the same prefix.
+<code class="green">(cd $MOZBUILD/sources/
+RUST_VER=$(rustc -V|cut -d" " -f2)
+<span style="color: #c50000;">wget https://dev-static.rust-lang.org/dist/rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz</span>
+
+tar xf rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz
+cd rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH)
+</code>
+
+[3] Cross compiler
+
+This toolchain is based on the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc820-glibc2.28-4.14.78_RPi_headers-en_GB-armv8_hf.txz
+</code>
+
+There is an issue with the different limits.h priorities which seems to manifest itself in cross compiling for Firefox.
+
+The error is:
+<code class="console">/opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/stdlib.h:90:3: error: #error "Assumed value of MB_LEN_MAX wrong"
+&hellip;
+/opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/wchar2.h:448:3: error: #error "Assumed value of MB_LEN_MAX wrong"</code>
+I've used the solution <a class="extlink" href="https://www.linuxquestions.org/questions/linux-software-2/tar-cross-compile-error-arm-linux-gnueabi-4175642648/">here</a> to resolve this.
+<code class="green">(cd /opt/cross-pi-gcc/lib/gcc/arm-linux-gnueabihf/8.2.0/plugin/include/
+cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
+</code>
+
+[4] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
+
+My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
+This enables me to set up different sysroots for whatever is being cross compiled.
+<code class="green">export ROOT=$MOZBUILD/FF-RPi3-sysroot
+</code>
+Install kernel headers
+<code class="green">installpkg <span class="comment">/tmp/</span>kernel-headers-4.14.78-RPi3.txz
+</code>
+Install Slackware arm current libs/headers as used for the RPi3
+Slack_base = where the Slackware packages a-y directories are:
+<code class="green"><b>Slack_base</b>=<span class="comment">/path_to_Slackware_arm_current</span>
+cd $Slack_base
+installpkg l/pango-*-arm-*.txz
+installpkg l/glib2-*-arm-*.txz
+installpkg l/pcre-*-arm-*.txz
+installpkg l/fribidi-*-arm-*.txz
+installpkg l/freetype-*-arm-*.txz
+installpkg l/zlib-*-arm-*.txz
+installpkg a/bzip2-*-arm-*.txz
+installpkg l/libpng-*-arm-*.txz
+installpkg x/fontconfig-*-arm-*.txz
+installpkg a/util-linux-*-arm-*.txz
+installpkg l/expat-*-arm-*.txz
+installpkg l/harfbuzz-*-arm-*.txz
+installpkg l/cairo-*-arm-*.txz
+installpkg x/pixman-*-arm-*.txz
+installpkg x/mesa-*-arm-*.txz
+installpkg x/libdrm-*-arm-*.txz
+installpkg x/libX11-*-arm-*.txz
+installpkg x/xorgproto-*-arm-*.txz
+installpkg x/libxcb-*-arm-*.txz
+installpkg x/libpthread-stubs-*-arm-*.txz
+installpkg x/libXau-*-arm-*.txz
+installpkg x/libXdmcp-*-arm-*.txz
+installpkg x/libXext-*-arm-*.txz
+installpkg x/libXdamage-*-arm-*.txz
+installpkg x/libXfixes-*-arm-*.txz
+installpkg x/libXxf86vm-*-arm-*.txz
+installpkg x/libXrender-*-arm-*.txz
+installpkg l/gtk+3-3.*-arm-*.txz
+installpkg l/gdk-pixbuf2-*-arm-*.txz
+installpkg x/libXinerama-*-arm-*.txz
+installpkg x/libXi-*-arm-*.txz
+installpkg x/libXrandr-*-arm-*.txz
+installpkg x/libXcursor-*-arm-*.txz
+installpkg x/libXcomposite-*-arm-*.txz
+installpkg x/libepoxy-*-arm-*.txz
+installpkg l/atk-*-arm-*.txz
+installpkg l/at-spi2-atk-*-arm-*.txz
+installpkg l/at-spi2-core-*-arm-*.txz
+installpkg a/dbus-*-arm-*.txz
+installpkg l/gtk+2-*-arm-*.txz
+installpkg l/dbus-glib-*-arm-*.txz
+installpkg l/pulseaudio-*-arm-*.txz
+installpkg x/libXt-*-arm-*.txz
+installpkg x/libSM-*-arm-*.txz
+installpkg x/libICE-*-arm-*.txz
+installpkg l/libffi-*-arm-*.txz
+installpkg x/libxshmfence-*-arm-*.txz
+<span class="dhash">##</span> move ldconfig out of the way - links will be set up by doinst.sh
+mv /sbin/ldconfig /sbin/ldconfig-bak
+installpkg l/glibc-2.28-arm-*.txz
+mv /sbin/ldconfig-bak /sbin/ldconfig
+unset ROOT
+</code>
+Mount this directory to the cross compiler sysroot directory
+<code class="green">mount -B $MOZBUILD/FF-RPi3-sysroot /opt/cross-pi-gcc/sysroot
+</code>
+
+[5] Set up shell variables.
+
+pkg-config needs to access the libs and headers for the target system and this sets it up to prefix the sysroot path to the -L and -I paths in the .pc files
+<code class="green">SYSROOT=/opt/cross-pi-gcc/sysroot
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
+export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig
+</code>
+Add the cross compiler [arm-linux-gnueabihf-gcc etc..] bin directory to the PATH
+<code class="green">export PATH=/opt/cross-pi-gcc/bin:$PATH
+</code>
+
+[6] The build needs to be set up to use the cross compiler [CC] and the rust armv7 crate [--target=]
+
+Add to the new mozconfig
+<code class="green">cd $MOZBUILD/mozilla
+cat >> mozconfig.firefox.cross << "EOF"
+<span class="dhash">##</span> include the common mozconfig
+source $MOZBUILD/mozilla/mozconfig.common
+
+<span class="dhash">##</span> for Firefox build
+ac_add_options --enable-application=browser
+mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
+ac_add_options --prefix=/usr
+
+<span class="dhash">##</span> for cross compiling
+CC=arm-linux-gnueabihf-gcc
+ac_add_options --target=armv7-unknown-linux-gnueabihf
+<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+ac_add_options --disable-elf-hack
+<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
+mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
+
+EOF
+</code>
+Set parameter for Firefox mozconfig file name
+<code class="green">XCOMPILE=.cross
+</code>
+
+[7] Error:
+<code class="console"> {standard input}: Assembler messages:
+ {standard input}:1022: Error: bad expression -- `b #_ZL14SigprofHandleriP9siginfo_tPv'</code>
+This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.
+<code class="green">(cd $MOZBUILD/mozilla
+echo $'--- mfbt/LinuxSignal.h
++++ mfbt/LinuxSignal.h
+@@ -29 +29 @@
+-    "b %0"
++    "bx %0"
+@@ -31 +31 @@
+-    : "X"(H)
++    : "r"(H), "l"(aSignal), "l"(aInfo), "l"(aContext)
+' | while read line
+do
+patch -p0
+done)
+</code>
+
+[8] Set ARCH for the package name
+<code class="green">ARCH=armv7_hf
+</code>
+</code>
+<span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
+</div></div>                                                     <!-- FF xcompile - end -->
 <code class="gray">cd $MOZBUILD/mozilla/
-export MOZCONFIG=$MOZBUILD/mozilla/mozconfig.firefox
+export MOZCONFIG=$MOZBUILD/mozilla/mozconfig.firefox${XCOMPILE:-}
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mach build
 </code>
@@ -1536,21 +1753,24 @@ for 57+ builds:
 <code class="console">** WiP **</code>
 <span class="tabs th2"><a href="#close_machpk">close</a></span>
 </div></div>                                                     <!-- mach package - end -->
-Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-FF:
-<code class="gray">./mach install
+Install to $DESTDIR for packaging:
+<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+Run in a sub-shell so that the path is not added permanently</span>
+<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
+DESTDIR=$MOZBUILD/$REL/packaging-FF ./mach install)
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/firefox &hellip;
-<code class="gray">cd ../$REL/packaging-FF/lib
+<code class="gray">cd ../$REL/packaging-FF/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv firefox${FF_SUFF:-} pkg/opt/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)
-<span class="red"><span class="dastx">##</span> 'for the record', add the l10n revision that this build is based on:
+<span class="red"><span class="dhash">##</span> 'for the record', add the l10n revision that this build is based on:
 sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/firefox-*/application.ini</span>
 (cd pkg/usr/bin
 ln -s ../../opt/firefox-*/firefox .)
 cd pkg
-makepkg -l y -c n ../../../built/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)${LOCZN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../../built/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)$LOCZN-$ARCH.txz
 </code>
 </div>
 
@@ -1571,8 +1791,43 @@ HDxWKONstW5d2XyM4Fghwae3aQw+SjJWCkkijHAZExOvfFuHNN4FuIM3bh5UJssd6Nyjw9wEFqcN
 rH3N4MpICqkULFbOToiGhYVwL9A9ZymglJaPfEw+UfOcAWdEw9VzEfY5K5Oz8cjfEqPTtAhmZt73
 xmIX7nCswMDD7+bpbLUvH5XqcrDtzOsRUUxaTNwdjmyUJA2x2PTs1NRoew7MjbACzSyuE0LG8cf6
 yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="vertical-align:20%"><b> Building SeaMonkey</b></span></span>
+<code class="gray">unset XCOMPILE
+</code>
+</code> <a name="close_SM_xcompile"></a>                                                    <!-- SM xcompile - start -->
+<span class="tabs prefs"><a href="#SM_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<div id="SM_xcompile" class="tab">
+<div class="b_prefs"><span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
+<!-- leave this space -->
+1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
+2] Create a new mozconfig
+<code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
+cat > mozconfig.seamonkey.cross << "EOF"
+<span class="dhash">##</span> include the common mozconfig
+source $MOZBUILD/mozilla/mozconfig.common
+
+<span class="dhash">##</span> for SeaMonkey build
+ac_add_options --enable-application=${COMM:-}suite
+mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
+ac_add_options --prefix=/usr
+
+<span class="dhash">##</span> for cross compiling
+ac_add_options --disable-stylo
+CC=arm-linux-gnueabihf-gcc
+ac_add_options --target=armv7-unknown-linux-gnueabihf
+<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+ac_add_options --disable-elf-hack
+<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
+mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
+
+EOF
+</code>
+3] Set parameter for SeaMonkey mozconfig file name
+<code class="green thtwob">XCOMPILE=.cross
+</code>
+<span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
+</div></div>                                                     <!-- SM xcompile - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
-export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.seamonkey
+export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.seamonkey${XCOMPILE:-}
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
@@ -1598,22 +1853,25 @@ $MOZBUILD/$REL/seamonkey-build-dir/dist/bin/searchplugins/
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-SM:
-<code class="gray">./mozilla/mach install
+Install to $DESTDIR for packaging:
+<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+Run in a sub-shell so that the path is not added permanently</span>
+<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
+DESTDIR=$MOZBUILD/$REL/packaging-SM ./mozilla/mach install)
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/seamonkey &hellip;
-<code class="gray">cd ../packaging-SM/lib
+<code class="gray">cd ../packaging-SM/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv seamonkey${FF_SUFF:-} pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)
-<span class="green"><span class="dastx">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
+<span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/seamonkey-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/seamonkey-*/application.ini</span>
 (cd pkg/usr/bin
 ln -s ../../opt/seamonkey-*/seamonkey .)
 cd pkg
-makepkg -l y -c n ../../../built/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)${LOCZN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../../built/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)$LOCZN-$ARCH.txz
 </code>
 </div>
 
@@ -1644,8 +1902,43 @@ LKtpup4NTsWC32aExPOdHZcjhJpejnPAM8wDG+eE1WqFYRgwTROGpoDnU0O8kG5vamr+KhhLnt57
 4PDQAyfu83fVlJaUdEiigK7O81+u3/jFIVmUJzc8Vbc8Nz8/j8JkEpFY/ODREz+BGO1btny+a0RR
 UfHFy53OBUvq5fsGc6j/duKdOt1ccFeZBcAByAGQ98dxAXD8uaqSJFRTSv/5n+rpuY7/S78DHAti
 UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderbird [Daily]</b></span></span>
+<code class="gray">unset XCOMPILE
+</code>
+</code> <a name="close_TB_xcompile"></a>                                                    <!-- TB xcompile - start -->
+<span class="tabs prefs"><a href="#TB_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<div id="TB_xcompile" class="tab">
+<div class="b_prefs"><span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
+<!-- leave this space -->
+1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
+2] Create a new mozconfig
+<code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
+cat > mozconfig.thunderbird.cross << "EOF"
+<span class="dhash">##</span> include the common mozconfig
+source $MOZBUILD/mozilla/mozconfig.common
+
+<span class="dhash">##</span> for Thunderbird build
+ac_add_options --enable-application=${COMM:-}mail
+mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
+ac_add_options --prefix=/usr
+
+<span class="dhash">##</span> for cross compiling
+ac_add_options --disable-stylo
+CC=arm-linux-gnueabihf-gcc
+ac_add_options --target=armv7-unknown-linux-gnueabihf
+<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+ac_add_options --disable-elf-hack
+<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
+mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
+
+EOF
+</code>
+3] Set parameter for Thunderbird mozconfig file name
+<code class="green thtwob">XCOMPILE=.cross
+</code>
+<span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
+</div></div>                                                     <!-- TB xcompile - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
-export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird
+export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird${XCOMPILE:-}
 <span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
@@ -1668,22 +1961,25 @@ rm client/eyedropper.properties)
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
-Install to --prefix, which has been set to $MOZBUILD/$REL/packaging-TB:
-<code class="gray">./mozilla/mach install
+Install to $DESTDIR for packaging:
+<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+Run in a sub-shell so that the path is not added permanently</span>
+<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
+DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install)
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
-<code class="gray">cd ../packaging-TB/lib
+<code class="gray">cd ../packaging-TB/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
 mv thunderbird${FF_SUFF:-} pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
-<span class="green"><span class="dastx">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
+<span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/thunderbird-*/application.ini</span>
 (cd pkg/usr/bin
 ln -s ../../opt/thunderbird-*/thunderbird .)
 cd pkg
-makepkg -l y -c n ../../../built/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)${LOCZN:-}-${ARCH:-}.txz
+makepkg -l y -c n ../../../../built/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)$LOCZN-$ARCH.txz
 </code>
 </div>
 
@@ -1702,7 +1998,7 @@ umount $CHRT$MOZBUILD/mozilla
 umount $CHRT/proc
 umount $CHRT/dev
 
-<span class="dastx">##</span> Reset everything for a 64-bit build
+<span class="dhash">##</span> Reset everything for a 64-bit build
 unset CHRT
 export ARCH=x86_64
 sed -i '/For 32 bit version/,+3 d' $MOZBUILD/mozilla/mozconfig.common
@@ -1711,11 +2007,11 @@ sed -i '/For 32 bit version/,+3 d' $MOZBUILD/mozilla/mozconfig.common
 
 <P>
 Reset FF57+ localization work-arounds:<br>
-<code class="red"><span class="dastx">##</span> RESET searchplugins
+<code class="red"><span class="dhash">##</span> RESET searchplugins
 rm $MOZBUILD/$REL/comm-release/suite/locales/en-US/searchplugins/*
 cp -a $MOZBUILD/l10n/wip/list.json $MOZBUILD/mozilla/browser/locales/search/
 
-<span class="dastx">##</span> RESET all en-US files
+<span class="dhash">##</span> RESET all en-US files
 <b>TEST_CP=no</b>
 (cd $MOZBUILD/l10n/wip
 while read file
@@ -1724,15 +2020,16 @@ do
 || echo -e "would copy en-US backup \n.$file \nto original location \n$file \n"
 done &lt; $MOZBUILD/l10n/en-US-l10n-files)
 
-<span class="dastx">##</span> and remove temporary content
+<span class="dhash">##</span> and remove temporary content
 rm -rf $MOZBUILD/l10n/wip/*
 </code>
 
 <p>
-Unmount the mozilla repository binding:
+Unmount the bind mounts:
 <br>
-<code class="gray">umount $MOZBUILD/$REL/comm-$REL/mozilla
-rm -rf $MOZBUILD/$REL/comm-$REL/mozilla
+<code class="gray">umount $MOZBUILD/$REL/comm-$REL/mozilla/comm
+umount $MOZBUILD/$REL/comm-$REL/mozilla
+<span class="green">umount $SYSROOT</span>
 </code>
 <br>
 
