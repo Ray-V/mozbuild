@@ -124,9 +124,9 @@ color:darkred;
 Covers building from the release repositories <b>release</b>, <b>beta</b>, and <b>esr52/60</b>; and from <b>central</b>.
 <br>
 The <b>mozilla-unified</b> repository is used to avoid having up to 4 different copies of mozilla repositories, and is smaller than most of them.
-<p>This page has been laid out around a distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
+<p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
-Packaging from the installation is Slackware specific, which should be adaptable to other packaging systems.
+Packaging - installation and creation - is Slackware specific, which I guess would be adaptable to other packaging systems.
 <br>
 Packaging from the 'mach' built packages is generic.
 <p>
@@ -135,7 +135,7 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <br>
 <p>Builds can be customized with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a> options and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
 <br>
-<p><a href="#FF_xcompile"><span class="green">Firefox-esr</span></a>/<a href="#SM_xcompile"><span class="green">Seamonkey</span></a>/<a href="#TB_xcompile"><span class="green">Thunderbird</span></a> can be cross compiled [X], without stylo, for the Raspberry Pi3 [armv7].
+<p>Cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7 [Raspberry Pi3] is an option with additional setting up.
 <br>
 
 <hr>
@@ -158,16 +158,17 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
 <code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
+        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                   2.57.4.0                      6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57                          6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
+                  2.57                          6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                               60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class="">X</span>
+                              60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
 </code>
 <br>
 <b><i>release</i></b>
 <br>
 <code class="appx">        64.0                                    <span class="off_rel">8337ebb86a42</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+        65.0                                    <span class="off_rel">896611703c2b</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               64.0              8337ebb86a42    f2b7084210a3    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
@@ -215,7 +216,7 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 │       <span class="green">└── {irc,inspector}			# mercurial clones</span>
 ├── sources
 │   ├── autoconf_213				# autoconf-2.13 installation
-│   ├── llvm					# for LLVM_CONFIG for stylo build
+│   ├── llvm-$ARCH				# for LLVM_CONFIG for stylo build
 │   ├── mozilla-unified.zstd.hg			# mercurial bundle
 │   ├── rust&hellip;					# download and installation
 │   <span class="red">└── compare-locales				# to create merge-$L10N</span>
@@ -232,9 +233,9 @@ Higher values for '-j' on the dual-core machine made no difference to these best
     ├── packaging-{FF,SM,TB}
     │   └── usr/lib					# install here to create package
     └── built
-        ├── firefox-{version}$LOCZN-$ARCH.txz		# the Firefox Slackware package
-        ├── seamonkey-{version}$LOCZN-$ARCH.txz		# the SeaMonkey Slackware package
-        └── thunderbird-{version}$LOCZN-$ARCH.txz	# the Thunderbird Slackware package
+        ├── firefox-{version}$LOCZN-$PKG_ARCH.txz	# the Firefox Slackware package
+        ├── seamonkey-{version}$LOCZN-$PKG_ARCH.txz	# the SeaMonkey Slackware package
+        └── thunderbird-{version}$LOCZN-$PKG_ARCH.txz	# the Thunderbird Slackware package
 </code>
 <p>
 
@@ -245,17 +246,15 @@ Higher values for '-j' on the dual-core machine made no difference to these best
 <span class="dhash">##</span> Set which repositories to clone:
 export REPOS="<b>release</b> <b>beta</b> <b>esr52</b> <b>esr60</b> <b>central</b>"
 <span class="dhash">##</span> choose which to build:
-export REL=<b>esr60</b>
+export REL=<span class="comment"><b>esr60</b></span>
 <span class="dhash">##</span> set number of parallel jobs
-export NUMJOBS=<b>-j$(getconf _NPROCESSORS_ONLN)</b> &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
+export NUMJOBS=-j$(getconf _NPROCESSORS_ONLN) &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
 <span class="dhash">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
-export GTK=gtk3 <b>&amp;&amp; [[ $REL == esr52 ]] &amp;&amp; export GTK=gtk2</b>
-<span class="dhash">##</span> the default for quantum [FF57+] stylo builds only
-export STYLO=<b>yes</b>
+export GTK=gtk3 &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; export GTK=gtk2
 <span class="dhash">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
-export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686
+export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686 ; export PKG_ARCH=$ARCH
 export LOCZN=-$(echo en-US | tr - _)
-<span class="red">export L10N=<b>en-GB</b> &amp;&amp; export LOCZN=-$(echo $L10N | tr - _)</span>
+<span class="red">export L10N=<span class="comment"><b>en-GB</b></span> &amp;&amp; export LOCZN=-$(echo $L10N | tr - _)</span>
 </code>
 
 <p>
@@ -595,6 +594,10 @@ cat &gt; mozconfig.common &lt;&lt; "EOF"
 mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
 mk_add_options NO_MERCURIAL_SETUP_CHECK=1
 mk_add_options AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf
+<span class="dhash">##</span> llvm installed off PATH for this build only
+mk_add_options "export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-config"
+
+ac_add_options --prefix=/usr
 
 <span class="dhash">##</span> If you have installed DBus-Glib comment out this line:
 #ac_add_options --disable-dbus
@@ -621,6 +624,9 @@ ac_add_options --disable-official-branding
 ac_add_options --with-pthreads
 ac_add_options --with-system-zlib
 
+<span class="dhash">##</span> option to disable stylo for [ FF -le 60 ]
+<span class="dhash">#</span>ac_add_options --disable-stylo
+
 EOF
 )
 </code>
@@ -636,25 +642,6 @@ ac_add_options --enable-url-classifier
 
 EOF
 )
-</code>
-<p>
-<b>LLVM_CONFIG</b>
-<br>
-For FF57+, with the default stylo build, set LLVM_CONFIG to avoid this error:
-<br><code class="console">ERROR: Could not find LLVM/Clang installation for compiling stylo build-time bindgen.  <br>Please specify the 'LLVM_CONFIG' environment variable (recommended), ...</code>
-<br>
-Unless otherwise required, install llvm off-PATH for this build use only.
-<br>
-<code class="gray">[[ $MAJ_VER -ge 57 ]] &amp;&amp; { [[ $STYLO == yes ]] &amp;&amp; \
-ROOT=$MOZBUILD/sources/llvm-$ARCH installpkg <span class="comment">/path/to/</span>llvm-*-$ARCH-*.txz
-export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-config || \
-(cd $MOZBUILD/mozilla
-cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-ac_add_options --disable-stylo
-
-EOF
-)
-}
 </code>
 <p>
 <b>FF64</b>+ needs additional setting up
@@ -674,10 +661,7 @@ cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 installpkg nodejs-8.12.0-x86_64-1_SBo.txz
 
 <span class="dhash">##</span> [4] Set MOZBUILD_STATE_PATH so the build completes without prompting
-cat >> $MOZBUILD/mozilla/mozconfig.common << "EOF"
-mk_add_options MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla
-
-EOF
+export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla
 
 <span class="dhash">##</span> [5] With mozilla as the topsrcdir, need to set the suite/mail applications to the 'comm' directory
 export COMM=comm/
@@ -708,7 +692,6 @@ source $MOZBUILD/mozilla/mozconfig.common
 <span class="dhash">##</span> for Firefox build
 ac_add_options --enable-application=browser
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
-ac_add_options --prefix=/usr
 
 EOF
 )
@@ -724,7 +707,6 @@ source $MOZBUILD/mozilla/mozconfig.common
 <span class="dhash">##</span> for SeaMonkey build
 ac_add_options --enable-application=${COMM:-}suite
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
-ac_add_options --prefix=/usr
 
 EOF
 )
@@ -741,7 +723,6 @@ source $MOZBUILD/mozilla/mozconfig.common
 <span class="dhash">##</span> for Thunderbird build
 ac_add_options --enable-application=${COMM:-}mail
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
-ac_add_options --prefix=/usr
 
 EOF
 )
@@ -1511,9 +1492,6 @@ l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><span style="vertical-align:20%"><
 <div id="FF_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
 <!-- leave this space -->
-<b>Note:</b>
-This is a work-in-progress and has only been done for FF60.4esr en-US [built on x86_64 for armv7_hf].
-
 The additions fit into the build tree like this:
 <code>$MOZBUILD
 <span class="comment">├── sources
@@ -1529,22 +1507,7 @@ opt
     ├── bin						<i>cross compiler</i>
     └── sysroot *					<i>set in cross compiler build</i>
 </code>
-
-[1] Stylo
-
-Stylo has been disabled because of this error which I haven't found a fix for:
-<code class="console">error: failed to run custom build command for `style v0.0.1 (/mozbuild/mozilla/servo/components/style)`
- 5:13.67 process didn't exit successfully: `/mozbuild/esr60/firefox-build-dir/toolkit/library/release/build/style-d0a15782b59421df/build-script-build` (exit code: 101)'</code>
-Create a new mozconfig
-<code class="green">(cd $MOZBUILD/mozilla
-cat > mozconfig.firefox.cross << "EOF"
-ac_add_options --disable-stylo
-
-EOF
-)
-</code>
-
-[2] Additional rust requirements
+[1] Additional rust requirements
 
 For <b>rust</b>, host relates to the architecture that the program is built on, and target relates to the architecture that the program will run on.
 
@@ -1560,7 +1523,7 @@ cd rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH)
 </code>
 
-[3] Cross compiler
+[2] Cross compiler
 
 This toolchain is based on the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
 <code class="green">installpkg <span class="comment">/tmp/</span>xgcc820-glibc2.28-4.14.78_RPi_headers-en_GB-armv8_hf.txz
@@ -1577,11 +1540,11 @@ I've used the solution <a class="extlink" href="https://www.linuxquestions.org/q
 cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 </code>
 
-[4] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
+[3] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
 
 My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
 This enables me to set up different sysroots for whatever is being cross compiled.
-<code class="green">export ROOT=$MOZBUILD/FF-RPi3-sysroot
+<code class="green">export ROOT=<span class="comment">$MOZBUILD/FF-RPi3-sysroot</span>
 </code>
 Install kernel headers
 <code class="green">installpkg <span class="comment">/tmp/</span>kernel-headers-4.14.78-RPi3.txz
@@ -1637,6 +1600,8 @@ installpkg x/libSM-*-arm-*.txz
 installpkg x/libICE-*-arm-*.txz
 installpkg l/libffi-*-arm-*.txz
 installpkg x/libxshmfence-*-arm-*.txz
+installpkg n/openssl-1.1.*-arm-*.txz
+installpkg x/glu-*-arm-*.txz
 <span class="dhash">##</span> move ldconfig out of the way - links will be set up by doinst.sh
 mv /sbin/ldconfig /sbin/ldconfig-bak
 installpkg l/glibc-2.28-arm-*.txz
@@ -1644,49 +1609,65 @@ mv /sbin/ldconfig-bak /sbin/ldconfig
 unset ROOT
 </code>
 Mount this directory to the cross compiler sysroot directory
-<code class="green">mount -B $MOZBUILD/FF-RPi3-sysroot /opt/cross-pi-gcc/sysroot
+<code class="green">export SYSROOT=<span class="comment">/opt/cross-pi-gcc/sysroot</span>
+mount -B <span class="comment">$MOZBUILD/FF-RPi3-sysroot</span> $SYSROOT
 </code>
 
-[5] Set up shell variables.
+[4] Set up shell variables.
 
-pkg-config needs to access the libs and headers for the target system and this sets it up to prefix the sysroot path to the -L and -I paths in the .pc files
-<code class="green">SYSROOT=/opt/cross-pi-gcc/sysroot
-export PKG_CONFIG_PATH=
+pkg-config needs to access the libs and headers for the target system and this sets it up to prefix $SYSROOT to the -L and -I paths in the .pc files
+<code class="green">export PKG_CONFIG_PATH=
 export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
 export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig
 </code>
 Add the cross compiler [arm-linux-gnueabihf-gcc etc..] bin directory to the PATH
-<code class="green">export PATH=/opt/cross-pi-gcc/bin:$PATH
+<code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
+export PATH=$XGCC_DIR/bin:$PATH
 </code>
 
-[6] The build needs to be set up to use the cross compiler [CC] and the rust armv7 crate [--target=]
+[5] The build needs to be set up to use the cross compiler [CC] and the rust armv7 crate [--target=]
 
-Add to the new mozconfig
+Create a new common mozconfig, mozconfig.cross
 <code class="green">cd $MOZBUILD/mozilla
-cat >> mozconfig.firefox.cross << "EOF"
+cat > mozconfig.cross << "EOF"
+<span class="dhash">##</span> for cross compiling
+CC=arm-linux-gnueabihf-gcc
+ac_add_options --target=armv7-unknown-linux-gnueabihf
+
+<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+ac_add_options --disable-elf-hack
+
+<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
+mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
+
+<span class="dhash">##</span> add BINDGEN_CFLAGS for the servo [stylo] build
+mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.2.0 -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.2.0/arm-linux-gnueabihf"
+
+<span class="dhash">##</span> disable webrtc for FF64+ because of multiple definitions causing linker error
+<span class="dhash">#</span>ac_add_options --disable-webrtc
+
+EOF
+</code>
+Create a mozconfig.firefox.cross
+<code class="green">cd $MOZBUILD/mozilla
+cat > mozconfig.firefox.cross << "EOF"
 <span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
+
+<span class="dhash">##</span> include the cross build mozconfig
+source $MOZBUILD/mozilla/mozconfig.cross
 
 <span class="dhash">##</span> for Firefox build
 ac_add_options --enable-application=browser
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
-ac_add_options --prefix=/usr
-
-<span class="dhash">##</span> for cross compiling
-CC=arm-linux-gnueabihf-gcc
-ac_add_options --target=armv7-unknown-linux-gnueabihf
-<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
-ac_add_options --disable-elf-hack
-<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
-mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
 
 EOF
 </code>
-Set parameter for Firefox mozconfig file name
+Set parameter for MOZCONFIG variable
 <code class="green">XCOMPILE=.cross
 </code>
 
-[7] Error:
+[6] Error:
 <code class="console"> {standard input}: Assembler messages:
  {standard input}:1022: Error: bad expression -- `b #_ZL14SigprofHandleriP9siginfo_tPv'</code>
 This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.
@@ -1705,8 +1686,8 @@ patch -p0
 done)
 </code>
 
-[8] Set ARCH for the package name
-<code class="green">ARCH=armv7_hf
+[7] Set ARCH for the package name
+<code class="green">PKG_ARCH=armv7_hf
 </code>
 </code>
 <span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
@@ -1754,7 +1735,7 @@ for 57+ builds:
 <span class="tabs th2"><a href="#close_machpk">close</a></span>
 </div></div>                                                     <!-- mach package - end -->
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
 Run in a sub-shell so that the path is not added permanently</span>
 <code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
 DESTDIR=$MOZBUILD/$REL/packaging-FF ./mach install)
@@ -1770,7 +1751,7 @@ sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/firefox-*/a
 (cd pkg/usr/bin
 ln -s ../../opt/firefox-*/firefox .)
 cd pkg
-makepkg -l y -c n ../../../../built/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)$LOCZN-$ARCH.txz
+makepkg -l y -c n ../../../../built/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)$LOCZN-$PKG_ARCH.txz
 </code>
 </div>
 
@@ -1799,29 +1780,22 @@ yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="verti
 <div class="b_prefs"><span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
 <!-- leave this space -->
 1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
-2] Create a new mozconfig
+2] Create a mozconfig.seamonkey.cross
 <code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
 cat > mozconfig.seamonkey.cross << "EOF"
 <span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
 
+<span class="dhash">##</span> include the cross build mozconfig
+source $MOZBUILD/mozilla/mozconfig.cross
+
 <span class="dhash">##</span> for SeaMonkey build
 ac_add_options --enable-application=${COMM:-}suite
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
-ac_add_options --prefix=/usr
-
-<span class="dhash">##</span> for cross compiling
-ac_add_options --disable-stylo
-CC=arm-linux-gnueabihf-gcc
-ac_add_options --target=armv7-unknown-linux-gnueabihf
-<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
-ac_add_options --disable-elf-hack
-<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
-mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
 
 EOF
 </code>
-3] Set parameter for SeaMonkey mozconfig file name
+3] Set parameter for MOZCONFIG variable
 <code class="green thtwob">XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
@@ -1854,7 +1828,7 @@ Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
 Run in a sub-shell so that the path is not added permanently</span>
 <code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
 DESTDIR=$MOZBUILD/$REL/packaging-SM ./mozilla/mach install)
@@ -1871,7 +1845,7 @@ mv seamonkey${FF_SUFF:-} pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/
 (cd pkg/usr/bin
 ln -s ../../opt/seamonkey-*/seamonkey .)
 cd pkg
-makepkg -l y -c n ../../../../built/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)$LOCZN-$ARCH.txz
+makepkg -l y -c n ../../../../built/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)$LOCZN-$PKG_ARCH.txz
 </code>
 </div>
 
@@ -1910,29 +1884,22 @@ UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderb
 <div class="b_prefs"><span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 <!-- leave this space -->
 1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
-2] Create a new mozconfig
+2] Create a mozconfig.thunderbird.cross
 <code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
 cat > mozconfig.thunderbird.cross << "EOF"
 <span class="dhash">##</span> include the common mozconfig
 source $MOZBUILD/mozilla/mozconfig.common
 
+<span class="dhash">##</span> include the cross build mozconfig
+source $MOZBUILD/mozilla/mozconfig.cross
+
 <span class="dhash">##</span> for Thunderbird build
 ac_add_options --enable-application=${COMM:-}mail
 mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
-ac_add_options --prefix=/usr
-
-<span class="dhash">##</span> for cross compiling
-ac_add_options --disable-stylo
-CC=arm-linux-gnueabihf-gcc
-ac_add_options --target=armv7-unknown-linux-gnueabihf
-<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
-ac_add_options --disable-elf-hack
-<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
-mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
 
 EOF
 </code>
-3] Set parameter for Thunderbird mozconfig file name
+3] Set parameter for MOZCONFIG variable
 <code class="green thtwob">XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
@@ -1962,7 +1929,7 @@ Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, add prefix to PATH for strip = arm-linux-gnueabihf-strip
+<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
 Run in a sub-shell so that the path is not added permanently</span>
 <code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
 DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install)
@@ -1979,7 +1946,7 @@ mv thunderbird${FF_SUFF:-} pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/ma
 (cd pkg/usr/bin
 ln -s ../../opt/thunderbird-*/thunderbird .)
 cd pkg
-makepkg -l y -c n ../../../../built/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)$LOCZN-$ARCH.txz
+makepkg -l y -c n ../../../../built/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)$LOCZN-$PKG_ARCH.txz
 </code>
 </div>
 
