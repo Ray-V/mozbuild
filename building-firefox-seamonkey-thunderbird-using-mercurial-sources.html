@@ -135,7 +135,7 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <br>
 <p>Builds can be customized with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a> options and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
 <br>
-<p>Cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7 [Raspberry Pi3] is an option with additional setting up.
+<p><span class="green">Additional setting up</span> for cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7 [Raspberry Pi3].
 <br>
 
 <hr>
@@ -158,22 +158,26 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
 <code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+        60.6.0                                  <span class="off_rel">7dc3b931ebe5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                   2.57.4.0                      6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57                          6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+                  2.57.5.0                      e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                               60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+                              60.5.0            e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
 </code>
+<br>
+<span class="comment">FFesr 60.6 and FF66 builds have been done with rust 1.31.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0</a></span>
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        64.0                                    <span class="off_rel">8337ebb86a42</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-        65.0                                    <span class="off_rel">896611703c2b</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+<code class="appx">        66.0                                    <span class="off_rel">164a57c0cdf0</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+        66.0.2 &diamondsuit;                                <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               64.0              8337ebb86a42    f2b7084210a3    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1452448">unusable</a>.</span>
+<br>
+&diamondsuit; <span class="comment">FF66 for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
 <br>
 <b><i>beta</i></b>
 <br>
@@ -202,10 +206,12 @@ This SM2.58a1 build completes, but URLs will not launch from the address bar or 
 <b>Build times</b>
 <br><code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2					-j10		 -j12
-Firefox 		~110 mins [FF52]  ~196 mins [FF61]	~23 mins [FF52]  ~40 mins [FF60esr]
+Firefox 		~110 mins [FF52]  ~240 mins [FF65]	~23 mins [FF52]  ~40 mins [FF60esr]
 SeaMonkey/Thunderbird	~111 mins [TB52]  ~240 mins [TB64]	~24 mins [TB52]  ~41 mins [SM2.57esr/TB60esr]</code>
 <br>
-Higher values for '-j' on the dual-core machine made no difference to these best build times and were prone to timing errors.
+Higher values for '-j' on the dual-core machine cause random build errors, unless built with adequate memory or swap.
+<br>
+Typical usage is 6GB actual, 3GB swap for -j6.
 
 <p><a name="DirStructure"></a><br>
     <b>Directory structure</b><br>
@@ -259,8 +265,8 @@ export LOCZN=-$(echo en-US | tr - _)
 
 <p>
 <b>Create build directories</b><br>
-<code class="gray">mkdir -p $MOZBUILD/sources
-<span class="red">mkdir -p $MOZBUILD/l10n/wip</span>
+<code class="gray"><span class="red">mkdir -p $MOZBUILD/l10n/wip</span>
+mkdir -p $MOZBUILD/sources
 
 <span class="dhash">##</span> Set which directories to create:
 REPOS=$REPOS
@@ -279,13 +285,13 @@ It also puts less of a load on the server - see <a class="extlink" href="http://
 
 <p>mozilla-unified<br>
 Requires mercurial with zstd support [v4.1.2 works], otherwise view 'bundles' file and choose compression type<br>
-<code class="gray">(cd $MOZBUILD/sources
+<code class="gray">cd $MOZBUILD/sources
 <span class="dhash">##</span> get mozilla-unified bundle
 wget -O bundles https://hg.cdn.mozilla.net/
 BUNDLE=$(grep mozilla-unified.*zstd bundles | sed 's|.*href="||;s|">.*$||')
-wget -O mozilla-unified.bundle https://hg.cdn.mozilla.net/$BUNDLE)
+wget -O mozilla-unified.bundle https://hg.cdn.mozilla.net/$BUNDLE
 
-(cd $MOZBUILD
+cd $MOZBUILD
 <span class="dhash">##</span> unbundle mozilla-unified
 hg init mozilla
 hg unbundle sources/mozilla-unified.bundle -R mozilla
@@ -295,7 +301,7 @@ default = https://hg.mozilla.org/mozilla-unified/" > mozilla/.hg/hgrc
 <span class="dhash">##</span> get new changesets since bundle was created
 hg pull -R mozilla
 <span class="dhash">##</span> update local repo
-hg update -R mozilla)
+hg update -R mozilla
 </code>
 
 <p>
@@ -366,8 +372,8 @@ comment out line 50 in package-manifest.in &hellip;
 <br>
 Links to dictionaries are available at <a class="extlink" href="https://addons.mozilla.org/language-tools/">Mozilla addons</a>
 <br>
-<code class="red">(cd $MOZBUILD/sources
-wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span class="comment">british-english-dictionary-2/addon-461570-latest.xpi</span>)
+<code class="red">cd $MOZBUILD/sources
+wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span class="comment">british-english-dictionary-2/addon-461570-latest.xpi</span>
 </code>
 
 <p>
@@ -375,14 +381,14 @@ wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span
 <br>Building needs autoconf-2.13 for the '--localdir=' option which the later versions don't have.
 <br>Build and install to temporary directory for use with this build only.
 <br>
-<code class="gray">(cd $MOZBUILD/sources
+<code class="gray">cd $MOZBUILD/sources
 wget http://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz
 
 tar xf autoconf-2.13.tar.gz
 cd autoconf-2.13
 ./configure --prefix=$MOZBUILD/sources/autoconf_213
 make
-make install)
+make install
 </code>
 <br>
 autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and this path is included in mozconfig.common.
@@ -392,14 +398,14 @@ autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and thi
 <br>
 What is rust and why should I use it? - see <a class="extlink" href="https://hacks.mozilla.org/2016/07/shipping-rust-in-firefox/">here</a> and <a class="extlink" href="http://www.zdnet.com/article/mozilla-begins-process-of-letting-firefox-rust/">here</a>. Building with rust is the default for 54.x onwards.
 <br>
-<code class="gray">(cd $MOZBUILD/sources/
+<code class="gray">cd $MOZBUILD/sources/
 wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||')
 wget $URL
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
 </code>
 <br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable:<br>
 <code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
@@ -416,7 +422,7 @@ Add new changesets - start
 <code class="appx"><span class="dhash">##</span> Set which repositories to update:
 REPOS=$REPOS
 
-(cd $MOZBUILD
+cd $MOZBUILD
 hg pull -R mozilla
 <span class="green">hg pull -R mozilla/extensions/inspector
 hg pull -R mozilla/extensions/irc</span>
@@ -425,7 +431,7 @@ hg pull -R mozilla/extensions/irc</span>
 for repo in $REPOS
 do
 hg pull -R $repo/comm-$repo
-done)
+done
 
 <span class="dhash">##</span> De-clutter the mozilla[-unified] bookmarks list
 sed -i '/aurora/d;/esr[1-4]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
@@ -438,12 +444,12 @@ Add new changesets - end
 -->
 
 Set up the local repositories for chosen $REL, removing any changes made for previous builds:<br>
-<code class="gray">(cd $MOZBUILD
+<code class="gray">cd $MOZBUILD
 hg update $REL -C -R mozilla
 hg update default -C -R $REL/comm-$REL/
 <span class="green">hg update default -C -R mozilla/extensions/inspector
 hg update default -C -R mozilla/extensions/irc</span>
-<span class="red">hg update default -C -R l10n/$L10N</span>)
+<span class="red">hg update default -C -R l10n/$L10N</span>
 </code>
 <p>
 <!--
@@ -467,7 +473,7 @@ echo $FF_VER
 <span class="dhash">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
-(cd $MOZBUILD/sources/
+cd $MOZBUILD/sources/
 <span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr52/esr60 version
 wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
@@ -485,7 +491,7 @@ cd $MOZBUILD/mozilla/
 <span class="dhash">##</span> Create new bookmark to that release candidate changeset
 hg bookmark -r $REL_CAND_CS ${REL}_$FF_VER
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$FF_VER)
+hg checkout ${REL}_$FF_VER
 </code>
 <b><i>Or</b></i>: Where the FF version is known, i.e. after its release date, the changeset on which it was built can be determined from the repo log and then the repo reverted to that changeset.
 The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEASE on the official release date.
@@ -496,12 +502,12 @@ The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEAS
 <b>REL_TAG</b>=<span class="comment">52_7_3</span>
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
-(cd $MOZBUILD/mozilla/
+cd $MOZBUILD/mozilla/
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
 <span class="dhash">##</span> Create new bookmark to that release changeset
 hg bookmark -r $REL_CS ${REL}_$REL_TAG
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$REL_TAG)
+hg checkout ${REL}_$REL_TAG
 </code>
 
 <b><i>Or</b></i>: Building to any other revision
@@ -516,11 +522,11 @@ Select a changeset from that list, and create a bookmark and set it active:
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 <b>BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 
-(cd $MOZBUILD/mozilla/
+cd $MOZBUILD/mozilla/
 <span class="dhash">##</span> Create new bookmark to that changeset
 hg bookmark -r $BUILD_CS ${REL}_$BUILD_CS
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$BUILD_CS)
+hg checkout ${REL}_$BUILD_CS
 </code>
 Delete bookmark when no longer required:
 <code class="appx">hg bookmark --delete ${REL}_$BUILD_CS -R $MOZBUILD/mozilla/
@@ -566,10 +572,10 @@ Building to a changeset - end
 <br>
 <code class="gray">[[ $REL == esr52 ]] &amp;&amp; \
 [[ ! $(grep "return self._pipe.poll" $MOZBUILD/mozilla/testing/mozbase/mozsystemmonitor/mozsystemmonitor/resourcemonitor.py) ]] &amp;&amp; \
-(cd $MOZBUILD/sources/
+cd $MOZBUILD/sources/
 [[ ! -e 8d9ae8c45dd0 ]] &amp;&amp; wget https://hg.mozilla.org/mozilla-central/raw-rev/8d9ae8c45dd0
 cd $MOZBUILD/mozilla/
-patch -p1 &lt; $MOZBUILD/sources/8d9ae8c45dd0)
+patch -p1 &lt; $MOZBUILD/sources/8d9ae8c45dd0
 </code>
 
 <p>
@@ -591,10 +597,12 @@ mozconfig.common:
 <br>
 <code class="gray">(cd $MOZBUILD/mozilla
 cat &gt; mozconfig.common &lt;&lt; "EOF"
-mk_add_options MOZ_MAKE_FLAGS=$NUMJOBS
-mk_add_options NO_MERCURIAL_SETUP_CHECK=1
-mk_add_options AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf
-<span class="dhash">##</span> llvm installed off PATH for this build only
+<span class="dhash">##</span> From FF66, AUTOCONF has to be 'exported' to be found by the js/src configuration
+<span class="dhash">##</span> so to forestall any future problems, let's export everything
+mk_add_options "export MOZ_MAKE_FLAGS=$NUMJOBS"
+mk_add_options "export NO_MERCURIAL_SETUP_CHECK=1"
+mk_add_options "export AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf"
+<span class="dhash">##</span> llvm installed off PATH for the use of this build only
 mk_add_options "export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-config"
 
 ac_add_options --prefix=/usr
@@ -621,7 +629,7 @@ ac_add_options --disable-updater
 ac_add_options --disable-tests
 ac_add_options --enable-optimize
 ac_add_options --disable-official-branding
-ac_add_options --with-pthreads
+#ac_add_options --with-pthreads
 ac_add_options --with-system-zlib
 
 <span class="dhash">##</span> option to disable stylo for [ FF -le 60 ]
@@ -647,23 +655,23 @@ EOF
 <b>FF64</b>+ needs additional setting up
 <br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
-<span class="dhash">##</span> [1] remove 'ac_add_options --with-pthreads' which is no longer recognized as an option
-sed -i '/with-pthreads/d' $MOZBUILD/mozilla/mozconfig.common
-
-<span class="dhash">##</span> [2] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
+<span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
-<span style="color: #c50000;">wget -O cbindgen-0.6.7.tar.gz https://github.com/eqrion/cbindgen/archive/v0.6.7.tar.gz</span>
-tar xf cbindgen-0.6.7.tar.gz
-cd cbindgen-0.6.7/
+<span style="color: #c50000;">wget -O cbindgen-0.8.2.tar.gz https://github.com/eqrion/cbindgen/archive/v0.8.2.tar.gz</span>
+tar xf cbindgen-0.8.2.tar.gz
+cd cbindgen-0.8.2/
 cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 
-<span class="dhash">##</span> [3] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
+<span class="dhash">##</span> if cbindgen decides it can't find some rustc libs, set RPATH as per rustc:
+patchelf --force-rpath --set-rpath \$ORIGIN/../lib $MOZBUILD/sources/rust-$ARCH/bin/cbindgen
+
+<span class="dhash">##</span> [2] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
 installpkg nodejs-8.12.0-x86_64-1_SBo.txz
 
-<span class="dhash">##</span> [4] Set MOZBUILD_STATE_PATH so the build completes without prompting
-export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla
+<span class="dhash">##</span> [3] Set MOZBUILD_STATE_PATH so the build completes without prompting
+echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dhash">##</span> [5] With mozilla as the topsrcdir, need to set the suite/mail applications to the 'comm' directory
+<span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the 'comm' directory
 export COMM=comm/
 }
 </code>
@@ -1307,7 +1315,7 @@ This enabled the additional lines and files identified by compare-locales to be 
 
 The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I'm not sure it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
 
-What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary, texts and messages are in the intended localization.
+What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary, texts and messages in the final build are in the intended localization.
 <code class="red"><span class="dhash">##</span> Copy en-US and $L10N to a working area:
 while read file
 do
@@ -1405,14 +1413,14 @@ EOF
 <code class="thtwob"><code class="thtwo">ARCH=i686
 </code>
 Download and install the 32-bit version of rust:
-<code class="thtwo">(cd $MOZBUILD/sources/
+<code class="thtwo">cd $MOZBUILD/sources/
 wget -O rust.html https://www.rust-lang.org/en-US/other-installers.html
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||')
 wget $URL
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
 cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
 </code>
 <code class="thtwo">mkdir $MOZBUILD/chrt
 CHRT=$MOZBUILD/chrt
@@ -1467,7 +1475,6 @@ To avoid a "can't find crate for `std`" error:
 <code class="thtwo">[[ $ARCH == i686 ]] &amp;&amp; [[ $MAJ_VER -eq 52 ]] &amp;&amp; \
 sed -i 's|i586-unknown-linux-gnu|i686-unknown-linux-gnu|' $MOZBUILD/mozilla/build/moz.configure/rust.configure
 </code>
-
 <p><br>
 <a name="BuildingFFReturn"></a>
 <div style="background: #FFFADD;"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBElEQVR42qWTa0jTURiHs6sWSmnp
@@ -1511,22 +1518,28 @@ opt
 
 For <b>rust</b>, host relates to the architecture that the program is built on, and target relates to the architecture that the program will run on.
 
-For this build, target is set as armv7. rustc and cargo and the rust-std crate are already installed for x86 [host].
+For this build, target is set as armv7.
+rustc and cargo and the rust-std crate are already installed for x86 [host].
 Download and install the armv7 crate for building RPi3 apps.
 This <b>must</b> be the same version as the host crate, and installed to the same prefix.
-<code class="green">(cd $MOZBUILD/sources/
+<code class="green">cd $MOZBUILD/sources/
 RUST_VER=$(rustc -V|cut -d" " -f2)
-<span style="color: #c50000;">wget https://dev-static.rust-lang.org/dist/rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz</span>
+<span style="color: #c50000;">wget https://static.rust-lang.org/dist/rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz</span>
 
 tar xf rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz
 cd rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf
-./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH)
+./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH
 </code>
 
 [2] Cross compiler
 
 This toolchain is based on the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
-<code class="green">installpkg <span class="comment">/tmp/</span>xgcc820-glibc2.28-4.14.78_RPi_headers-en_GB-armv8_hf.txz
+
+Set the cross tools directories
+<code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
+export SYSROOT=<span class="comment">$XGCC_DIR/sysroot</span>
+</code>
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc830-glibc2.29-4.19.27_RPi_headers-en_GB-arm.txz
 </code>
 
 There is an issue with the different limits.h priorities which seems to manifest itself in cross compiling for Firefox.
@@ -1536,7 +1549,7 @@ The error is:
 &hellip;
 /opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/wchar2.h:448:3: error: #error "Assumed value of MB_LEN_MAX wrong"</code>
 I've used the solution <a class="extlink" href="https://www.linuxquestions.org/questions/linux-software-2/tar-cross-compile-error-arm-linux-gnueabi-4175642648/">here</a> to resolve this.
-<code class="green">(cd /opt/cross-pi-gcc/lib/gcc/arm-linux-gnueabihf/8.2.0/plugin/include/
+<code class="green">(cd $XGCC_DIR/lib/gcc/*-linux-gnu*/8.?.0/plugin/include/
 cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 </code>
 
@@ -1553,64 +1566,60 @@ Install Slackware arm current libs/headers as used for the RPi3
 Slack_base = where the Slackware packages a-y directories are:
 <code class="green"><b>Slack_base</b>=<span class="comment">/path_to_Slackware_arm_current</span>
 cd $Slack_base
-installpkg l/pango-*-arm-*.txz
-installpkg l/glib2-*-arm-*.txz
-installpkg l/pcre-*-arm-*.txz
-installpkg l/fribidi-*-arm-*.txz
-installpkg l/freetype-*-arm-*.txz
-installpkg l/zlib-*-arm-*.txz
-installpkg a/bzip2-*-arm-*.txz
-installpkg l/libpng-*-arm-*.txz
-installpkg x/fontconfig-*-arm-*.txz
-installpkg a/util-linux-*-arm-*.txz
-installpkg l/expat-*-arm-*.txz
-installpkg l/harfbuzz-*-arm-*.txz
-installpkg l/cairo-*-arm-*.txz
-installpkg x/pixman-*-arm-*.txz
-installpkg x/mesa-*-arm-*.txz
-installpkg x/libdrm-*-arm-*.txz
-installpkg x/libX11-*-arm-*.txz
-installpkg x/xorgproto-*-arm-*.txz
-installpkg x/libxcb-*-arm-*.txz
-installpkg x/libpthread-stubs-*-arm-*.txz
-installpkg x/libXau-*-arm-*.txz
-installpkg x/libXdmcp-*-arm-*.txz
-installpkg x/libXext-*-arm-*.txz
-installpkg x/libXdamage-*-arm-*.txz
-installpkg x/libXfixes-*-arm-*.txz
-installpkg x/libXxf86vm-*-arm-*.txz
-installpkg x/libXrender-*-arm-*.txz
-installpkg l/gtk+3-3.*-arm-*.txz
-installpkg l/gdk-pixbuf2-*-arm-*.txz
-installpkg x/libXinerama-*-arm-*.txz
-installpkg x/libXi-*-arm-*.txz
-installpkg x/libXrandr-*-arm-*.txz
-installpkg x/libXcursor-*-arm-*.txz
-installpkg x/libXcomposite-*-arm-*.txz
-installpkg x/libepoxy-*-arm-*.txz
-installpkg l/atk-*-arm-*.txz
-installpkg l/at-spi2-atk-*-arm-*.txz
-installpkg l/at-spi2-core-*-arm-*.txz
-installpkg a/dbus-*-arm-*.txz
-installpkg l/gtk+2-*-arm-*.txz
-installpkg l/dbus-glib-*-arm-*.txz
-installpkg l/pulseaudio-*-arm-*.txz
-installpkg x/libXt-*-arm-*.txz
-installpkg x/libSM-*-arm-*.txz
-installpkg x/libICE-*-arm-*.txz
-installpkg l/libffi-*-arm-*.txz
-installpkg x/libxshmfence-*-arm-*.txz
-installpkg n/openssl-1.1.*-arm-*.txz
-installpkg x/glu-*-arm-*.txz
+installpkg l/pango-*.txz
+installpkg l/glib2-*.txz
+installpkg l/pcre-*.txz
+installpkg l/fribidi-*.txz
+installpkg l/freetype-*.txz
+installpkg l/zlib-*.txz
+installpkg a/bzip2-*.txz
+installpkg l/libpng-*.txz
+installpkg x/fontconfig-*.txz
+installpkg a/util-linux-*.txz
+installpkg l/expat-*.txz
+installpkg l/harfbuzz-*.txz
+installpkg l/cairo-*.txz
+installpkg x/pixman-*.txz
+installpkg x/mesa-*.txz
+installpkg x/libdrm-*.txz
+installpkg x/libX11-*.txz
+installpkg x/xorgproto-*.txz
+installpkg x/libxcb-*.txz
+installpkg x/libpthread-stubs-*.txz
+installpkg x/libXau-*.txz
+installpkg x/libXdmcp-*.txz
+installpkg x/libXext-*.txz
+installpkg x/libXdamage-*.txz
+installpkg x/libXfixes-*.txz
+installpkg x/libXxf86vm-*.txz
+installpkg x/libXrender-*.txz
+installpkg l/gtk+3-3.*.txz
+installpkg l/gdk-pixbuf2-*.txz
+installpkg x/libXinerama-*.txz
+installpkg x/libXi-*.txz
+installpkg x/libXrandr-*.txz
+installpkg x/libXcursor-*.txz
+installpkg x/libXcomposite-*.txz
+installpkg x/libepoxy-*.txz
+installpkg l/atk-*.txz
+installpkg l/at-spi2-atk-*.txz
+installpkg l/at-spi2-core-*.txz
+installpkg a/dbus-*.txz
+installpkg l/gtk+2-*.txz
+installpkg l/dbus-glib-*.txz
+installpkg l/pulseaudio-*.txz
+installpkg x/libXt-*.txz
+installpkg x/libSM-*.txz
+installpkg x/libICE-*.txz
+installpkg l/libffi-*.txz
+installpkg x/libxshmfence-*.txz
+installpkg n/openssl-1.1.*.txz
+installpkg x/glu-*.txz
 <span class="dhash">##</span> move ldconfig out of the way - links will be set up by doinst.sh
 mv /sbin/ldconfig /sbin/ldconfig-bak
-installpkg l/glibc-2.28-arm-*.txz
+installpkg l/glibc-2.29*.txz
 mv /sbin/ldconfig-bak /sbin/ldconfig
 unset ROOT
-</code>
-Mount this directory to the cross compiler sysroot directory
-<code class="green">export SYSROOT=<span class="comment">/opt/cross-pi-gcc/sysroot</span>
-mount -B <span class="comment">$MOZBUILD/FF-RPi3-sysroot</span> $SYSROOT
 </code>
 
 [4] Set up shell variables.
@@ -1620,14 +1629,25 @@ pkg-config needs to access the libs and headers for the target system and this s
 export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
 export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig
 </code>
+Mount SYSROOT
+<code class="green">mount -B <span class="comment">$MOZBUILD/FF-RPi3-sysroot</span> $SYSROOT
+</code>
 Add the cross compiler [arm-linux-gnueabihf-gcc etc..] bin directory to the PATH
-<code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
-export PATH=$XGCC_DIR/bin:$PATH
+<code class="green">export PATH=$XGCC_DIR/bin:$PATH
+</code>
+Set parameter for MOZCONFIG variable
+<code class="green">XCOMPILE=.cross
+</code>
+Set variable for the package name
+<code class="green">PKG_ARCH=armv7_hf
+</code>
+Disable webrtc for FF64+ because of multiple definitions relating to arm webrtc code causing <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162">linker error</a>
+<code class="green">[[ $MAJ_VER -lt 64 ]] &amp;&amp; export DISABLE_WEBRTC='' || export DISABLE_WEBRTC='ac_add_options --disable-webrtc'
 </code>
 
 [5] The build needs to be set up to use the cross compiler [CC] and the rust armv7 crate [--target=]
 
-Create a new common mozconfig, mozconfig.cross
+Create an additional common mozconfig, mozconfig.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.cross << "EOF"
 <span class="dhash">##</span> for cross compiling
@@ -1638,13 +1658,16 @@ ac_add_options --target=armv7-unknown-linux-gnueabihf
 ac_add_options --disable-elf-hack
 
 <span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
-mk_add_options "export LD_LIBRARY_PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/lib"
+mk_add_options "export LD_LIBRARY_PATH=$XGCC_DIR/arm-linux-gnueabihf/lib"
 
-<span class="dhash">##</span> add BINDGEN_CFLAGS for the servo [stylo] build
-mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.2.0 -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.2.0/arm-linux-gnueabihf"
+<span class="dhash">##</span> use the cross tools to strip the arm libraries during installation
+mk_add_options "export STRIP=$XGCC_DIR/arm-linux-gnueabihf/bin/strip"
 
-<span class="dhash">##</span> disable webrtc for FF64+ because of multiple definitions causing linker error
-<span class="dhash">#</span>ac_add_options --disable-webrtc
+<span class="dhash">##</span> add BINDGEN_CFLAGS for the servo/style [stylo] build
+mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.3.0 -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.3.0/arm-linux-gnueabihf"
+
+<span class="dhash">##</span> disable webrtc for FF64+
+$DISABLE_WEBRTC
 
 EOF
 </code>
@@ -1663,15 +1686,12 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
 
 EOF
 </code>
-Set parameter for MOZCONFIG variable
-<code class="green">XCOMPILE=.cross
-</code>
 
 [6] Error:
 <code class="console"> {standard input}: Assembler messages:
  {standard input}:1022: Error: bad expression -- `b #_ZL14SigprofHandleriP9siginfo_tPv'</code>
 This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.
-<code class="green">(cd $MOZBUILD/mozilla
+<code class="green">cd $MOZBUILD/mozilla
 echo $'--- mfbt/LinuxSignal.h
 +++ mfbt/LinuxSignal.h
 @@ -29 +29 @@
@@ -1683,11 +1703,23 @@ echo $'--- mfbt/LinuxSignal.h
 ' | while read line
 do
 patch -p0
-done)
+done
 </code>
-
-[7] Set ARCH for the package name
-<code class="green">PKG_ARCH=armv7_hf
+<b>OR</b>:
+<code class="green">cd $MOZBUILD/mozilla
+echo $'--- mfbt/LinuxSignal.h
++++ mfbt/LinuxSignal.h
+@@ -25 +25,5 @@
+-  asm volatile("b %0" : : "X"(H) : "memory");
++  asm volatile (
++    "bx %0"
++    :
++    : "r"(H), "l"(aSignal), "l"(aInfo), "l"(aContext)
++    : "memory");
+' | while read line
+do
+patch -p0
+done
 </code>
 </code>
 <span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
@@ -1735,10 +1767,7 @@ for 57+ builds:
 <span class="tabs th2"><a href="#close_machpk">close</a></span>
 </div></div>                                                     <!-- mach package - end -->
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
-Run in a sub-shell so that the path is not added permanently</span>
-<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
-DESTDIR=$MOZBUILD/$REL/packaging-FF ./mach install)
+<code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-FF ./mach install
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/firefox &hellip;
@@ -1828,10 +1857,7 @@ Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
-Run in a sub-shell so that the path is not added permanently</span>
-<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
-DESTDIR=$MOZBUILD/$REL/packaging-SM ./mozilla/mach install)
+<code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-SM ./mozilla/mach install
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/seamonkey &hellip;
@@ -1929,10 +1955,7 @@ Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
 Install to $DESTDIR for packaging:
-<span class="green">For cross compiling, prefix PATH so that the cross-binutils strip is used
-Run in a sub-shell so that the path is not added permanently</span>
-<code class="gray">(PATH=/opt/cross-pi-gcc/arm-linux-gnueabihf/bin:$PATH &amp;&amp; \
-DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install)
+<code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
