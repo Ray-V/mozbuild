@@ -135,7 +135,7 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <br>
 <p>Builds can be customized with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a> options and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
 <br>
-<p><span class="green">Additional setting up</span> for cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7 [Raspberry Pi3].
+<p><span class="green">Additional setting up</span> for cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7/aarch64 [Raspberry Pi3].
 <br>
 
 <hr>
@@ -158,19 +158,20 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
 <br>
 <code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-        60.6.0                                  <span class="off_rel">7dc3b931ebe5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+<span class="comment green">armv7</span>   60.6.0                                  <span class="off_rel">7dc3b931ebe5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                   2.57.4.0                      6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57.5.0                      e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+<span class="comment green">armv7</span>             2.57.5.0                      e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               60.4.0            6cc5fc0eaeaf    ece4d20e004b    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              60.5.0            e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+<span class="comment green">armv7</span>                         60.5.0            e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
 </code>
 <br>
-<span class="comment">FFesr 60.6 and FF66 builds have been done with rust 1.31.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0</a></span>
+<span class="comment">FFesr 60.6 and FF66 builds have been done with rust 1.31.0 or 1.34.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0</a></span>
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        66.0                                    <span class="off_rel">164a57c0cdf0</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-        66.0.2 &diamondsuit;                                <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="">a</span>r<span class="">m</span>v<span class="">7</span></span>
+<code class="appx">        66.0.2                                  <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   66.0.2 &diamondsuit;                                <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
+<span class="comment green">aarch64</span> 66.0.2 &diamondsuit;&diamondsuit;                               <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               64.0              8337ebb86a42    f2b7084210a3    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
@@ -178,6 +179,8 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1452448">unusable</a>.</span>
 <br>
 &diamondsuit; <span class="comment">FF66 for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
+<br>
+&diamondsuit;&diamondsuit; <span class="comment">FF66 for aarch64 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1513605">patching</a> for <i>'checking for clock_gettime(CLOCK_MONOTONIC)... no'</i> result</span>
 <br>
 <b><i>beta</i></b>
 <br>
@@ -400,10 +403,10 @@ What is rust and why should I use it? - see <a class="extlink" href="https://hac
 <br>
 <code class="gray">cd $MOZBUILD/sources/
 wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
-URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||')
+URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
 wget $URL
 
-tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
+tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
 cd rust*$ARCH-unknown-linux-gnu
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
 </code>
@@ -657,9 +660,12 @@ EOF
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
 <span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
-<span style="color: #c50000;">wget -O cbindgen-0.8.2.tar.gz https://github.com/eqrion/cbindgen/archive/v0.8.2.tar.gz</span>
-tar xf cbindgen-0.8.2.tar.gz
-cd cbindgen-0.8.2/
+<span class="dhash">##</span> get the latest version #
+<span style="color: #c50000;">wget -O cbindgen-index.html https://github.com/eqrion/cbindgen/</span>
+CBINDGEN_REL=$(grep -o "Release [0-9.]*" cbindgen-index.html | sed 's|Release ||' | head -n1)
+<span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL.tar.gz https://github.com/eqrion/cbindgen/archive/v$CBINDGEN_REL.tar.gz</span>
+tar xf cbindgen-$CBINDGEN_REL.tar.gz
+cd cbindgen-$CBINDGEN_REL/
 cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 
 <span class="dhash">##</span> if cbindgen decides it can't find some rustc libs, set RPATH as per rustc:
@@ -671,7 +677,7 @@ installpkg nodejs-8.12.0-x86_64-1_SBo.txz
 <span class="dhash">##</span> [3] Set MOZBUILD_STATE_PATH so the build completes without prompting
 echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> $MOZBUILD/mozilla/mozconfig.common
 
-<span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the 'comm' directory
+<span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1515812">'comm' directory</a>
 export COMM=comm/
 }
 </code>
@@ -1414,11 +1420,11 @@ EOF
 </code>
 Download and install the 32-bit version of rust:
 <code class="thtwo">cd $MOZBUILD/sources/
-wget -O rust.html https://www.rust-lang.org/en-US/other-installers.html
-URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||')
+wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
+URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
 wget $URL
 
-tar xf rust*$ARCH-unknown-linux-gnu.tar.gz
+tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
 cd rust*$ARCH-unknown-linux-gnu
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
 </code>
@@ -1506,40 +1512,102 @@ The additions fit into the build tree like this:
 │       └── lib
 │           └── rustlib
 │               ├── x86_64-unknown-linux-gnu</span>
-│               └── armv7-unknown-linux-gnueabihf	<i>armv7 crate</i>
-└── FF-RPi3-sysroot					<i>bind mounted to sysroot</i> *
+│               ├── armv7-unknown-linux-gnueabihf	<i>armv7 crate</i>
+│               └── aarch64-unknown-linux-gnu		<i>aarch64 crate</i>
+└── $TARGET_SYSROOT					<i>bind mounted to sysroot</i> *
 
 opt
 └── cross-pi-gcc
     ├── bin						<i>cross compiler</i>
     └── sysroot *					<i>set in cross compiler build</i>
 </code>
-[1] Additional rust requirements
+<br>
+[1] Set variables for a 32-bit [armv7] or 64-bit [aarch64] build.
+<code class="thtwob"><span class="dhash">##</span> <b>32-bit</b> hard float
+<code class="green">export CRATE=armv7-unknown-linux-gnueabihf
+<span class="dhash">##</span> don't use variables used by mozilla - confuses libloading for example ..
+export X_TARGET=arm-linux-gnueabihf
+export X_CC=$X_TARGET-gcc
+export X_CXX=$X_TARGET-g++
+export LIBDIRSUFFIX=""
+<span class="dhash">##</span> Slack_base = where the Slackware packages a-y directories are:
+export Slack_base=<span class="comment">/path_to_Slackware_arm_current</span>
+export TARGET_SYSROOT=<span class="comment">FF-RPi3-arm-sysroot</span>
+<span class="dhash">##</span> Set variable for the package name
+export PKG_ARCH=<span class="comment">armv7_hf</span>
+<span class="dhash">##</span> Disable webrtc for FF64+ on armv7 because of multiple definitions[&diamondsuit;] relating to arm webrtc code causing <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162">linker error</a>
+[[ $MAJ_VER -ge 64 ]] &amp;&amp; export DISABLE_WEBRTC='ac_add_options --disable-webrtc'
+<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+export DISABLE_ELFHACK='ac_add_options --disable-elf-hack'
+</code>
+<span class="dhash">##</span>[&diamondsuit;] If you're feeling lucky, just remove the duplicate code to include webrtc in the 32-bit build:
+<code class="green">cd $MOZBUILD/mozilla
+echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
++++ media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
+@@ -70,13 +69,0 @@
+-
+-#if !defined(ANDROID)
+-#ifdef WEBRTC_ARCH_ARM_V7
+-uint64_t WebRtc_GetCPUFeaturesARM(void) {
+-  return kCPUFeatureARMv7
+-#ifdef WEBRTC_ARCH_ARM_NEON
+-         | kCPUFeatureNEON
+-#endif
+-         | kCPUFeatureVFPv3;
+-}
+-#endif // WEBRTC_ARCH_ARM_V7
+-#endif // !ANDROID
+-
+' | while read line
+do
+patch -p0
+done
+
+export DISABLE_WEBRTC=''
+</code>
+<span class="dhash">##</span> <b>OR:</b>
+<span class="dhash">##</span> <b>64-bit</b>
+<code class="green">export CRATE=aarch64-unknown-linux-gnu
+export X_TARGET=aarch64-linux-gnu
+<span class="dhash">##</span> -march=armv8-a+crc is the compiler default, so just add -mtune=cortex-a53
+export X_CC="$X_TARGET-gcc -mtune=cortex-a53"
+export X_CXX="$X_TARGET-g++ -mtune=cortex-a53"
+export LIBDIRSUFFIX=64
+export Slack_base=<span class="comment">/path_to_Slarm64</span>
+export TARGET_SYSROOT=<span class="comment">FF-RPi3-aarch64-sysroot</span>
+export PKG_ARCH=<span class="comment">aarch64</span>
+<span class="dhash">##</span> webrtc builds ok for aarch64
+export DISABLE_WEBRTC=''
+<span class="dhash">##</span> 'disable-elf-hack' isn't an option for aarch64
+export DISABLE_ELFHACK=''
+</code>
+</code>
+
+[2] Additional rust requirements
 
 For <b>rust</b>, host relates to the architecture that the program is built on, and target relates to the architecture that the program will run on.
 
-For this build, target is set as armv7.
 rustc and cargo and the rust-std crate are already installed for x86 [host].
-Download and install the armv7 crate for building RPi3 apps.
+Download and install the target crate for building RPi3 apps.
 This <b>must</b> be the same version as the host crate, and installed to the same prefix.
 <code class="green">cd $MOZBUILD/sources/
 RUST_VER=$(rustc -V|cut -d" " -f2)
-<span style="color: #c50000;">wget https://static.rust-lang.org/dist/rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz</span>
+<span style="color: #c50000;">wget https://static.rust-lang.org/dist/rust-std-$RUST_VER-$CRATE.tar.xz</span>
 
-tar xf rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf.tar.xz
-cd rust-std-$RUST_VER-armv7-unknown-linux-gnueabihf
+tar xf rust-std-$RUST_VER-$CRATE.tar.xz
+cd rust-std-$RUST_VER-$CRATE
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH
 </code>
 
-[2] Cross compiler
+[3] Cross compiler
 
-This toolchain is based on the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
+The toolchain used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
 
 Set the cross tools directories
 <code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
 export SYSROOT=<span class="comment">$XGCC_DIR/sysroot</span>
 </code>
-<code class="green">installpkg <span class="comment">/tmp/</span>xgcc830-glibc2.29-4.19.27_RPi_headers-en_GB-arm.txz
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc830-glibc2.29-4.19.27_RPi_headers-*.txz
 </code>
 
 There is an issue with the different limits.h priorities which seems to manifest itself in cross compiling for Firefox.
@@ -1549,23 +1617,21 @@ The error is:
 &hellip;
 /opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/wchar2.h:448:3: error: #error "Assumed value of MB_LEN_MAX wrong"</code>
 I've used the solution <a class="extlink" href="https://www.linuxquestions.org/questions/linux-software-2/tar-cross-compile-error-arm-linux-gnueabi-4175642648/">here</a> to resolve this.
-<code class="green">(cd $XGCC_DIR/lib/gcc/*-linux-gnu*/8.?.0/plugin/include/
+<code class="green">(cd $XGCC_DIR/lib/gcc/*-linux-gnu*/8.3.0/plugin/include/
 cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 </code>
 
-[3] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
+[4] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
 
 My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
 This enables me to set up different sysroots for whatever is being cross compiled.
-<code class="green">export ROOT=<span class="comment">$MOZBUILD/FF-RPi3-sysroot</span>
+<code class="green">export ROOT=<span class="comment">$MOZBUILD/$TARGET_SYSROOT</span>
 </code>
 Install kernel headers
-<code class="green">installpkg <span class="comment">/tmp/</span>kernel-headers-4.14.78-RPi3.txz
+<code class="green">installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-RPi3.txz
 </code>
 Install Slackware arm current libs/headers as used for the RPi3
-Slack_base = where the Slackware packages a-y directories are:
-<code class="green"><b>Slack_base</b>=<span class="comment">/path_to_Slackware_arm_current</span>
-cd $Slack_base
+<code class="green">cd $Slack_base
 installpkg l/pango-*.txz
 installpkg l/glib2-*.txz
 installpkg l/pcre-*.txz
@@ -1622,55 +1688,51 @@ mv /sbin/ldconfig-bak /sbin/ldconfig
 unset ROOT
 </code>
 
-[4] Set up shell variables.
+[5] Set up shell variables.
 
 pkg-config needs to access the libs and headers for the target system and this sets it up to prefix $SYSROOT to the -L and -I paths in the .pc files
 <code class="green">export PKG_CONFIG_PATH=
 export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
-export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig:$SYSROOT/usr/share/pkgconfig
+export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib$LIBDIRSUFFIX/pkgconfig:$SYSROOT/usr/share/pkgconfig
 </code>
 Mount SYSROOT
-<code class="green">mount -B <span class="comment">$MOZBUILD/FF-RPi3-sysroot</span> $SYSROOT
+<code class="green">mount -B <span class="comment">$MOZBUILD/$TARGET_SYSROOT</span> $SYSROOT
 </code>
-Add the cross compiler [arm-linux-gnueabihf-gcc etc..] bin directory to the PATH
+Add the cross compiler [$X_TARGET-gcc etc..] bin directory to the PATH
 <code class="green">export PATH=$XGCC_DIR/bin:$PATH
 </code>
 Set parameter for MOZCONFIG variable
 <code class="green">XCOMPILE=.cross
 </code>
-Set variable for the package name
-<code class="green">PKG_ARCH=armv7_hf
-</code>
-Disable webrtc for FF64+ because of multiple definitions relating to arm webrtc code causing <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162">linker error</a>
-<code class="green">[[ $MAJ_VER -lt 64 ]] &amp;&amp; export DISABLE_WEBRTC='' || export DISABLE_WEBRTC='ac_add_options --disable-webrtc'
-</code>
 
-[5] The build needs to be set up to use the cross compiler [CC] and the rust armv7 crate [--target=]
+[6] The build needs to be set up to use the cross compiler [CC] and the rust target crate [--target=]
 
-Create an additional common mozconfig, mozconfig.cross
+Create an additional common mozconfig &Rightarrow; mozconfig.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.cross << "EOF"
 <span class="dhash">##</span> for cross compiling
-CC=arm-linux-gnueabihf-gcc
-ac_add_options --target=armv7-unknown-linux-gnueabihf
+CC=$X_CC
+CXX=$X_CXX
+ac_add_options --target=$CRATE
 
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
-ac_add_options --disable-elf-hack
+$DISABLE_ELFHACK
 
 <span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
-mk_add_options "export LD_LIBRARY_PATH=$XGCC_DIR/arm-linux-gnueabihf/lib"
+mk_add_options "export LD_LIBRARY_PATH=$XGCC_DIR/$X_TARGET/lib$LIBDIRSUFFIX"
 
 <span class="dhash">##</span> use the cross tools to strip the arm libraries during installation
-mk_add_options "export STRIP=$XGCC_DIR/arm-linux-gnueabihf/bin/strip"
+mk_add_options "export STRIP=$XGCC_DIR/$X_TARGET/bin/strip"
 
 <span class="dhash">##</span> add BINDGEN_CFLAGS for the servo/style [stylo] build
-mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.3.0 -I$XGCC_DIR/arm-linux-gnueabihf/include/c++/8.3.0/arm-linux-gnueabihf"
+mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/$X_TARGET/include/c++/8.3.0 -I$XGCC_DIR/$X_TARGET/include/c++/8.3.0/$X_TARGET"
 
-<span class="dhash">##</span> disable webrtc for FF64+
+<span class="dhash">##</span> disable webrtc for FF64+ on armv7
 $DISABLE_WEBRTC
 
 EOF
 </code>
+
 Create a mozconfig.firefox.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.firefox.cross << "EOF"
@@ -1687,10 +1749,10 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/firefox-build-dir
 EOF
 </code>
 
-[6] Error:
+[7] Error patches:
 <code class="console"> {standard input}: Assembler messages:
  {standard input}:1022: Error: bad expression -- `b #_ZL14SigprofHandleriP9siginfo_tPv'</code>
-This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.
+This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.</code>
 <code class="green">cd $MOZBUILD/mozilla
 echo $'--- mfbt/LinuxSignal.h
 +++ mfbt/LinuxSignal.h
@@ -1716,6 +1778,57 @@ echo $'--- mfbt/LinuxSignal.h
 +    :
 +    : "r"(H), "l"(aSignal), "l"(aInfo), "l"(aContext)
 +    : "memory");
+' | while read line
+do
+patch -p0
+done
+</code>
+<code class="console">error: field ‘ufp’ has incomplete type ‘user_vfp’</code>
+<code class="green">cd $MOZBUILD/mozilla
+echo $'--- js/src/wasm/WasmSignalHandlers.cpp
++++ js/src/wasm/WasmSignalHandlers.cpp
+@@ -232 +232,10 @@
+-#  include &lt;sys/user.h>
++struct user_vfp {
++	unsigned long long fpregs[32];
++	unsigned long fpscr;
++};
++
++struct user_vfp_exc {
++	unsigned long	fpexc;
++	unsigned long	fpinst;
++	unsigned long	fpinst2;
++};
+' | while read line
+do
+patch -p0
+done
+</code>
+<code class="console">checking for clock_gettime(CLOCK_MONOTONIC)... no</code>
+<code class="green"><span class="dhash">##</span> for 66 only, fixed in 67 &hellip;
+[[ $MAJ_VER == 66 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla/
+echo $'--- old-configure.in
++++ old-configure.in
+@@ -1305,0 +1306 @@
++                      _SAVE_CFLAGS="$CFLAGS"
+@@ -1306,0 +1308 @@
++                      CFLAGS="$CFLAGS $DSO_PIC_CFLAGS"
+@@ -1314,0 +1317 @@
++                      CFLAGS="$_SAVE_CFLAGS"
+' | while read line
+do
+patch -p0
+done
+}
+</code>
+<code class="console">fatal error: main_FIX.h: No such file or directory</code>
+<code class="green">cd $MOZBUILD/mozilla/
+echo $'--- media/libopus/silk/arm/arm_silk_map.c
++++ media/libopus/silk/arm/arm_silk_map.c
+@@ -31 +31 @@
+-#include "main_FIX.h"
++#include "../fixed/main_FIX.h"
 ' | while read line
 do
 patch -p0
