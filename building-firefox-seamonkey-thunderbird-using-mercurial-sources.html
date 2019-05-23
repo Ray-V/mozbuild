@@ -121,23 +121,19 @@ color:darkred;
 </head><body>
 <br>
 <h3> Building Firefox, SeaMonkey and Thunderbird from mercurial repositories</h3>
-Covers building from the release repositories <b>release</b>, <b>beta</b>, and <b>esr52/60</b>; and from <b>central</b>.
-<br>
-The <b>mozilla-unified</b> repository is used to avoid having up to 4 different copies of mozilla repositories, and is smaller than most of them.
+Build <b>esr60</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
 <p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
 Packaging - installation and creation - is Slackware specific, which I guess would be adaptable to other packaging systems.
 <br>
 Packaging from the 'mach' built packages is generic.
 <p>
-Build <span style="background:#FFFADD;">Firefox</span> with gtk2 optionally for 52.x releases - gtk3 otherwise, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
-and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that Firefox source.
+Build <span style="background:#FFFADD;">Firefox</span> with gtk3, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
+and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla source.
 <br>
-<p>Builds can be customized with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a> options and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
+<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [Raspberry Pi3]; and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
+<p>Customization options with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a>.
 <br>
-<p><span class="green">Additional setting up</span> for cross compiling <a href="#FF_xcompile">Firefox</a> - <a href="#SM_xcompile">Seamonkey</a> - <a href="#TB_xcompile">Thunderbird</a> for armv7/aarch64 [Raspberry Pi3].
-<br>
-
 <hr>
 <b>References</b><br>
 <a class="extlink" href="http://www.linuxfromscratch.org/blfs/view/svn/xsoft/firefox.html">LFS</a> for mozconfig setup and the inspiration to do this
@@ -148,14 +144,14 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 &hellip; and other Mozilla Developer pages &hellip;
 
 <p><a name="Latest"></a><br>
-<b>Latest builds</b>
+<b>Latest builds</b> - FF67.0 release &hellip;
 <br>
-l10n files are updated from the l10n-central base revisions during <a href="#l10n">Localization</a> using compare-locales 
+l10n files are updated from the l10n-central base revisions during <a href="#l10n"><span class="red">Localization</span></a> using compare-locales 
 <br><code class="appx">                                                   built to <span class="off_rel">{official}</span> revision/changeset
         <u>Firefox</u>   <u>SeaMonkey</u>   <u>Thunderbird</u>       <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
 </code>
 <br>
-<b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
+<b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[4]'</span>
 <br>
 <code class="appx">        60.4.0                                  <span class="off_rel">6cc5fc0eaeaf</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>   60.6.0                                  <span class="off_rel">7dc3b931ebe5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
@@ -165,28 +161,29 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <span class="comment green">armv7</span>                         60.5.0            e3f1767f8309    0afc082591ad    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
 </code>
 <br>
-<span class="comment">FFesr 60.6 and FF66 builds have been done with rust 1.31.0 or 1.34.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0</a></span>
+<span class="comment">FFesr 60.6 and FF66+ builds have been done with rust 1.31.0 or 1.34.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0</a></span>
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        66.0.2                                  <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   66.0.2 &diamondsuit;                                <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
-<span class="comment green">aarch64</span> 66.0.2 &diamondsuit;&diamondsuit;                               <span class="off_rel">ed39a05717aa</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
+<code class="appx">        67.0                                    <span class="off_rel">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   67.0 &diamondsuit;                                  <span class="off_rel">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<span class="comment green">aarch64</span> 67.0                                    <span class="off_rel">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               64.0              8337ebb86a42    f2b7084210a3    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1452448">unusable</a>.</span>
+<span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
 <br>
-&diamondsuit; <span class="comment">FF66 for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
-<br>
-&diamondsuit;&diamondsuit; <span class="comment">FF66 for aarch64 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1513605">patching</a> for <i>'checking for clock_gettime(CLOCK_MONOTONIC)... no'</i> result</span>
+&diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
 <br>
 <b><i>beta</i></b>
 <br>
-<code class="appx">        60.0b3                                  e0827182ac6c    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                  2.57                          e0827182ac6c    2d485f0d3723    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
+<code class="appx">        67.0b15                                 d1a98fb42cb8    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                  <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              67.0b3            d1a98fb42cb8    5d37c065e0f2    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 </code>
+<br>
+<span class="comment">SM2.64 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
 <br>
 <b><i>central [Nightly]</i></b>
 <br>
@@ -196,33 +193,25 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br>
 <span class="comment">[Nightly] builds from mozilla changeset f080a35baf6a require gcc 6.1+.<br>
 This SM2.58a1 build completes, but URLs will not launch from the address bar or CLI.</span>
-<br>
-<b><i>esr52</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[5]'</span>
-<br>
-<code class="appx">        52.9.0                                  <span class="off_rel">755067c14b06</span>    <span class="comment">n/a</span>             3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.49.9.0                      755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                              52.9.0            755067c14b06    25c3e70855eb    3b1783bdb6fd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <p>
 
 <br>
 <b>Build times</b>
-<br><code>Machine			dual-core 2.2 GHz			2x quad-core 3GHz
-MOZ_MAKE_FLAGS		-j2					-j10		 -j12
-Firefox 		~110 mins [FF52]  ~240 mins [FF65]	~23 mins [FF52]  ~40 mins [FF60esr]
-SeaMonkey/Thunderbird	~111 mins [TB52]  ~240 mins [TB64]	~24 mins [TB52]  ~41 mins [SM2.57esr/TB60esr]</code>
+<br><code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
+MOZ_MAKE_FLAGS		-j2			-j12
+Firefox 		~240 mins [FF65]	~40 mins [FF60esr]
+SeaMonkey/Thunderbird	~240 mins [TB64]	~41 mins [SM2.57esr/TB60esr]</code>
 <br>
 Higher values for '-j' on the dual-core machine cause random build errors, unless built with adequate memory or swap.
 <br>
-Typical usage is 6GB actual, 3GB swap for -j6.
+Typical usage is 6GB actual, 3GB swap for -j2.
 
 <p><a name="DirStructure"></a><br>
     <b>Directory structure</b><br>
     The build is done within this directory structure [key directories only]:<br>
     <code>$MOZBUILD
 ├── mozilla					# unpacked mozilla-unified bundle
-│   └── extensions
-│       <span class="green">└── {irc,inspector}			# mercurial clones</span>
 ├── sources
 │   ├── autoconf_213				# autoconf-2.13 installation
 │   ├── llvm-$ARCH				# for LLVM_CONFIG for stylo build
@@ -234,7 +223,7 @@ Typical usage is 6GB actual, 3GB swap for -j6.
 │   <span class="red">├── $L10N					# mercurial clone</span>
 │   <span class="red">├── merge-$L10N 				# updated $L10N files</span>
 │   <span class="red">└── wip 					# temporary workspace for FF57+ builds</span>
-└───$REL						# build tree for each of release, beta, esr52/60, central
+└───$REL						# build tree for each of release, beta, esr60, central
     ├── comm-$REL					# mercurial clone
     │   └── mozilla					# bind to $MOZBUILD/mozilla
     │       <span class="thtwo">└── comm					# work-around for FF/TB 64+ &amp; SM 2.57+</span>
@@ -253,13 +242,11 @@ Typical usage is 6GB actual, 3GB swap for -j6.
 <br>
 <code class="gray">export MOZBUILD=<b>/mozbuild</b>
 <span class="dhash">##</span> Set which repositories to clone:
-export REPOS="<b>release</b> <b>beta</b> <b>esr52</b> <b>esr60</b> <b>central</b>"
+export REPOS="<b>release</b> <b>beta</b> <b>esr60</b> <b>central</b>"
 <span class="dhash">##</span> choose which to build:
 export REL=<span class="comment"><b>esr60</b></span>
 <span class="dhash">##</span> set number of parallel jobs
 export NUMJOBS=-j$(getconf _NPROCESSORS_ONLN) &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
-<span class="dhash">##</span> 'gtk2' option for esr52 only - 'cairo-gtk2' option has been removed from 53.x; otherwise 'gtk3'
-export GTK=gtk3 &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; export GTK=gtk2
 <span class="dhash">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
 export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686 ; export PKG_ARCH=$ARCH
 export LOCZN=-$(echo en-US | tr - _)
@@ -290,9 +277,9 @@ It also puts less of a load on the server - see <a class="extlink" href="http://
 Requires mercurial with zstd support [v4.1.2 works], otherwise view 'bundles' file and choose compression type<br>
 <code class="gray">cd $MOZBUILD/sources
 <span class="dhash">##</span> get mozilla-unified bundle
-wget -O bundles https://hg.cdn.mozilla.net/
+<span style="color: #c50000;">wget -O bundles https://hg.cdn.mozilla.net/</span>
 BUNDLE=$(grep mozilla-unified.*zstd bundles | sed 's|.*href="||;s|">.*$||')
-wget -O mozilla-unified.bundle https://hg.cdn.mozilla.net/$BUNDLE
+<span style="color: #c50000;">wget -O mozilla-unified.bundle https://hg.cdn.mozilla.net/$BUNDLE</span>
 
 cd $MOZBUILD
 <span class="dhash">##</span> unbundle mozilla-unified
@@ -308,7 +295,7 @@ hg update -R mozilla
 </code>
 
 <p>
-comm-$REL, chatzilla, inspector, and locale have to be cloned as no bundle is available.
+comm-$REL and locale have to be cloned as no bundle is available.
 <br>
 There is a comm-central bundle, but to keep things consistent, let's clone that too &hellip;
 <br>
@@ -323,31 +310,9 @@ hg clone https://hg.mozilla.org${RELEASES:-""}/comm-$repo/
 done)
 </code>
 
-<p> Add chatzilla [IRC] and inspector [DOM] repos if required.
-<br>
-Although these are shown as optional, they are in fact default build options for SeaMonkey 2.49 and would have to be specifically excluded from the SeaMonkey build.
-<br>
-<code class="green">(cd $MOZBUILD/mozilla/extensions
-hg clone https://hg.mozilla.org/chatzilla/ irc
-hg clone https://hg.mozilla.org/dom-inspector/ inspector)
-</code>
-<p>
-From FF57:
-<br>Chatzilla extension doesn't work from mozilla [firefox quantum] 57 onwards - that is from SeaMonkey 2.54 onwards [<a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1392807">bugzilla</a>, <a class="extlink" href="http://chatzilla.hacksrus.com/">Latest News</a>, <a class="extlink" href="https://blog.mozilla.org/addons/2016/11/23/add-ons-in-2017/">why</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1322442">solution?</a>]
-<br>
-Trying to run it from SeaMonkey will give a GUI error message:
-<br><code class="console">Remote XUL
-This page uses an unsupported technology that is no longer available by default.
-</code>
-<br>
-and a console error message:
-<br><code class="console">JavaScript error: chrome://chatzilla/content/handlers.js, line 10: TypeError: client.deck is undefined
-JavaScript error: chrome://chatzilla/content/static.js, line 927: TypeError: client.statusElement is undefined
-</code>
-
 <p>
 non-US locale<br>
-Use l10n mozilla-central repository and revert to the official revisions when required as per l10n_changesets.txt [FFesr52], or l10n-changesets.json [FF59+].
+Use l10n mozilla-central repository and revert to the official revisions when required as per l10n-changesets.json.
 <br>
 <code class="red">(cd $MOZBUILD/l10n/
 hg clone https://hg.mozilla.org/l10n-central/$L10N/)
@@ -376,7 +341,7 @@ comment out line 50 in package-manifest.in &hellip;
 Links to dictionaries are available at <a class="extlink" href="https://addons.mozilla.org/language-tools/">Mozilla addons</a>
 <br>
 <code class="red">cd $MOZBUILD/sources
-wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span class="comment">british-english-dictionary-2/addon-461570-latest.xpi</span>
+<span style="color: #c50000;">wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span class="comment">british-english-dictionary-2/addon-461570-latest.xpi</span></span>
 </code>
 
 <p>
@@ -385,7 +350,7 @@ wget -O $L10N-dict.xpi https://addons.mozilla.org/firefox/downloads/latest/<span
 <br>Build and install to temporary directory for use with this build only.
 <br>
 <code class="gray">cd $MOZBUILD/sources
-wget http://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz
+<span style="color: #c50000;">wget http://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz</span>
 
 tar xf autoconf-2.13.tar.gz
 cd autoconf-2.13
@@ -399,12 +364,10 @@ autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and thi
 <p>
 <b>Rust</b>
 <br>
-What is rust and why should I use it? - see <a class="extlink" href="https://hacks.mozilla.org/2016/07/shipping-rust-in-firefox/">here</a> and <a class="extlink" href="http://www.zdnet.com/article/mozilla-begins-process-of-letting-firefox-rust/">here</a>. Building with rust is the default for 54.x onwards.
-<br>
 <code class="gray">cd $MOZBUILD/sources/
-wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
+<span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html</span>
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
-wget $URL
+<span style="color: #c50000;">wget $URL</span>
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
 cd rust*$ARCH-unknown-linux-gnu
@@ -427,8 +390,6 @@ REPOS=$REPOS
 
 cd $MOZBUILD
 hg pull -R mozilla
-<span class="green">hg pull -R mozilla/extensions/inspector
-hg pull -R mozilla/extensions/irc</span>
 <span class="red">hg pull -R l10n/$L10N</span>
 
 for repo in $REPOS
@@ -437,7 +398,7 @@ hg pull -R $repo/comm-$repo
 done
 
 <span class="dhash">##</span> De-clutter the mozilla[-unified] bookmarks list
-sed -i '/aurora/d;/esr[1-4]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
+sed -i '/aurora/d;/esr[1-5]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
 </code>
 <span class="tabs"><a href="#close_chset">close</a></span>
 </div>
@@ -450,8 +411,6 @@ Set up the local repositories for chosen $REL, removing any changes made for pre
 <code class="gray">cd $MOZBUILD
 hg update $REL -C -R mozilla
 hg update default -C -R $REL/comm-$REL/
-<span class="green">hg update default -C -R mozilla/extensions/inspector
-hg update default -C -R mozilla/extensions/irc</span>
 <span class="red">hg update default -C -R l10n/$L10N</span>
 </code>
 <p>
@@ -477,17 +436,17 @@ echo $FF_VER
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 cd $MOZBUILD/sources/
-<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr52/esr60 version
-wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
+<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr60 version
+<span style="color: #c50000;">wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/</span>
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
 
 <span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
-wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/
+<span style="color: #c50000;">wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/</span>
 BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
 
 <span class="dhash">##</span> [3] Download the .json file which includes the changeset reference for that build and find the changeset
 JSON="firefox-$(echo $REL_CAND |cut -d- -f1).json"
-wget -O $JSON https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/linux-$ARCH/en-US/$JSON
+<span style="color: #c50000;">wget -O $JSON https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/linux-$ARCH/en-US/$JSON</span>
 REL_CAND_CS=$(grep stamp $JSON |colrm 1 23|colrm 13)
 
 cd $MOZBUILD/mozilla/
@@ -502,7 +461,7 @@ The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEAS
 <span class="dhash">##</span> Set to a sufficiently high number for the changeset to be found
 <b>LOG_NUM</b>=<span class="comment">4000</span>
 <span class="dhash">##</span> Set the Firefox version
-<b>REL_TAG</b>=<span class="comment">52_7_3</span>
+<b>REL_TAG</b>=<span class="comment">60_6_0</span>
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 cd $MOZBUILD/mozilla/
@@ -555,8 +514,8 @@ hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 </code>
 &hellip; and the mozilla changeset used can be set as shown above for mozilla [<span style="font:normal bold 10pt sans;">BUILD_CS=88497e338153</span>], or left as set above for Firefox [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>]
 
-Check the revision
-<code class="green">hg parent -R $MOZBUILD/$REL/comm-$REL
+Check the comm-$REL revision:
+<code class="appx">hg parent -R $MOZBUILD/$REL/comm-$REL
 </code>
 
 <span class="tabs"><a href="#close_known_rel">close</a></span>
@@ -564,22 +523,6 @@ Check the revision
 <!--
 Building to a changeset - end
 -->
-
-<p><br>
-<b><a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1384062">Patch required</a></b> for esr52 build error:
-<br>
-<code class="console">AssertionError
-  File "..../testing/mozbase/mozsystemmonitor/mozsystemmonitor/resourcemonitor.py", line 289, in stop
-    assert self._running
-</code>
-<br>
-<code class="gray">[[ $REL == esr52 ]] &amp;&amp; \
-[[ ! $(grep "return self._pipe.poll" $MOZBUILD/mozilla/testing/mozbase/mozsystemmonitor/mozsystemmonitor/resourcemonitor.py) ]] &amp;&amp; \
-cd $MOZBUILD/sources/
-[[ ! -e 8d9ae8c45dd0 ]] &amp;&amp; wget https://hg.mozilla.org/mozilla-central/raw-rev/8d9ae8c45dd0
-cd $MOZBUILD/mozilla/
-patch -p1 &lt; $MOZBUILD/sources/8d9ae8c45dd0
-</code>
 
 <p>
 Find the Firefox major version for later version dependent settings
@@ -601,7 +544,7 @@ mozconfig.common:
 <code class="gray">(cd $MOZBUILD/mozilla
 cat &gt; mozconfig.common &lt;&lt; "EOF"
 <span class="dhash">##</span> From FF66, AUTOCONF has to be 'exported' to be found by the js/src configuration
-<span class="dhash">##</span> so to forestall any future problems, let's export everything
+<span class="dhash">##</span> so to attempt to forestall any future problems, let's export everything
 mk_add_options "export MOZ_MAKE_FLAGS=$NUMJOBS"
 mk_add_options "export NO_MERCURIAL_SETUP_CHECK=1"
 mk_add_options "export AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf"
@@ -611,18 +554,19 @@ mk_add_options "export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-con
 ac_add_options --prefix=/usr
 
 <span class="dhash">##</span> If you have installed DBus-Glib comment out this line:
-#ac_add_options --disable-dbus
+<span class="dhash">#</span>ac_add_options --disable-dbus
 
 <span class="dhash">##</span> If you have installed dbus-glib, and you have installed (or will install)
 <span class="dhash">##</span> wireless-tools, and you wish to use geolocation web services, comment out
 <span class="dhash">##</span> this line
 ac_add_options --disable-necko-wifi
 
-<span class="dhash">##</span> Build with gtk2 or gtk3
-ac_add_options --enable-default-toolkit=cairo-$GTK
+<span class="dhash">##</span> Build with cairo-gtk3
+<span class="dhash">##</span> Other option is cairo-gtk3-wayland
+ac_add_options --enable-default-toolkit=cairo-gtk3
 
 <span class="dhash">##</span> Uncomment this option if you don't have PulseAudio installed
-#ac_add_options --disable-pulseaudio
+<span class="dhash">#</span>ac_add_options --disable-pulseaudio
 
 <span class="dhash">##</span> If you have installed GConf, comment out this line
 ac_add_options --disable-gconf
@@ -631,8 +575,8 @@ ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
 ac_add_options --disable-tests
 ac_add_options --enable-optimize
+<span class="dhash">##</span> build Firefox as 'Nightly' and Thunderbird as 'Daily'
 ac_add_options --disable-official-branding
-#ac_add_options --with-pthreads
 ac_add_options --with-system-zlib
 
 <span class="dhash">##</span> option to disable stylo for [ FF -le 60 ]
@@ -642,25 +586,13 @@ EOF
 )
 </code>
 
-<br>
-These options are not recognized from 57.x and cause a build failure:
-<br>
-<code class="gray">[[ $MAJ_VER -lt 57 ]] &amp;&amp; \
-(cd $MOZBUILD/mozilla
-cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-ac_add_options --enable-safe-browsing
-ac_add_options --enable-url-classifier
-
-EOF
-)
-</code>
 <p>
 <b>FF64</b>+ needs additional setting up
 <br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
 <span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
-<span class="dhash">##</span> get the latest version #
+<span class="dhash">##</span> determine the latest version
 <span style="color: #c50000;">wget -O cbindgen-index.html https://github.com/eqrion/cbindgen/</span>
 CBINDGEN_REL=$(grep -o "Release [0-9.]*" cbindgen-index.html | sed 's|Release ||' | head -n1)
 <span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL.tar.gz https://github.com/eqrion/cbindgen/archive/v$CBINDGEN_REL.tar.gz</span>
@@ -680,19 +612,6 @@ echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> $MOZBUI
 <span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1515812">'comm' directory</a>
 export COMM=comm/
 }
-</code>
-<p>
-For optional non-US single locale version for esr52 builds only:&nbsp;
-<br>Produces a "TypeError: 'NoneType' object is not iterable" build error for FF57+ - see 'Workaround for FF57+' in '<a href="#l10n">Localization</a>'
-<br><code class="red">[[ $MAJ_VER -lt 57 ]] &amp;&amp; \
-(cd $MOZBUILD/mozilla
-cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dhash">##</span> To build a single locale version
-ac_add_options --enable-ui-locale=$L10N
-ac_add_options --with-l10n-base=$MOZBUILD/l10n
-
-EOF
-)
 </code>
 
 <p>
@@ -746,7 +665,7 @@ EOF
 <p>
 Bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
 <br>
-Needed for SeaMonkey/Thunderbird builds, and to simplify the use of compare-locales for localization.
+Needed for Thunderbird esr60 builds, and to simplify the use of compare-locales for localization.
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 mkdir -p mozilla
@@ -793,23 +712,28 @@ echo 'pref("browser.tabs.remote.desktopbehavior", true);' >> $REL/comm-$REL/suit
 To enable default fallback encoding to be set to UTF-8:
 <code class="green"><span class="dhash">##</span> <b>Firefox and SeaMonkey</b>:
 <span class="dhash">##</span> remove UTF8 block:
-[[ $MAJ_VER -ge 56 ]] &amp;&amp; \
-sed -i 's|IsAsciiCompatible() .*$|IsAsciiCompatible() ) {|;/UTF_8/d' mozilla/dom/encoding/FallbackEncoding.cpp || \
-sed -i 's|(mFallback).*$|(mFallback)) {|;/UTF-8/d' mozilla/dom/encoding/FallbackEncoding.cpp
+sed -i 's|IsAsciiCompatible() .*$|IsAsciiCompatible() ) {|;/UTF_8/d' mozilla/dom/encoding/FallbackEncoding.cpp
 
 <span class="dhash">##</span> set "Fallback Text Encoding" to 'Unicode' by default
 <span class="dhash">##</span> otherwise, "Fallback Text Encoding" will default to 'Default for Current Locale':
 sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' mozilla/modules/libpref/init/all.js
 
 <span class="dhash">##</span> <b>Firefox</b>:
-<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu:
-[[ $MAJ_VER -lt 56 ]] &amp;&amp; line_no=272 || line_no=293
-sed -i "${line_no}i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
+<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu -
+<span class="dhash">##</span> Replace/remove 'legacy' reference in menu -
+<span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;' -
+[[ $MAJ_VER == 60 ]] &amp;&amp; {
+sed -i "293i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
 sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-<span class="dhash">##</span> replace/remove 'legacy' reference in menu:
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
-<span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
-sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/mozilla/browser/locales/en-US/chrome/browser/preferences/{colors,fonts}.dtd
+sed -i 's| [a-z]* selections| the selections|' mozilla/browser/locales/en-US/chrome/browser/preferences/{colors,fonts}.dtd
+} || {
+sed -i 's|^.*turkish.*$|&amp;\n            &lt;menuitem data-l10n-id="fonts-languages-fallback-name-unicode"     value="UTF-8"/>|' mozilla/browser/components/preferences/fonts.xul
+sed -i 's|^.*turkish.*$|&amp;\n                fonts-languages-fallback-name-unicode.label,|' mozilla/browser/components/preferences/in-content/main.xul
+sed -i 's|^.*Turkish.*$|&amp;\nfonts-languages-fallback-name-unicode =\n    .label = Unicode|' mozilla/browser/locales/en-US/browser/preferences/fonts.ftl
+sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/browser/preferences/fonts.ftl
+sed -i 's| [a-z]* selections| the selections|' mozilla/browser/locales/en-US/browser/preferences/{colors,fonts}.ftl
+}
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 <span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Browser|Languages|Fallback Text Encoding" menu:
@@ -830,25 +754,15 @@ sed -i 's| [a-z]* selections| the selections|' $REL/comm-$REL/mail/locales/en-US
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/navigator.xul
 </code>
-<b>[4]</b> Extensions - Chatzilla &amp; Inspector:</span>
-<b><i>only for esr52</i></b>
-Chatzilla can be built into Firefox, but can't be enabled without turning off Mozilla verification for extensions <span class="comment">[xpinstall.signatures.required;false]</span> - so it's not included in this build. As a download from Mozilla addons, it IS verified.
-The default extensions for SeaMonkey are "inspector irc gio" <span class="comment">[suite/confvars.sh:MOZ_EXTENSIONS_DEFAULT=" inspector irc gio"]</span>.
-
-<b>[5]</b> For esr52/60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
+<b>[4]</b> For esr60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 [[ $REL == esr* ]] &amp;&amp; {
 echo 2.$[$MAJ_VER-3].$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
 cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
 }
 </code>
-<b>[6a]</b> For esr52, set new tab page to blank:
-<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
-[[ $REL == esr52 ]] &amp;&amp; \
-echo "body { display:none; }" > $MOZBUILD/mozilla/browser/base/content/newtab/newTab.css
-</code>
-<b>[6b]</b> Change default page options for FF57+:
-Ref. aboutNewTabService.js:
+<b>[5]</b> Change default page options for FF57+:
+Ref. [aA]boutNewTabService.js{,m}:
 <code class="console"> * 1. Browser chrome access:
  *
  * When the user issues a command to open a new tab page, usually clicking a button
@@ -868,17 +782,19 @@ Ref. aboutNewTabService.js:
  * NOTE: "about:newtab" will always result in a default newtab page, and never an overridden URL.
  *</code>
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
-[[ $MAJ_VER -ge 57 ]] &amp;&amp; {
-<span class="dhash">##</span> Default to blank page on start ...
-sed -i 's|about:home|about:blank|' $MOZBUILD/mozilla/browser/branding/*/locales/browserconfig.properties
-<span class="dhash">##</span> ... and stop the privacy page loading:
+<span class="dhash">##</span> Default to blank page on start &hellip;
+<span class="dhash">##</span> This <span class="appx">"about:blank";</span> replacement could be <span class="appx">"file:///path/to/my/startup_page.html";</span> to load a customized page:
+[[ $MAJ_VER == 60 ]] &amp;&amp; \
+sed -i 's|about:home|about:blank|' $MOZBUILD/mozilla/browser/branding/*/locales/browserconfig.properties || \
+sed -i 's|pref("browser.startup.homepage".*$|pref("browser.startup.homepage","about:blank");|' $MOZBUILD/mozilla/browser/app/profile/firefox.js
+
+<span class="dhash">##</span> &hellip; and stop the privacy page loading:
 sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareporting-prefs.js
+
 <span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button - about:newtab continues to load the newtab page.
-<span class="dhash">##</span> This <span class="appx">"about:blank";</span> replacement could be <span class="appx">"file:///path/to/my/newtab_page.html";</span> to load a customized page:
-sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/aboutNewTabService.js
-}
+sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/[aA]boutNewTabService.js*
 </code>
-<b>[7]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
+<b>[6]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla/ | grep \* |cut -d: -f2)
 </code>
@@ -1138,42 +1054,15 @@ Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
 rm -rf $MOZBUILD/l10n/wip/*
+
+<span class="dhash">##</span> unmount 'comm' directory as it duplicates the search results
+umount $MOZBUILD/release/comm-release/mozilla/comm
 </code>
 To build to a release version:
 <code class="green"><b>Either:</b>
-For FFesr52, download the l10n_changesets.txt file which contains the l10n revision that it was built to [probably hasn't changed since 52.0]:
-<code class="red"><span class="dhash">##</span> This defaults to the current repo Firefox version which won't be a valid release candidate unless the bookmark has been set to the appropriate revision - see '<a href="#known_rel">Building to a specific revision</a>' &hellip;
-<span class="dhash">##</span> &hellip; override with <b>FF_VER</b>=xx.x[.x] for an earlier version
-<b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
-echo $FF_VER
-
-[[ $REL == esr52 ]] &amp;&amp; {
-cd $MOZBUILD/sources/
-<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this esr52 version
-wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/
-REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o ${FF_VER}esr-candidates | head -n1)
-
-<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
-wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/
-BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
-
-<span class="dhash">##</span> [3] Download the .txt file which includes the changeset reference for that build and find the changeset
-wget -O ${FF_VER}_${BUILD}_l10n_changesets.txt https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/l10n_changesets.txt 
-export L10N_CS=$(grep $L10N ${FF_VER}_${BUILD}_l10n_changesets.txt|cut -d" " -f2)
-
-<span class="dhash">##</span> Revert l10n repo to changeset
+From FF59.0, the l10n revisions are contained in a .json file:
+<code class="red">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
-
-<span class="dhash">##</span> Check that l10n repo is at the correct changeset:
-<span class="dhash">##</span> echo $L10N_CS ; hg parent -R $MOZBUILD/l10n/$L10N/
-}
-</code>
-<b>Or:</b>
-From FF59.0, the corresponding l10n revisions are contained in a .json file:
-<code class="red">[[ $MAJ_VER -ge 59 ]] &amp;&amp; {
-export L10N_CS=$(grep -A 13 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
-hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
-}
 </code>
 <b>Or:</b>
 For a known changeset:
@@ -1181,24 +1070,10 @@ For a known changeset:
 export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
 </code></code>
-<i>compare-locales</i> doesn't pick up any locale.version change in chatzilla.properties, so to ensure that it matches the en-US string:
-<code class="green"><code class="red">[[ $REL == esr52 ]] &amp;&amp; \
-sed -i "s|locale.version =.*$|$(grep "locale.version =" $MOZBUILD/mozilla/extensions/irc/locales/en-US/chrome/chatzilla.properties)|" \
-$MOZBUILD/l10n/$L10N/extensions/irc/chrome/chatzilla.properties
-</code></code>
-Add 'irc' paths for <i>compare-locales</i> to include Chatzilla when creating merge-$L10N:
-<code class="green"><code class="red">[[ $REL == esr52 ]] &amp;&amp; \
-sed -i 's|devtools_client.*$|&amp;\nextensions_irc = mozilla/extensions/irc/locales/l10n.ini|' $MOZBUILD/$REL/comm-$REL/suite/locales/l10n.ini
-sed -i 's|devtools/client",|&amp; "extensions/irc",|' $MOZBUILD/$REL/comm-$REL/suite/locales/filter.py
-</code></code>
-This string in en-GB chatzilla.properties is not consistently localized in all revisions, so make sure:
-<code class="green"><code class="red">[[ $REL == esr52 &amp;&amp; $L10N == en-GB ]] &amp;&amp; \
-sed -i 's|msg.mnu.motifs.*$|msg.mnu.motifs     = Co\&amp;lour Scheme|' $MOZBUILD/l10n/$L10N/extensions/irc/chrome/chatzilla.properties
-</code></code>
 
 <b>Comparing en-US and $L10N localizations</b> &hellip;
 Create a list of default en-US localization files:
-<code class="red">tree -fi $MOZBUILD/$REL/comm-$REL/{mozilla,suite,mail} | grep en-US | grep ".*\..*$" > $MOZBUILD/l10n/en-US-l10n-files
+<code class="red">tree -fi $MOZBUILD/$REL/comm-$REL/{mozilla,suite,mail} | grep -v android | grep en-US | grep ".*\..*$" > $MOZBUILD/l10n/en-US-l10n-files
 </code>
 &hellip; <b>copy new files</b> &hellip;
 Run compare-locales and identify the new files found &hellip;
@@ -1241,7 +1116,7 @@ $MY_FAV_EDITOR $(cat $MOZBUILD/l10n/new-files-$L10N-path)
 &hellip; <b>new strings added</b>
 <i>compare-locales</i> will append any new lines to existing localization files while copying them to merge-$L10N.
 The following displays the additional lines to show whether any of them need localizing.
-Edit the <b><i>merge-$L10N</b></i> file because that has priority over the equivalent $L10N file during the build [except Chatzilla - see next].
+Edit the <b><i>merge-$L10N</b></i> file because that has priority over the equivalent $L10N file during the build.
 <code class="red">(cd $MOZBUILD/l10n/
 <span class="dhash">##</span> list the files that have been added to:
 echo -e 'mozilla_browser\nsuite\nmail' | while read line ; do
@@ -1258,38 +1133,29 @@ done > added-diffs
 $MY_FAV_EDITOR added-diffs)
 </code>
 
-A further issue with <i>compare-locales</i> is that the SeaMonkey build doesn't include any Chatzilla files from merge-$L10N.
-So, copy any new or modified 'irc' files from merge-$L10N to $L10N.
-<code class="green"><code class="red">[[ $REL == esr52 ]] &amp;&amp; \
-(cd $MOZBUILD/l10n/$L10N/
-cp -a ../merge-$L10N/extensions/irc/* extensions/irc)
-</code></code>
-
 <b>Set up searchplugins for locale.</b>
 This is en-GB specific, but should be adaptable for other locales &hellip;
 Set up google search on google.co.uk:
-<code class="red">(cd $MOZBUILD/mozilla/browser/locales/searchplugins/
+<code class="red">[[ $MAJ_VER -ge 62 ]] &amp;&amp; SEARCHPLUGINS_DIR=$MOZBUILD/mozilla/browser/components/search/searchplugins/ || \
+SEARCHPLUGINS_DIR=$MOZBUILD/mozilla/browser/locales/searchplugins/
+(cd $SEARCHPLUGINS_DIR
 cat google.xml | sed 's|google.com|google.co.uk|g' > google-$L10N.xml)
 </code>
-<a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1303636">eBay was removed</a> from the list of built-in searchplugins, although it has been re-instated with a nondescript icon.
+<a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1303636">eBay was removed</a> from the list of built-in searchplugins, although it has been re-instated.
 To recover the previous icon for this personal build, extract the file from a changeset that contains it:
 <code class="red">(cd $MOZBUILD/l10n/$L10N
 hg revert -r 1a7204 mail/searchplugins/eBay-$L10N.xml
-mv mail/searchplugins/eBay-$L10N.xml $MOZBUILD/mozilla/browser/locales/searchplugins)
-</code>
-Set the default Firefox searchplugins of choice:
-<code class="red">sed -i "s|.*chambers-en-GB.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $MOZBUILD/mozilla/browser/locales/search/list.json
+mv mail/searchplugins/eBay-$L10N.xml $SEARCHPLUGINS_DIR)
 </code>
 
 <b>To enable default fallback encoding to be set to UTF-8</b>:
 Requires <b>[2]</b> in the previous section '<a href="#Prefs">User preferences</a>' to have been set up.
 <code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
 <span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
-
 (cd $MOZBUILD/l10n/
-sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|' \
--e '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' \
-{,merge-}$L10N/browser/chrome/browser/preferences/fonts.dtd  2>/dev/null)
+[[ $MAJ_VER == 60 ]] &amp;&amp; \
+sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|;104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' {,merge-}$L10N/browser/chrome/browser/preferences/fonts.dtd 2>/dev/null || \
+sed -i 's|Legacy|Unidentified|;s|legacy content|content|;s|^.*Turkish.*$|&amp;\nfonts-languages-fallback-name-unicode =\n    .label = Unicode|' {,merge-}$L10N/browser/browser/preferences/fonts.ftl 2>/dev/null)
 </code>
 <code class="red"><span class="dhash">##</span> <b>SeaMonkey</b>:
 <span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
@@ -1302,7 +1168,9 @@ sed -i 's|Legacy|Unidentified|' {,merge-}$L10N/suite/chrome/common/help/cs_nav_p
 
 Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
 <code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
-sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/chrome/browser/preferences/{colors,fonts}.dtd
+[[ $MAJ_VER == 60 ]] &amp;&amp; \
+sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/chrome/browser/preferences/{colors,fonts}.dtd || \
+sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/browser/preferences/{colors,fonts}.ftl
 
 <span class="dhash">##</span> <b>Thunderbird</b>:
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/mail/chrome/messenger/preferences/colors.dtd
@@ -1319,7 +1187,7 @@ LOCALE_MERGEDIR=
 
 This enabled the additional lines and files identified by compare-locales to be localized prior to the build.
 
-The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I'm not sure it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
+The localization build method was changed for FF57 [<a class="extlink" href="https://blog.mozilla.org/l10n/2017/08/04/create-a-localized-build-locally/">blog</a>, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1402564">bugzilla</a>, <a class="extlink" href="https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html">single locale build</a>], but I haven't checked yet whether it would allow a pre-set merge-ab-CD directory which is necessary for checking localization.
 
 What I've done is continue from the previous setup for using localized files and copied them to the corresponding en-US locations so the default en-US build uses localized files. A minor issue is that internal localization directories are referenced as en-US, but the dictionary, texts and messages in the final build are in the intended localization.
 <code class="red"><span class="dhash">##</span> Copy en-US and $L10N to a working area:
@@ -1373,9 +1241,12 @@ tree -fi * | grep ".*\..*$" | grep -v en-US > $MOZBUILD/l10n/wip/$L10N-l10n-file
     done
   done
 </code>
-Set the default Firefox searchplugins of choice by overriding the en-US string:
-<code class="red">cp $MOZBUILD/mozilla/browser/locales/search/list.json $MOZBUILD/l10n/wip
-sed -i "s|.*amazondotcom.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $MOZBUILD/mozilla/browser/locales/search/list.json
+Set the default Firefox searchplugins of choice by overriding the en-US string.
+The line to change is 3 lines beyond the unique identifier 'en-US':
+<code class="red">[[ $MAJ_VER -ge 62 ]] &amp;&amp; LIST_JSON=$MOZBUILD/mozilla/browser/components/search/searchplugins/list.json || \
+LIST_JSON=$MOZBUILD/mozilla/browser/locales/search/list.json
+LINE_NO=$[$(grep -n en-US $LIST_JSON | cut -d: -f1)+3]
+sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
 </code>
 Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
 <code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
@@ -1387,6 +1258,9 @@ eBay-$L10N
 google-$L10N
 wikipedia
 bing" > $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/list.txt
+</code>
+Remount 'comm' directory
+<code class="red">mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
 </code>
 <span class="tabs"><a href="#close_l10n">close</a></span>
 </div>
@@ -1420,9 +1294,9 @@ EOF
 </code>
 Download and install the 32-bit version of rust:
 <code class="thtwo">cd $MOZBUILD/sources/
-wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html
+<span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html</span>
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
-wget $URL
+<span style="color: #c50000;">wget $URL</span>
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
 cd rust*$ARCH-unknown-linux-gnu
@@ -1464,6 +1338,9 @@ rm -f $MOZBUILD/mozilla/configure
 CHRT_TEST=" "
 <span class="dhash">##</span> Bind the mozilla repository into the comm-$REL tree:
 mount -B $MOZBUILD/mozilla $MOZBUILD/$REL/comm-$REL/mozilla
+<span class="dhash">##</span> and for the later builds with mozilla as topsrcdir
+mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
+mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
 </code></code></code>
 <span class="tabs"><a href="#close_32bit">close</a></span>
 </div>
@@ -1471,17 +1348,7 @@ mount -B $MOZBUILD/mozilla $MOZBUILD/$REL/comm-$REL/mozilla
 <!--
 32-bit - end
 -->
-<p><br>
-<b>Set up rust.configure</b> for i686.
 <br>
-This applies only to 52.x versions because for 53.x versions onwards, rust.configure includes i686-unknown-linux-gnu.
-<br>
-To avoid a "can't find crate for `std`" error:
-<br>
-<code class="thtwo">[[ $ARCH == i686 ]] &amp;&amp; [[ $MAJ_VER -eq 52 ]] &amp;&amp; \
-sed -i 's|i586-unknown-linux-gnu|i686-unknown-linux-gnu|' $MOZBUILD/mozilla/build/moz.configure/rust.configure
-</code>
-<p><br>
 <a name="BuildingFFReturn"></a>
 <div style="background: #FFFADD;"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBElEQVR42qWTa0jTURiHs6sWSmnp
 vCyZ2/9sS0vwkiuibFp20zStnBElzktKYSubWgyJCnVWaCS2LiRipXZDMyv8oq6yskRXXip1S2eR
@@ -1497,7 +1364,21 @@ rCDKxpUEbWEEXTLKToJLwV6IEvrD3WMDHD3CwPeQ4lUxH0PXXdF5goeqreIjFkGGn5dDjZ/g49PA
 X5JoWs5ugluRXkhe5g/1Bl/0ZhIM5ghgSGNQFSlim6OYVZNeosaT2fbAm7DmTMzlmM+kK8Z8LvR6
 Exj07WWglzN4uVXA1ofw8/54yrTZJTs6594UCb42SAieB1HRJoL2cILOSILWcAY3VjDsfh7nPI11
 +ZtgOmURf5Z1upLj3HyZzxurWiJgK334bLH3ws9qsevrSKe5hTRmGcXmn7/RvEjhUswD6UwrqzW0
-l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><span style="vertical-align:20%"><b> Building Firefox [Nightly]</b></span></span>
+l1D4FFuK1e/xPwCy1KrpkpT5rQAAAABJRU5ErkJggg=="><span style="vertical-align:20%"><b> Building Firefox [<img style="vertical-align:-20%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBklEQVR4AV2SAxjENgBGX9L0ONu2
+bdv+zNm2bdu2bdu2fUavbq/XLJ23V+NHm6irP2zzF3me02t3+OrjT3nlqWeJ45g1NlyPJZZflhlm
+mRmlFP9H8ieB73PjhZcxmHLmJcRiK96y5K4Hdxfd6eD816kXnDz4zi/tm+5+4aaPv22vwP8QRYPQ
+Dzj94CPY4ZRzju14yXGfuLFqpzmW42N3HZxuB/nLN0xtpeMV1lzxws23WPvQvxsUte+8+nq2P/Xc
+437yxyd+G+TKqdRwlSLTQLFlObnjEHz/k/36rXcf/MyDz175t0G/02WlXfZZquWnx/WELTIhSZWF
+nOTGXYMJ0BqyaWdGV6dCx2Px3kPP7PT2y++tAyC//uxzHMc96ksnsn5KMxoVm1GYUIoSVJKSJQm6
+10T5DqJUwZI2frOhvvrg2/MA1EuPPcWSuy65UTtM8YaBSSlTNkYVLzSiEM/z0KGHcjpYpg1pBDrH
+6biLAEJlWUYQptPozgA7m5jqE8q5pjTRhCOXyB1RLsRZioxDyMZ/jlpUBaZTq6y7Fr96ATRaqCBA
+pAlihplx45TIcxFGJEpVpDc05oVYI4Q090p0BoGtFl9uGb7+sDuIeu3phUljnJI0fyKZbjZUFGCH
+LiWTagNoTUGpPjWVqWrZTNPVu3LGWWfBdH1Run3oNRHDLpbTo9L7lYq5V/EGlH0H+Wf1gsp0szPl
+tLXvgIlUSmEFo4sqtpXZkU+xKbOVC4NRF9vpItIIKSQFlWlmRk81jZ5i+qlO+3sqf3r/la/ONtds
+19tlW6vYmMSmuj9EBSOUEAgj1kBt+tmpz7UgMy025wsv33rerX8bXPjQY9lnt5907HTzz/VsZfpZ
+c6lzhKYQAqL4iVRmnBd77oXQ06pPP7zr1D0KDYDiTyaJP/jmmauPmnGxtXauL7P89iKvTGsZUCUy
+ci1E7Pr9T59qvfTMVToNfgX4j8GVb34z3n+rzd7vf/32sb2v3rzcknKW6eacd3bTwnJaP7fHcdTQ
+iIY95Qx9oWZP+ZPfAJM8k1+jkGe4AAAAAElFTkSuQmCC"> Nightly]</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
 </code> <a name="close_FF_xcompile"></a>                                                    <!-- FF xcompile - start -->
@@ -1540,7 +1421,7 @@ export PKG_ARCH=<span class="comment">armv7_hf</span>
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
 export DISABLE_ELFHACK='ac_add_options --disable-elf-hack'
 </code>
-<span class="dhash">##</span>[&diamondsuit;] If you're feeling lucky, just remove the duplicate code to include webrtc in the 32-bit build:
+<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, remove the duplicate code:
 <code class="green">cd $MOZBUILD/mozilla
 echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
 +++ media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
@@ -1607,17 +1488,17 @@ Set the cross tools directories
 <code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
 export SYSROOT=<span class="comment">$XGCC_DIR/sysroot</span>
 </code>
-<code class="green">installpkg <span class="comment">/tmp/</span>xgcc830-glibc2.29-4.19.27_RPi_headers-*.txz
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc910-glibc2.29-4.19.27_RPi_headers-*.txz
 </code>
 
-There is an issue with the different limits.h priorities which seems to manifest itself in cross compiling for Firefox.
+There is an issue with the different limits.h priorities which occurs in cross compiling for Firefox.
 
 The error is:
 <code class="console">/opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/stdlib.h:90:3: error: #error "Assumed value of MB_LEN_MAX wrong"
 &hellip;
 /opt/cross-pi-gcc/arm-linux-gnueabihf/include/bits/wchar2.h:448:3: error: #error "Assumed value of MB_LEN_MAX wrong"</code>
 I've used the solution <a class="extlink" href="https://www.linuxquestions.org/questions/linux-software-2/tar-cross-compile-error-arm-linux-gnueabi-4175642648/">here</a> to resolve this.
-<code class="green">(cd $XGCC_DIR/lib/gcc/*-linux-gnu*/8.3.0/plugin/include/
+<code class="green">(cd $XGCC_DIR/lib/gcc/*-linux-gnu*/9.1.0/plugin/include/
 cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 </code>
 
@@ -1625,13 +1506,12 @@ cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 
 My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
 This enables me to set up different sysroots for whatever is being cross compiled.
+
+Install kernel headers and Slackware/Slarm64 libs/headers as used for the RPi3
 <code class="green">export ROOT=<span class="comment">$MOZBUILD/$TARGET_SYSROOT</span>
-</code>
-Install kernel headers
-<code class="green">installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-RPi3.txz
-</code>
-Install Slackware arm current libs/headers as used for the RPi3
-<code class="green">cd $Slack_base
+installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-RPi-arm$LIBDIRSUFFIX.txz
+
+cd $Slack_base
 installpkg l/pango-*.txz
 installpkg l/glib2-*.txz
 installpkg l/pcre-*.txz
@@ -1681,6 +1561,9 @@ installpkg l/libffi-*.txz
 installpkg x/libxshmfence-*.txz
 installpkg n/openssl-1.1.*.txz
 installpkg x/glu-*.txz
+<span class="dhash">##</span> these two only required for Slarm64
+installpkg l/graphite2-*-aarch64-*.txz
+installpkg l/shared-mime-info-*-aarch64-*.txz
 <span class="dhash">##</span> move ldconfig out of the way - links will be set up by doinst.sh
 mv /sbin/ldconfig /sbin/ldconfig-bak
 installpkg l/glibc-2.29*.txz
@@ -1701,7 +1584,7 @@ Mount SYSROOT
 Add the cross compiler [$X_TARGET-gcc etc..] bin directory to the PATH
 <code class="green">export PATH=$XGCC_DIR/bin:$PATH
 </code>
-Set parameter for MOZCONFIG variable
+Set suffix for additional mozconfigs
 <code class="green">XCOMPILE=.cross
 </code>
 
@@ -1725,7 +1608,8 @@ mk_add_options "export LD_LIBRARY_PATH=$XGCC_DIR/$X_TARGET/lib$LIBDIRSUFFIX"
 mk_add_options "export STRIP=$XGCC_DIR/$X_TARGET/bin/strip"
 
 <span class="dhash">##</span> add BINDGEN_CFLAGS for the servo/style [stylo] build
-mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/$X_TARGET/include/c++/8.3.0 -I$XGCC_DIR/$X_TARGET/include/c++/8.3.0/$X_TARGET"
+<span class="dhash">##</span> adding the $XGCC_DIR/lib/gcc/... paths for gcc9.1.0
+mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0 -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0/$X_TARGET -I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include -I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include-fixed"
 
 <span class="dhash">##</span> disable webrtc for FF64+ on armv7
 $DISABLE_WEBRTC
@@ -1733,7 +1617,7 @@ $DISABLE_WEBRTC
 EOF
 </code>
 
-Create a mozconfig.firefox.cross
+Create mozconfig.firefox.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.firefox.cross << "EOF"
 <span class="dhash">##</span> include the common mozconfig
@@ -1804,24 +1688,6 @@ do
 patch -p0
 done
 </code>
-<code class="console">checking for clock_gettime(CLOCK_MONOTONIC)... no</code>
-<code class="green"><span class="dhash">##</span> for 66 only, fixed in 67 &hellip;
-[[ $MAJ_VER == 66 ]] &amp;&amp; {
-cd $MOZBUILD/mozilla/
-echo $'--- old-configure.in
-+++ old-configure.in
-@@ -1305,0 +1306 @@
-+                      _SAVE_CFLAGS="$CFLAGS"
-@@ -1306,0 +1308 @@
-+                      CFLAGS="$CFLAGS $DSO_PIC_CFLAGS"
-@@ -1314,0 +1317 @@
-+                      CFLAGS="$_SAVE_CFLAGS"
-' | while read line
-do
-patch -p0
-done
-}
-</code>
 <code class="console">fatal error: main_FIX.h: No such file or directory</code>
 <code class="green">cd $MOZBUILD/mozilla/
 echo $'--- media/libopus/silk/arm/arm_silk_map.c
@@ -1839,12 +1705,10 @@ done
 </div></div>                                                     <!-- FF xcompile - end -->
 <code class="gray">cd $MOZBUILD/mozilla/
 export MOZCONFIG=$MOZBUILD/mozilla/mozconfig.firefox${XCOMPILE:-}
-<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
-To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|
 </code>
 <b>Installation</b>
@@ -1852,13 +1716,6 @@ Install a dictionary:
 <code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin
 rm -rf dictionaries
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
-</code>
-If eyedropper.properties is duplicated the installation will fail, in which case remove one of them:
-<code class="red">[[ $MAJ_VER -lt 57 ]] &amp;&amp; \
-(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin/browser/chrome/$L10N/locale/$L10N/devtools/
-[[ -e client/eyedropper.properties ]] &amp;&amp; \
-[[ -e shared/eyedropper.properties ]] &amp;&amp; \
-rm client/eyedropper.properties)
 </code>
 Let's take it for a test drive:
 <code>./mach run
@@ -1871,10 +1728,6 @@ Use either './mach install' or &nbsp;<span class="tabs prefs"><a href="#Mpack">'
 <b>Using './mach package'</b>&nbsp;
 <code class="gray">./mach package</code>
 will create -
-for esr52 builds:
-<code class="console">$MOZBUILD/$REL/firefox-build-dir/dist/firefox-{version}.<span class="red">$L10N.</span>linux-$ARCH.tar.bz2
-<span class="red">$MOZBUILD/$REL/firefox-build-dir/dist/linux-$ARCH/xpi/firefox-{version}.$L10N.langpack.xpi</span>
-</code>
 for 57+ builds:
 <code class="console">** WiP **</code>
 <span class="tabs th2"><a href="#close_machpk">close</a></span>
@@ -1886,8 +1739,7 @@ Install to $DESTDIR for packaging:
 Includes setting up a relative link for /usr/bin/firefox &hellip;
 <code class="gray">cd ../$REL/packaging-FF/usr/lib
 mkdir -p pkg/{opt,usr/bin}
-unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
-mv firefox${FF_SUFF:-} pkg/opt/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)
+mv firefox pkg/opt/firefox-$(cat $MOZBUILD/mozilla/browser/config/version.txt)
 <span class="red"><span class="dhash">##</span> 'for the record', add the l10n revision that this build is based on:
 sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/firefox-*/application.ini</span>
 (cd pkg/usr/bin
@@ -1921,7 +1773,7 @@ yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="verti
 <div id="SM_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
 <!-- leave this space -->
-1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
+1] Firstly, set up <a href="#FF_xcompile">mozilla</a>.
 2] Create a mozconfig.seamonkey.cross
 <code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
 cat > mozconfig.seamonkey.cross << "EOF"
@@ -1937,19 +1789,17 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir
 
 EOF
 </code>
-3] Set parameter for MOZCONFIG variable
+3] Set suffix for mozconfig
 <code class="green thtwob">XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
 </div></div>                                                     <!-- SM xcompile - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.seamonkey${XCOMPILE:-}
-<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
-To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
 Install a dictionary:
@@ -1957,15 +1807,6 @@ Install a dictionary:
 rm -rf dictionaries
 unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
-
-Add searchplugins of choice:
-<code class="red">[[ $REL == esr52 ]] &amp;&amp; {
-rm $MOZBUILD/$REL/seamonkey-build-dir/dist/bin/searchplugins/google*
-cp $MOZBUILD/mozilla/browser/locales/searchplugins/{amazon,eBay,google}-$L10N.xml \
-$MOZBUILD/$REL/seamonkey-build-dir/dist/bin/searchplugins/
-}
-</code>
-
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
@@ -1976,8 +1817,7 @@ Install to $DESTDIR for packaging:
 Includes setting up a relative link for /usr/bin/seamonkey &hellip;
 <code class="gray">cd ../packaging-SM/usr/lib
 mkdir -p pkg/{opt,usr/bin}
-unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
-mv seamonkey${FF_SUFF:-} pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)
+mv seamonkey pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)
 <span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/seamonkey-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/seamonkey-*/application.ini</span>
@@ -2014,7 +1854,26 @@ se/rTe4bgVDF6tfevQiGtUlDfQj19aHf3w2Gmqjy+eAdUQRJFJAailMLIcTtyfOvfuOdeT+3tYet
 LKtpup4NTsWC32aExPOdHZcjhJpejnPAM8wDG+eE1WqFYRgwTROGpoDnU0O8kG5vamr+KhhLnt57
 4PDQAyfu83fVlJaUdEiigK7O81+u3/jFIVmUJzc8Vbc8Nz8/j8JkEpFY/ODREz+BGO1btny+a0RR
 UfHFy53OBUvq5fsGc6j/duKdOt1ccFeZBcAByAGQ98dxAXD8uaqSJFRTSv/5n+rpuY7/S78DHAti
-UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderbird [Daily]</b></span></span>
+UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderbird [<img style="vertical-align:-40%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAEGElEQVR42sWV22scVRzHA2nVVoh3
+pOKTCEUkRPShCCJYFH3QJx/9A3xVKD54wZdCRFoVBYkUpFKEWpJsE+0mbXeTvSTNJtn7dbI7u9n7
+ZXZnd3b2OjM75+tvJlKRrU2LDx74sbtwzud8f9/vOWcnJg4ZQto/1cxFT0rl5LRUSU03i7GTYjow
+NfFfhpiLfNmu8omOsK93G3l0xQI69azermUStMG5+wYWt1cebRYTbbmeRV+qsGFXhNJvUUlQeiIG
+7Srr1PNolrh2Pe1//J6g3B8/H28UohlZ2MdArjF1KENXe9C1IfQRlTaARr+H3QaTahk0C7Fys8gd
+PxRc431yq5xETyqbUG3YAZgGQAOj0tUB2VGETDXsNFhbSKO6t6PfFZoLOb+oZ8NoV3g2pJZ1TYFc
+SuJgMLKlDtXYCDoYU017Oo0CEwsxlOObP9wRmtpencqFXXmxGGeUOnSlT4s1aLS4mQmjK+SgKT1T
+uamewEY3A6mCVoljpcRWh9+9+dgYOOpafj0f2YCYixrh4MZPZyGUsvBcmSPl/X8ADUtAnyO1T3MF
+NMt7KCU82NuyvjsGDtoXF/LRDdBpoBab1LaAz898DKarB1Cm3vYZUE3fNYUUywJaBK4kdxBzL9vH
+wIG1xX425IRU5hCzXcH3356DxemH/cYKWrUCGJ2I0UD+ewNDsdIlxTUTXCTFofVFjIF3rJfB+9eY
+mI+S2hL89kV8+vUc9uIRcJurkHIJUq/cVm9spNJGXbEIMR9HNuJmYdfSONhz7VfEt6yo8j50m0X4
+F+bMlg9gOhrxW2TDyAzUqBGFO+zW0abzbpyktM/GvLb5cbDPZuHC7mVkQy4jZTRSfsjVDJRBC3I5
+BbUnmUGxkWJaoPRaptoWWWcEF711DTsrl4UxcMS98knAYUGCJpRTPkjVNBq8HyIfMNPXCDaiG6cO
+2jDOOF0gmsNDSAfB++wIrFvIvquz4+HZlp6ObFqHAcdVlqKJVQIays3Hh6zpU0h9uWa8HXTrcmhV
+UmiQBfsUeNi1DP+aBUH78ok7Pz6J3Qs+2wJCriUTXuJ20ChEIFWSJkgyKwm6RBAoi/2gA9GN35nX
+vgDOY7/0r1f6w7ffnMpFPdWg01CwyBKeFWRIUSnphbAfoZAiqFAnWbpI3PZ1UCbMsCDlXRNmz3x0
+4m7PxeTp1159JrnrSBqtkRKW9DuQT/hQ2PMhH99FgfOCD7oRdFjMUxDfulk59fLMc7T2wcMeuGOP
+TE4+77TO/+a1WTop3zrSoQ0qNzKRzYPvASc8q/PK9flLVqK9RGvu+R/lKNVTr8xMn/rgvXc+u/jd
+V5u/zH0Tu/jj+fiF82e333/rjdmZF184TXOeNYTc9z/J0SNHjA0eonqY6gmqJ/9Sd+zI5OQDE//H
++BPvaAJjezKnjwAAAABJRU5ErkJggg=="> Daily]</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
 </code> <a name="close_TB_xcompile"></a>                                                    <!-- TB xcompile - start -->
@@ -2022,7 +1881,7 @@ UD80RecAAAAASUVORK5CYII="><span style="vertical-align:40%"><b> Building Thunderb
 <div id="TB_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 <!-- leave this space -->
-1] <a href="#FF_xcompile">mozilla</a> setting up needs to have been done.
+1] Firstly, set up <a href="#FF_xcompile">mozilla</a>.
 2] Create a mozconfig.thunderbird.cross
 <code class="green thtwob">cd $MOZBUILD/$REL/comm-$REL
 cat > mozconfig.thunderbird.cross << "EOF"
@@ -2038,19 +1897,17 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir
 
 EOF
 </code>
-3] Set parameter for MOZCONFIG variable
+3] Set suffix for mozconfig
 <code class="green thtwob">XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 </div></div>                                                     <!-- TB xcompile - end -->
 <code class="gray">cd $MOZBUILD/$REL/comm-$REL
 export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird${XCOMPILE:-}
-<span class="red">[[ -e $MOZBUILD/l10n/merge-$L10N ]] &amp;&amp; export LOCALE_MERGEDIR=$MOZBUILD/l10n/merge-$L10N</span>
 ./mozilla/mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
-To view resource usage of the build, run |mach resource-usage|.
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
 Install a dictionary:
@@ -2074,8 +1931,7 @@ Install to $DESTDIR for packaging:
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
 <code class="gray">cd ../packaging-TB/usr/lib
 mkdir -p pkg/{opt,usr/bin}
-unset FF_SUFF &amp;&amp; [[ $REL == esr52 ]] &amp;&amp; FF_SUFF="-[0-9]*"
-mv thunderbird${FF_SUFF:-} pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
+mv thunderbird pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
 <span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/thunderbird-*/application.ini</span>
@@ -2093,6 +1949,7 @@ If in a chroot, exit and unmount additional 32-bit build bindings:
 <code class="thtwo">[[ $CHRT_TEST ]] &amp;&amp; unset CHRT_TEST &amp;&amp; exit
 
 [[ $(cat /proc/mounts | grep $CHRT/proc) ]] &amp;&amp; {
+umount $CHRT$MOZBUILD/$REL/comm-$REL/mozilla/comm
 umount $CHRT$MOZBUILD/$REL/comm-$REL/mozilla
 umount $CHRT$MOZBUILD/l10n
 umount $CHRT$MOZBUILD/$REL/comm-$REL
@@ -2112,7 +1969,6 @@ sed -i '/For 32 bit version/,+3 d' $MOZBUILD/mozilla/mozconfig.common
 Reset FF57+ localization work-arounds:<br>
 <code class="red"><span class="dhash">##</span> RESET searchplugins
 rm $MOZBUILD/$REL/comm-release/suite/locales/en-US/searchplugins/*
-cp -a $MOZBUILD/l10n/wip/list.json $MOZBUILD/mozilla/browser/locales/search/
 
 <span class="dhash">##</span> RESET all en-US files
 <b>TEST_CP=no</b>
@@ -2135,7 +1991,11 @@ umount $MOZBUILD/$REL/comm-$REL/mozilla
 <span class="green">umount $SYSROOT</span>
 </code>
 <br>
-
+<hr>
+<span class="comment">To clone this page from Github:<br>
+<i>git clone https://github.com/Ray-V/mozbuild.git<br>
+cd mozbuild<br>
+git checkout gh-pages</i></span>
 <!-- DROPDOWN MENU -->
 <div>
 <ul id="menu">
