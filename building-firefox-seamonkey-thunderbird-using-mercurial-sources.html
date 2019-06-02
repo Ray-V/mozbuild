@@ -131,7 +131,7 @@ Packaging from the 'mach' built packages is generic.
 Build <span style="background:#FFFADD;">Firefox</span> with gtk3, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
 and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla source.
 <br>
-<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [Raspberry Pi3]; and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
+<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [optimized for Raspberry Pi3]; and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
 <p>Customization options with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a>.
 <br>
 <hr>
@@ -144,7 +144,7 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 &hellip; and other Mozilla Developer pages &hellip;
 
 <p><a name="Latest"></a><br>
-<b>Latest builds</b> - FF67.0 release and FF60.7.0 esr &hellip;
+<b>Latest builds</b>
 <br>
 l10n files are updated from the l10n-central base revisions during <a href="#l10n"><span class="red">Localization</span></a> using compare-locales 
 <br><code class="appx">                                                   built to <span class="off_rel">{released}</span> revision/changeset
@@ -178,9 +178,11 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br>
 <b><i>beta</i></b>
 <br>
-<code class="appx">        67.0b15                                 d1a98fb42cb8    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<code class="appx">        68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   68.0b5 &diamondsuit;                                c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                   <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
-                              67.0b3            d1a98fb42cb8    5d37c065e0f2    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              68.0b1            c246934cd0fa    7eeeb32bfd07    c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment">SM2.64 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
@@ -593,12 +595,12 @@ EOF
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
 <span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
-<span class="dhash">##</span> determine the latest version
-<span style="color: #c50000;">wget -O cbindgen-index.html https://github.com/eqrion/cbindgen/</span>
-CBINDGEN_REL=$(grep -o "Release [0-9.]*" cbindgen-index.html | sed 's|Release ||' | head -n1)
-<span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL.tar.gz https://github.com/eqrion/cbindgen/archive/v$CBINDGEN_REL.tar.gz</span>
-tar xf cbindgen-$CBINDGEN_REL.tar.gz
-cd cbindgen-$CBINDGEN_REL/
+<span class="dhash">##</span> for the latest version:
+<span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/eqrion/cbindgen/releases</span>
+CBINDGEN_REL=$(grep archive.*tar.gz cbindgen-releases.html | head -n1 | cut -d'"' -f4 | cut -d'/' -f5)
+<span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL https://github.com/eqrion/cbindgen/archive/$CBINDGEN_REL</span>
+tar xf cbindgen-$CBINDGEN_REL
+cd cbindgen-[0-9]*
 cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 
 <span class="dhash">##</span> if cbindgen decides it can't find some rustc libs, set RPATH as per rustc:
@@ -751,8 +753,11 @@ sed -i 's|Legacy|Unidentified|' $REL/comm-$REL/suite/locales/en-US/chrome/common
 <span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
 sed -i 's| [a-z]* selections| the selections|' $REL/comm-$REL/mail/locales/en-US/chrome/messenger/preferences/colors.dtd
 </code>
-<b>[3]</b> To include the SeaMonkey search box by default:
-<code class="green"><span class="dhash">##</span> <b>SeaMonkey</b>:
+<b>[3]</b> To include the search box by default:
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
+sed -i 's|urlbar-container",|&amp;\n      "search-container",|' mozilla/browser/components/customizableui/CustomizableUI.jsm
+
+<span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/navigator.xul
 </code>
 <b>[4]</b> For esr60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
@@ -1253,10 +1258,28 @@ tree -fi * | grep ".*\..*$" | grep -v en-US > $MOZBUILD/l10n/wip/$L10N-l10n-file
 </code>
 Set the default Firefox searchplugins of choice by overriding the en-US string.
 The line to change is 3 lines beyond the unique identifier 'en-US':
-<code class="red">[[ $MAJ_VER -ge 62 ]] &amp;&amp; LIST_JSON=$MOZBUILD/mozilla/browser/components/search/searchplugins/list.json || \
+<code class="red">[[ $MAJ_VER -ge 68 ]] &amp;&amp; {
+TLD=<span class="comment">.co.uk</span>
+LIST_JSON=$MOZBUILD/mozilla/browser/components/search/extensions/list.json
+<span class="dhash">##</span> for eBay -> designated '<span class="comment">uk</span>' -> revert to '<span class="comment">en-GB</span>', and set as default:
+EBAY=ebay
+(cd $MOZBUILD/mozilla/browser/components/search/extensions/ebay/_locales
+cp -a <span class="comment">uk</span> $L10N
+sed -i "s|eBay\"|eBay$TLD\"|" $L10N/messages.json
+sed -i "s|\"en|\"$L10N|" ../manifest.json)
+<span class="dhash">##</span> for Google -> create Google<span class="comment">.co.uk</span> and set as default, and set 'ddg' as second choice:
+(cd $MOZBUILD/mozilla/browser/components/search/extensions/google/_locales
+cp -a <span class="comment">b-d</span> $L10N
+sed -i "s|google.com|google$TLD|;s|Google\"|Google$TLD\"|" $L10N/messages.json
+sed -i "s|\"Google\"|\"Google$TLD\"|;s|\"Bing\"|\"ddg\"|" $LIST_JSON
+sed -i "s|\"en|\"$L10N|" ../manifest.json)
+} || {
+EBAY=eBay
+[[ $MAJ_VER -ge 62 ]] &amp;&amp; LIST_JSON=$MOZBUILD/mozilla/browser/components/search/searchplugins/list.json || \
 LIST_JSON=$MOZBUILD/mozilla/browser/locales/search/list.json
+}
 LINE_NO=$[$(grep -n en-US $LIST_JSON | cut -d: -f1)+3]
-sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
+sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"$EBAY-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
 </code>
 Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
 <code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
@@ -1431,7 +1454,7 @@ export PKG_ARCH=<span class="comment">armv7_hf</span>
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
 export DISABLE_ELFHACK='ac_add_options --disable-elf-hack'
 </code>
-<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, remove the duplicate code:
+<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162#c6">remove the duplicate code</a>:
 <code class="green">cd $MOZBUILD/mozilla
 echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
 +++ media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
@@ -1492,7 +1515,7 @@ cd rust-std-$RUST_VER-$CRATE
 
 [3] Cross compiler
 
-The toolchain used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, which also creates a RPi3 kernel headers package.
+The toolchain used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, where a RPi3 kernel headers package is also created.
 
 Set the cross tools directories
 <code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
@@ -1727,7 +1750,9 @@ To take your build for a test drive, run: |mach run|
 Install a dictionary:
 <code class="red">(cd $MOZBUILD/$REL/firefox-build-dir/dist/bin
 rm -rf dictionaries
-unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
+unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*
+<span class="dhash">##</span> workaround for FF67+ for l10n method used:
+[[ ! $MAJ_VER == 60 ]] &amp;&amp; rename $L10N en-US dictionaries/*)
 </code>
 Let's take it for a test drive:
 <code>./mach run
@@ -1925,16 +1950,21 @@ A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
-Install a dictionary:
-<code class="red">(cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin
-rm -rf dictionaries
-unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
+Add a L10N dictionary:
+<code class="red">[[ $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin/dictionaries
+unzip -j $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install
+</code>
+Add dictionary extension for L10N:
+<code class="red">[[ ! $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/packaging-TB/usr/lib/thunderbird
+mkdir extensions
+DICT_ID=$(unzip -p $MOZBUILD/sources/$L10N-dict.xpi manifest.json | grep -o [-.a-z]*@[-.a-z]*)
+cp $MOZBUILD/sources/$L10N-dict.xpi extensions/$DICT_ID.xpi)
 </code>
 <b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
@@ -2000,11 +2030,12 @@ umount $MOZBUILD/$REL/comm-$REL/mozilla
 <span class="green">umount $SYSROOT</span>
 </code>
 <br>
-<hr>
+<hr class="comment">
 <span class="comment">To clone this page from Github:<br>
-<i>git clone https://github.com/Ray-V/mozbuild.git<br>
-cd mozbuild<br>
-git checkout gh-pages</i></span>
+<code style="font-style:italic">git clone https://github.com/Ray-V/mozbuild.git
+cd mozbuild
+git checkout gh-pages
+</code></span>
 <!-- DROPDOWN MENU -->
 <div>
 <ul id="menu">
