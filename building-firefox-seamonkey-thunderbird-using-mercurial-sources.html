@@ -189,12 +189,10 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">        61.0a1                                  445255800255    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                  <span class="comment">2.58a1                        445255800255    c79eb711d4d4    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span></span>
+<code class="appx">        69.0a1                                  afb588ff0931    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment">[Nightly] builds from mozilla changeset f080a35baf6a require gcc 6.1+.<br>
-This SM2.58a1 build completes, but URLs will not launch from the address bar or CLI.</span>
+<span class="comment">Builds from mozilla changeset f080a35baf6a [61.0] require gcc 6.1+.</span>
 </code>
 <p>
 
@@ -1070,15 +1068,16 @@ umount $MOZBUILD/$REL/comm-$REL/mozilla/comm
 </code>
 To build to a release version:
 <code class="green"><b>Either:</b>
-From FF59.0, the l10n revisions are contained in a .json file:
+From FF59.0, the l10n revisions are contained in the l10n-changesets.json file:
 <code class="red">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
-hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
+[[ $L10N_CS == default ]] &amp;&amp; L10N_CS=$(hg log -l 1 -R $MOZBUILD/l10n/$L10N | head -n1 | cut -d":" -f3)
+hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code>
 <b>Or:</b>
 For a known changeset:
 <code class="red"><span class="dhash">##</span> <b>Firefox</b>:
 export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
-hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N/
+hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code></code>
 
 <b>Comparing en-US and $L10N localizations</b> &hellip;
@@ -1261,25 +1260,24 @@ The line to change is 3 lines beyond the unique identifier 'en-US':
 <code class="red">[[ $MAJ_VER -ge 68 ]] &amp;&amp; {
 TLD=<span class="comment">.co.uk</span>
 LIST_JSON=$MOZBUILD/mozilla/browser/components/search/extensions/list.json
-<span class="dhash">##</span> for eBay -> designated '<span class="comment">uk</span>' -> revert to '<span class="comment">en-GB</span>', and set as default:
-EBAY=ebay
+<span class="dhash">##</span> for eBay<span class="comment">.co.uk</span> [<span class="comment">_locales/uk</span>] -> set as default:
+EBAY=ebay-uk
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/ebay/_locales
-cp -a <span class="comment">uk</span> $L10N
-sed -i "s|eBay\"|eBay$TLD\"|" $L10N/messages.json
-sed -i "s|\"en|\"$L10N|" ../manifest.json)
+sed -i "s|eBay\"|eBay$TLD\"|" uk/messages.json
+sed -i "s|\"en|\"uk|" ../manifest.json)
 <span class="dhash">##</span> for Google -> create Google<span class="comment">.co.uk</span> and set as default, and set 'ddg' as second choice:
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/google/_locales
-cp -a <span class="comment">b-d</span> $L10N
+cp -rT <span class="comment">b-d</span> $L10N
 sed -i "s|google.com|google$TLD|;s|Google\"|Google$TLD\"|" $L10N/messages.json
-sed -i "s|\"Google\"|\"Google$TLD\"|;s|\"Bing\"|\"ddg\"|" $LIST_JSON
-sed -i "s|\"en|\"$L10N|" ../manifest.json)
+sed -i "s|\"en|\"$L10N|" ../manifest.json
+sed -i "s|\"Google\"|\"Google$TLD\"|;s|\"Bing\"|\"ddg\"|" $LIST_JSON)
 } || {
-EBAY=eBay
+EBAY=eBay-$L10N
 [[ $MAJ_VER -ge 62 ]] &amp;&amp; LIST_JSON=$MOZBUILD/mozilla/browser/components/search/searchplugins/list.json || \
 LIST_JSON=$MOZBUILD/mozilla/browser/locales/search/list.json
 }
 LINE_NO=$[$(grep -n en-US $LIST_JSON | cut -d: -f1)+3]
-sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"$EBAY-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
+sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"$EBAY\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
 </code>
 Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
 <code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
