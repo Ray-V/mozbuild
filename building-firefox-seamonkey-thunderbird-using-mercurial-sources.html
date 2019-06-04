@@ -169,7 +169,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <span class="comment green">armv7</span>   67.0 &diamondsuit;                                  <span class="">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
 <span class="comment green">aarch64</span> 67.0                                    <span class="">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
-                              64.0              8337ebb86a42    f2b7084210a3    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              67.0b3            2a7896ba9aa5    <span class="off_rel">ac7b1df1919b</span>    a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
@@ -1949,6 +1949,7 @@ A successful build will end with a message like:
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
 Add a L10N dictionary:
+For TB 67+, leaving the en-US dictionary here enables a choice in Preferences|Composition|Spelling &hellip;
 <code class="red">[[ $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin/dictionaries
 unzip -j $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
