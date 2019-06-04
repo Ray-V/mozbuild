@@ -8,4 +8,4 @@ Look in the gh-pages branch for the html presentation of the build scripts,
 
 or @ https://ray-v.github.io/mozbuild/
 
-Latest update 2019-06-02 for 68.0 beta builds
+Latest update 2019-06-04 for FF69.0 central
