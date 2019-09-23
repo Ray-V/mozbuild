@@ -165,7 +165,8 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br>
 <b><i>release</i></b>
 <br>
-<code class="appx">        67.0                                    <span class="off_rel">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        69.0.1                                  <span class="off_rel">bf6ea738ba07</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+        67.0                                    <span class="off_rel">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>   67.0 &diamondsuit;                                  <span class="">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
 <span class="comment green">aarch64</span> 67.0                                    <span class="">2a7896ba9aa5</span>    <span class="comment">n/a</span>             a6ac37b9e82b   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
@@ -200,7 +201,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b>Build times</b>
 <br><code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j12
-Firefox 		~240 mins [FF65]	~40 mins [FF60esr]
+Firefox 		~275 mins [FF69]	~40 mins [FF60esr]
 SeaMonkey/Thunderbird	~240 mins [TB64]	~41 mins [SM2.57esr/TB60esr]</code>
 <br>
 Higher values for '-j' on the dual-core machine cause random build errors, unless built with adequate memory or swap.
@@ -226,7 +227,7 @@ Typical usage is 6GB actual, 3GB swap for -j2.
 └───$REL						# build tree for each of release, beta, esr60, central
     ├── comm-$REL					# mercurial clone
     │   └── mozilla					# bind to $MOZBUILD/mozilla
-    │       <span class="thtwo">└── comm					# work-around for FF/TB 64+ &amp; SM 2.57+</span>
+    │       <span class="thtwo">└── comm					# work-around for TB 64+ &amp; SM 2.57+</span>
     ├── {firefox,seamonkey,thunderbird}-build-dir	# build directories
     ├── packaging-{FF,SM,TB}
     │   └── usr/lib					# install here to create package
@@ -398,7 +399,7 @@ hg pull -R $repo/comm-$repo
 done
 
 <span class="dhash">##</span> De-clutter the mozilla[-unified] bookmarks list
-sed -i '/aurora/d;/esr[1-5]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
+sed -i '/ au/d;/esr[1-5]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
 </code>
 <span class="tabs"><a href="#close_chset">close</a></span>
 </div>
@@ -595,7 +596,7 @@ EOF
 cd $MOZBUILD/sources
 <span class="dhash">##</span> for the latest version:
 <span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/eqrion/cbindgen/releases</span>
-CBINDGEN_REL=$(grep archive.*tar.gz cbindgen-releases.html | head -n1 | cut -d'"' -f4 | cut -d'/' -f5)
+CBINDGEN_REL=$(grep archive.*tar.gz cbindgen-releases.html | head -n1 | cut -d'"' -f2 | cut -d'/' -f5)
 <span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL https://github.com/eqrion/cbindgen/archive/$CBINDGEN_REL</span>
 tar xf cbindgen-$CBINDGEN_REL
 cd cbindgen-[0-9]*
@@ -612,6 +613,15 @@ echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> $MOZBUI
 
 <span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1515812">'comm' directory</a>
 export COMM=comm/
+}
+</code>
+
+<p>
+<b>FF69</b>+ needs additional setting up if clang isn't in the PATH
+<br>
+<code class="gray">[[ $MAJ_VER -ge 69 ]] &amp;&amp; {
+<span class="dhash">##</span> From FF69, bindgen needs clang
+echo 'ac_add_options --with-clang-path=$MOZBUILD/sources/llvm-x86_64/usr/bin/clang++' >> $MOZBUILD/mozilla/mozconfig.common
 }
 </code>
 
@@ -662,26 +672,18 @@ EOF
 )
 </code>
 
-
 <p>
-Bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
+Bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value. This is needed for Thunderbird esr60 builds, and to simplify the use of compare-locales for localization.
 <br>
-Needed for Thunderbird esr60 builds, and to simplify the use of compare-locales for localization.
+With <b>mozilla as topsrcdir</b>, the comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63]. This won't be used for, nor affect, builds of prior versions.
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
 mkdir -p mozilla
-mount -B $MOZBUILD/mozilla mozilla)
-</code>
+mount -B $MOZBUILD/mozilla mozilla
 
-<p>
-<b>mozilla as topsrcdir</b>
-<br>
-The comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63].
-<br>
-This won't be used for, nor affect, builds of prior versions.
-<br>
-<code class="gray">mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
-mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
+cd mozilla
+mkdir -p comm
+mount -B $MOZBUILD/$REL/comm-$REL comm)
 </code>
 
 <p>
@@ -916,7 +918,7 @@ tooltip * {
   padding: 4px;
   background-color: transparent;
   color: white; }
-</pre>Overriding this with:<br><pre>
+</pre>Overriding this in <b><i>~/.config/gtk-3.0/gtk.css</i></b> with:<br><pre>
 tooltip {
   border-radius: 0px;
   text-shadow: none;}
@@ -926,7 +928,7 @@ tooltip.background {
 tooltip * {
   padding: 0px;
   color: black;}
-</pre>in <b><i>~/.config/gtk-3.0/gtk.css</i></b>, will show the tooltip as:
+</pre>will show the tooltip as:
 
 <img
 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAABgCAIAAAA8QhFJAAAVJklEQVR4nO2de1wTV9rHn5lk
@@ -1082,7 +1084,7 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 
 <b>Comparing en-US and $L10N localizations</b> &hellip;
 Create a list of default en-US localization files:
-<code class="red">tree -fi $MOZBUILD/$REL/comm-$REL/{mozilla,suite,mail} | grep -v android | grep en-US | grep ".*\..*$" > $MOZBUILD/l10n/en-US-l10n-files
+<code class="red">tree -fi $MOZBUILD/$REL/comm-$REL/{mozilla,suite,editor,mail} | grep -v android | grep en-US | grep ".*\..*$" > $MOZBUILD/l10n/en-US-l10n-files
 </code>
 &hellip; <b>copy new files</b> &hellip;
 Run compare-locales and identify the new files found &hellip;
@@ -1148,7 +1150,7 @@ Set up google search on google.co.uk:
 <code class="red">[[ $MAJ_VER -ge 62 ]] &amp;&amp; SEARCHPLUGINS_DIR=$MOZBUILD/mozilla/browser/components/search/searchplugins/ || \
 SEARCHPLUGINS_DIR=$MOZBUILD/mozilla/browser/locales/searchplugins/
 (cd $SEARCHPLUGINS_DIR
-cat google.xml | sed 's|google.com|google.co.uk|g' > google-$L10N.xml)
+cat google.xml | sed 's|google.com|google.co.uk|;s|Google&lt;|Google.co.uk&lt;|' > google-$L10N.xml)
 </code>
 <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1303636">eBay was removed</a> from the list of built-in searchplugins, although it has been re-instated.
 To recover the previous icon for this personal build, extract the file from a changeset that contains it:
@@ -1452,8 +1454,9 @@ export PKG_ARCH=<span class="comment">armv7_hf</span>
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
 export DISABLE_ELFHACK='ac_add_options --disable-elf-hack'
 </code>
-<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162#c6">remove the duplicate code</a>:
-<code class="green">cd $MOZBUILD/mozilla
+<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/af7f8f492855">remove the duplicate code</a>:
+<code class="green">[[ $MAJ_VER -lt 69 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla
 echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
 +++ media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
 @@ -70,13 +69,0 @@
@@ -1476,6 +1479,7 @@ patch -p0
 done
 
 export DISABLE_WEBRTC=''
+}
 </code>
 <span class="dhash">##</span> <b>OR:</b>
 <span class="dhash">##</span> <b>64-bit</b>
@@ -1485,6 +1489,8 @@ export X_TARGET=aarch64-linux-gnu
 export X_CC="$X_TARGET-gcc -mtune=cortex-a53"
 export X_CXX="$X_TARGET-g++ -mtune=cortex-a53"
 export LIBDIRSUFFIX=64
+<span class="dhash">##</span> Slack_base = where the Slarm64 packages a-y directories are:
+<span class="dhash">##</span> Download from a Slackware mirror - for example <a class="extlink" href="https://slackware.uk/slarm64/slarm64-current/slarm64/">slackware.uk</a>
 export Slack_base=<span class="comment">/path_to_Slarm64</span>
 export TARGET_SYSROOT=<span class="comment">FF-RPi3-aarch64-sysroot</span>
 export PKG_ARCH=<span class="comment">aarch64</span>
@@ -1856,7 +1862,10 @@ Includes setting up a relative link for /usr/bin/seamonkey &hellip;
 <code class="gray">cd ../packaging-SM/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 mv seamonkey pkg/opt/seamonkey-$(cat $MOZBUILD/$REL/comm-$REL/suite/config/version.txt)
-<span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
+<span class="green"><span class="dhash">##</span> Set SourceStamp to comm-$REL revision:
+[[ ! $COMM_BUILD_CS ]] &amp;&amp; COMM_BUILD_CS=$(hg parent -R $MOZBUILD/$REL/comm-$REL | head -n1 | cut -d":" -f3)
+sed -i "s|SourceStamp=.*$|SourceStamp=$COMM_BUILD_CS|" pkg/opt/seamonkey-*/application.ini
+<span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/seamonkey-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/seamonkey-*/application.ini</span>
 (cd pkg/usr/bin
@@ -1970,7 +1979,10 @@ Includes setting up a relative link for /usr/bin/thunderbird &hellip;
 <code class="gray">cd ../packaging-TB/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 mv thunderbird pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
-<span class="green"><span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
+<span class="green"><span class="dhash">##</span> Set SourceStamp to comm-$REL revision:
+[[ ! $COMM_BUILD_CS ]] &amp;&amp; COMM_BUILD_CS=$(hg parent -R $MOZBUILD/$REL/comm-$REL | head -n1 | cut -d":" -f3)
+sed -i "s|SourceStamp=.*$|SourceStamp=$COMM_BUILD_CS|" pkg/opt/thunderbird-*/application.ini
+<span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
 <span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/thunderbird-*/application.ini</span>
 (cd pkg/usr/bin
