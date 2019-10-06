@@ -121,7 +121,7 @@ color:darkred;
 </head><body>
 <br>
 <h3> Building Firefox, SeaMonkey and Thunderbird from mercurial repositories</h3>
-Build <b>esr60</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
+Build <b>esr60/68</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
 <p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
 Packaging - installation and creation - is Slackware specific, which I guess would be adaptable to other packaging systems.
@@ -150,19 +150,17 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><code class="appx">                                                   built to <span class="off_rel">{released}</span> revision/changeset
         <u>Firefox</u>   <u>SeaMonkey</u>   <u>Thunderbird</u>       <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
 </code>
+<br><br>
+<b><i>esr68</i></b>
 <br>
-<b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[4]'</span>
-<br>
-<code class="appx">        60.7.0                                  <span class="off_rel">64ee63facd4f</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   60.7.0                                  <span class="">64ee63facd4f</span>    <span class="comment">n/a</span>             24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
-                  2.57.7.0                      64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>             2.57.7.0                      64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
-                              60.7.0            64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>                         60.7.0            64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<code class="appx">        68.1.0                                  <span class="off_rel">380fedbb1800</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 68.1.0                                  <span class="">380fedbb1800</span>    <span class="comment">n/a</span>             <span class="">a1cd22844353</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+                              68.1.1 &clubsuit;          <span class="off_rel">0efe7ab505b5</span>    <span class="off_rel">41c0a3653f95</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>                       68.1.1 &clubsuit;          0efe7ab505b5    41c0a3653f95    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
 </code>
 <br>
-<span class="comment">esr 60.6+ builds have been done with rust 1.31.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0+</a></span>
-<br>
+&clubsuit; <span class="comment">TB 68.1.1 is a bug fix and is built from the mozilla-esr68 THUNDERBIRD_68_VERBRANCH branch pulled into mozilla-unified</span>
+<br><br>
 <b><i>release</i></b>
 <br>
 <code class="appx">        69.0.1                                  <span class="off_rel">bf6ea738ba07</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
@@ -176,7 +174,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
 <br>
 &diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
-<br>
+<br><br>
 <b><i>beta</i></b>
 <br>
 <code class="appx">        68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -187,13 +185,25 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 </code>
 <br>
 <span class="comment">SM2.64 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>
-<br>
+<br><br>
 <b><i>central [Nightly]</i></b>
 <br>
 <code class="appx">        69.0a1                                  afb588ff0931    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment">Builds from mozilla changeset f080a35baf6a [61.0] require gcc 6.1+.</span>
+<br><br>
+<b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[4]'</span>
+<br>
+<code class="appx">        60.7.0                                  <span class="off_rel">64ee63facd4f</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   60.7.0                                  <span class="">64ee63facd4f</span>    <span class="comment">n/a</span>             24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+                  2.57.7.0                      64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>             2.57.7.0                      64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+                              60.7.0            64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>                         60.7.0            64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+</code>
+<br>
+<span class="comment">esr 60.6+ builds have been done with rust 1.31.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0+</a></span>
 </code>
 <p>
 
@@ -243,9 +253,9 @@ Typical usage is 6GB actual, 3GB swap for -j2.
 <br>
 <code class="gray">export MOZBUILD=<b>/mozbuild</b>
 <span class="dhash">##</span> Set which repositories to clone:
-export REPOS="<b>release</b> <b>beta</b> <b>esr60</b> <b>central</b>"
+export REPOS="<b>release</b> <b>beta</b> <b>esr60</b> <b>esr68</b> <b>central</b>"
 <span class="dhash">##</span> choose which to build:
-export REL=<span class="comment"><b>esr60</b></span>
+export REL=<span class="comment"><b>esr68</b></span>
 <span class="dhash">##</span> set number of parallel jobs
 export NUMJOBS=-j$(getconf _NPROCESSORS_ONLN) &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
 <span class="dhash">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
@@ -293,6 +303,21 @@ default = https://hg.mozilla.org/mozilla-unified/" > mozilla/.hg/hgrc
 hg pull -R mozilla
 <span class="dhash">##</span> update local repo
 hg update -R mozilla
+</code>
+
+<p>
+<b>TB68</b>esr needs additional setting up &hellip;
+<br>
+The TB68esr release[-candidates] might be built from the THUNDERBIRD_68_VERBRANCH branch of the https://hg.mozilla.org/releases/mozilla-esr68 repository, and use changesets not in mozilla-unified.
+<br>
+So pull these into the local mozilla-unified clone, ready for checkout if required.
+<br>
+This is a minimal update - when I did it, the result was:
+<br>
+<code class="console"> added 62 changesets with 35 changes to 74 files</code>
+<br>
+<code class="gray">(cd $MOZBUILD/mozilla
+hg pull -b THUNDERBIRD_68_VERBRANCH https://hg.mozilla.org/releases/mozilla-esr68}
 </code>
 
 <p>
@@ -391,6 +416,7 @@ REPOS=$REPOS
 
 cd $MOZBUILD
 hg pull -R mozilla
+[[ $REL == esr68 ]] &amp;&amp; hg pull -b THUNDERBIRD_68_VERBRANCH https://hg.mozilla.org/releases/mozilla-esr68 -R mozilla
 <span class="red">hg pull -R l10n/$L10N</span>
 
 for repo in $REPOS
@@ -410,6 +436,7 @@ Add new changesets - end
 
 Set up the local repositories for chosen $REL, removing any changes made for previous builds:<br>
 <code class="gray">cd $MOZBUILD
+[[ $REL == esr68 ]] &amp;&amp; hg update THUNDERBIRD_68_VERBRANCH -C -R mozilla
 hg update $REL -C -R mozilla
 hg update default -C -R $REL/comm-$REL/
 <span class="red">hg update default -C -R l10n/$L10N</span>
@@ -432,7 +459,7 @@ This finds the latest release candidate build for any specific Firefox version, 
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 <span class="dhash">##</span> FF_VER defaults to the current repo Firefox version and will only give a resultant release candidate changeset [REL_CAND_CS] when the release candidate loses its beta suffix which should be 7-12 days before the release date
 <b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
-echo $FF_VER
+<span class="appx">echo $FF_VER</span>
 <span class="dhash">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
@@ -440,84 +467,124 @@ cd $MOZBUILD/sources/
 <span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr60 version
 <span style="color: #c50000;">wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/</span>
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
+<span class="appx">echo $REL_CAND</span>
 
 <span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
 <span style="color: #c50000;">wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/</span>
 BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
+<span class="appx">echo $BUILD</span>
 
 <span class="dhash">##</span> [3] Download the .json file which includes the changeset reference for that build and find the changeset
 JSON="firefox-$(echo $REL_CAND |cut -d- -f1).json"
 <span style="color: #c50000;">wget -O $JSON https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/linux-$ARCH/en-US/$JSON</span>
 REL_CAND_CS=$(grep stamp $JSON |colrm 1 23|colrm 13)
+<span class="appx">echo $REL_CAND_CS</span>
 
-cd $MOZBUILD/mozilla/
 <span class="dhash">##</span> Create new bookmark to that release candidate changeset
-hg bookmark -r $REL_CAND_CS ${REL}_$FF_VER
+hg bookmark -r $REL_CAND_CS ${REL}_$FF_VER -R $MOZBUILD/mozilla
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$FF_VER
+hg checkout ${REL}_$FF_VER -R $MOZBUILD/mozilla
 </code>
 <b><i>Or</b></i>: Where the FF version is known, i.e. after its release date, the changeset on which it was built can be determined from the repo log and then the repo reverted to that changeset.
 The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEASE on the official release date.
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
-<span class="dhash">##</span> Set to a sufficiently high number for the changeset to be found
-<b>LOG_NUM</b>=<span class="comment">4000</span>
-<span class="dhash">##</span> Set the Firefox version
-<b>REL_TAG</b>=<span class="comment">60_6_0</span>
-ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
-
 cd $MOZBUILD/mozilla/
+
+<span class="dhash">##</span> Set to a sufficiently high number for the changeset to be found
+<b>LOG_NUM</b>=<span class="comment">500</span>
+ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
+<span class="dhash">##</span> Print the latest release version ..
+hg log -l $LOG_NUM -Gr ::$REL | grep -o FIREFOX_.*_RELEASE |head -n2
+<span class="dhash">##</span> .. then from that set the Firefox version - excluding any esr suffix
+<b>REL_TAG</b>=<span class="comment">68_1_0</span>
+
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
+<span class="appx">echo $REL_CS</span>
 <span class="dhash">##</span> Create new bookmark to that release changeset
 hg bookmark -r $REL_CS ${REL}_$REL_TAG
 <span class="dhash">##</span> Set the new bookmark active
 hg checkout ${REL}_$REL_TAG
 </code>
-
-<b><i>Or</b></i>: Building to any other revision
-
-<b><u>mozilla</b></u>
+<b><i>Building to any other revision</b></i>:
 Find the changesets within mozilla-unified applicable to REL only.
-List last NUM_CS changesets:
-<code class="appx"><b>NUM_CS</b>=<span class="comment">5</span>
-hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla/ | colrm 1 3
-</code>
-Select a changeset from that list, and create a bookmark and set it active:
-<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
+<code class="green"><span class="dhash">##</span> List last NUM_CS changesets:
+cd $MOZBUILD/mozilla/
+<b>NUM_CS</b>=<span class="comment">5</span>
+hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla | colrm 1 3
+
+<span class="dhash">##</span> Select a changeset from that list, and create a bookmark and set it active:
 <b>BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 
-cd $MOZBUILD/mozilla/
 <span class="dhash">##</span> Create new bookmark to that changeset
 hg bookmark -r $BUILD_CS ${REL}_$BUILD_CS
 <span class="dhash">##</span> Set the new bookmark active
 hg checkout ${REL}_$BUILD_CS
 </code>
-Delete bookmark when no longer required:
-<code class="appx">hg bookmark --delete ${REL}_$BUILD_CS -R $MOZBUILD/mozilla/
-</code>
-
-Check that required bookmark is active:
-<code class="green">hg bookmarks -R $MOZBUILD/mozilla/
-</code>
 
 <b><u>comm-$REL</b></u>
-There are no formal SeaMonkey releases and the Thunderbird release revisions are available from the release candidates repository.
+SeaMonkey doesn't run beyond 2.57, so for mozilla > 60, this applies to TB only ..
+SeaMonkey releases are ad-hoc and the Thunderbird release revisions are available from the release candidates repository.
+This procedure is for Thunderbird releases - for other TB builds, just set the revisions as required.
+<code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
+TB_VER=$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
+<span class="appx">echo $TB_VER</span>
 
-Download the relevant thunderbird-&lt;version>.txt file and extract the build revisions data.
-This is at, for example for Thunderbird 60.7.0:
-<code class="console">https://archive.mozilla.org/pub/thunderbird/candidates/60.7.0-candidates/build1/linux-x86_64/en-US/thunderbird-60.7.0.txt</code>
-which contains the repository revisions the build was based on:
-<code class="console">20190517095026
-https://hg.mozilla.org/releases/comm-esr60/rev/5822a83963e333699a33099c37c65bcd6527b988
-https://hg.mozilla.org/mozilla-unified/rev/2ae9b50be57173c299c10df512590e2feb164977</code>
-For the SM/TB builds, set <span style="font:normal bold 10pt sans;">COMM_BUILD_CS=5822a83963e3</span> &hellip;
-<code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
-<b>COMM_BUILD_CS</b>=<span class="comment">5822a83963e3</span>
-hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
+cd $MOZBUILD/sources/
+<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release version
+<span style="color: #c50000;">wget -O TB-candidates.html https://archive.mozilla.org/pub/thunderbird/candidates/</span>
+TB_REL_CAND=$(grep -oE "${TB_VER}-candidates|${TB_VER}b[0-9]-candidates" TB-candidates.html | tail -n 1)
+<span class="appx">echo $TB_REL_CAND</span>
+
+<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
+<span style="color: #c50000;">wget -O $TB_REL_CAND.html https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND/</span>
+TB_BUILD=$(grep build $TB_REL_CAND.html|tail -n1|cut -d"/" -f6)
+<span class="appx">echo $TB_BUILD</span>
+
+<span class="dhash">##</span> [3] Download the .txt file which includes the changeset reference for that build ...
+TB_TXT="thunderbird-$(echo $TB_REL_CAND |cut -d- -f1).txt"
+<span class="appx">echo $TB_TXT</span>
+<span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND/$TB_BUILD/linux-$ARCH/en-US/$TB_TXT</span>
+<span style="color: #E7F5E7;">&lt;&lt;'comment'</span>
+For example for TB esr68.1.1, the contents of this file are:
+20190924105435
+https://hg.mozilla.org/releases/comm-esr68/rev/41c0a3653f95cf6158a2b49ab7cb19327c50e9e8
+https://us-east-1.hgmointernal.net/mozilla-unified/rev/0efe7ab505b59f1986ebedc0c114a7d24fd93168
+<span style="color: #E7F5E7;">comment</span>
+<span class="dhash">##</span> &hellip; and find the changesets
+COMM_BUILD_CS=$(grep comm- $TB_TXT | cut -d"/" -f7 | colrm 13)
+<span class="appx">echo $COMM_BUILD_CS</span>
+TB_MOZ_BUILD_CS=$(grep mozilla-unified $TB_TXT | cut -d"/" -f6 | colrm 13)
+<span class="appx">echo $TB_MOZ_BUILD_CS</span>
 </code>
-&hellip; and the mozilla changeset used can be set from this data [<span style="font:normal bold 10pt sans;">BUILD_CS=2ae9b50be571</span>], or left as set for the Firefox build [<span style="font:normal bold 10pt sans;">REL_CAND_CS</span> or <span style="font:normal bold 10pt sans;">REL_CS</span>]
+For non-release builds, set revisions here:
+<code class="appx"><span class="dhash">##</span> The comm-$REL revision
+COMM_BUILD_CS=
+<span class="dhash">##</span> The mozilla revision
+TB_MOZ_BUILD_CS=
+<span class="dhash">##</span> The TB version - only used here to set a name for the bookmark
+TB_VER=
+</code>
+<code class="green"><span class="dhash">##</span> <b>Thunderbird<span class="comment">/SeaMonkey</span></b>:
+hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 
-Check the comm-$REL revision:
-<code class="appx">hg parent -R $MOZBUILD/$REL/comm-$REL
+<span class="dhash">##</span> <b>Firefox</b>:
+<span class="dhash">##</span> Create new bookmark to TB changeset
+hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_VER -R $MOZBUILD/mozilla
+<span class="dhash">##</span> Set the new bookmark active
+hg checkout TB_$TB_VER -R $MOZBUILD/mozilla
+</code>
+Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
+<code class="green">export Gecko_Rev=$TB_MOZ_BUILD_CS
+</code>
+Check that the repositories are set up for the correct revisions:
+<code class="appx"><span class="dhash">##</span> FF:
+hg bookmarks -R $MOZBUILD/mozilla
+<span class="dhash">##</span> SM/TB:
+hg parent -R $MOZBUILD/$REL/comm-$REL
+</code>
+
+Delete any bookmark when no longer required:
+<code class="appx">hg bookmark --delete xxxxxx -R $MOZBUILD/mozilla
 </code>
 
 <span class="tabs"><a href="#close_known_rel">close</a></span>
@@ -526,7 +593,7 @@ Check the comm-$REL revision:
 Building to a changeset - end
 -->
 
-<p>
+<br>
 Find the Firefox major version for later version dependent settings
 <br>
 <code class="gray">export MAJ_VER=$(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1)
@@ -589,7 +656,7 @@ EOF
 </code>
 
 <p>
-<b>FF64</b>+ needs additional setting up
+<b>FF64</b>+ needs additional setting up, including when used for SM/TB builds
 <br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
 <span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
@@ -673,14 +740,16 @@ EOF
 </code>
 
 <p>
-Bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value. This is needed for Thunderbird esr60 builds, and to simplify the use of compare-locales for localization.
+[a] For Thunderbird esr60 builds, and to simplify the use of compare-locales for localization, bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
 <br>
-With <b>mozilla as topsrcdir</b>, the comm-$REL directory needs to be placed as a comm directory in mozilla for SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63]. This won't be used for, nor affect, builds of prior versions.
+[b] For SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63], with <b>mozilla as topsrcdir</b>, the comm-$REL directory needs to be placed as a comm directory in mozilla. This won't be used for, nor affect, builds of prior versions.
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
+<span class="dhash">##</span> [a]
 mkdir -p mozilla
 mount -B $MOZBUILD/mozilla mozilla
 
+<span class="dhash">##</span> [b]
 cd mozilla
 mkdir -p comm
 mount -B $MOZBUILD/$REL/comm-$REL comm)
@@ -760,10 +829,11 @@ sed -i 's|urlbar-container",|&amp;\n      "search-container",|' mozilla/browser/
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/navigator.xul
 </code>
-<b>[4]</b> For esr60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
+<b>[4]</b> For esr??, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 [[ $REL == esr* ]] &amp;&amp; {
 echo 2.$[$MAJ_VER-3].$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
+[[ $TB_VER ]] &amp;&amp; echo $TB_VER > $MOZBUILD/$REL/comm-$REL/mail/config/version.txt || \
 cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
 }
 </code>
@@ -806,7 +876,7 @@ sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $MOZBUILD/$REL/c
 </code>
 <b>[6]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
-export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla/ | grep \* |cut -d: -f2)
+[[ ! $Gecko_Rev ]] &amp;&amp; export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla | grep \* |cut -d: -f2)
 </code>
 <span class="tabs"><a href="#close_prefs">close</a></span>
 </div>
@@ -1060,6 +1130,10 @@ python setup.py build install)
 </code>
 
 <b>Known issues</b>
+<code class="console">There will be some error messages here about files not found.
+This is a consequence of the localization transition and it's becoming too onerous to test for them.
+I've found them to be harmless .. and in the issues I've covered, the results are as expected.
+</code>
 Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
@@ -1381,7 +1455,7 @@ mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
 <!--
 32-bit - end
 -->
-<br>
+<p><br>
 <a name="BuildingFFReturn"></a>
 <div style="background: #FFFADD;"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBElEQVR42qWTa0jTURiHs6sWSmnp
 vCyZ2/9sS0vwkiuibFp20zStnBElzktKYSubWgyJCnVWaCS2LiRipXZDMyv8oq6yskRXXip1S2eR
@@ -1958,7 +2032,6 @@ A successful build will end with a message like:
 To take your build for a test drive, run: |mach run|</code>
 <b>Installation</b>
 Add a L10N dictionary:
-For TB 67+, leaving the en-US dictionary here enables a choice in Preferences|Composition|Spelling &hellip;
 <code class="red">[[ $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/thunderbird-build-dir/dist/bin/dictionaries
 unzip -j $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
 </code>
@@ -1969,7 +2042,8 @@ Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB ./mozilla/mach install
 </code>
 Add dictionary extension for L10N:
-<code class="red">[[ ! $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/packaging-TB/usr/lib/thunderbird
+This will have to be enabled on TB first run.
+<code class="red">[[ $MAJ_VER -ge 67 ]] &amp;&amp; (cd $MOZBUILD/$REL/packaging-TB/usr/lib/thunderbird
 mkdir extensions
 DICT_ID=$(unzip -p $MOZBUILD/sources/$L10N-dict.xpi manifest.json | grep -o [-.a-z]*@[-.a-z]*)
 cp $MOZBUILD/sources/$L10N-dict.xpi extensions/$DICT_ID.xpi)
