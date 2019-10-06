@@ -4,8 +4,16 @@
 ### Build Firefox, Seamonkey, and Thunderbird from mercurial repositories
 ----
 
-Look in the gh-pages branch for the html presentation of the build scripts,
+To clone the page:
+```
+git clone https://github.com/Ray-V/mozbuild.git
+cd mozbuild
+git checkout gh-pages
+```
 
-or @ https://ray-v.github.io/mozbuild/
+or view @:  
 
-Latest update 2019-09-23 for FF69.0.1 release
+https://ray-v.github.io/mozbuild/building-firefox-seamonkey-thunderbird-using-mercurial-sources.html
+
+
+Latest update 2019-10-06 for TBesr 68.1.1 release
