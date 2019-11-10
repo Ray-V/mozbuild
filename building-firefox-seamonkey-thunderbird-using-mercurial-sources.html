@@ -124,14 +124,14 @@ color:darkred;
 Build <b>esr60/68</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
 <p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
-Packaging - installation and creation - is Slackware specific, which I guess would be adaptable to other packaging systems.
+Packaging - installation and creation - is Slackware specific, but to DESTDIR, so I guess would be adaptable to other packaging systems.
 <br>
 Packaging from the 'mach' built packages is generic.
 <p>
 Build <span style="background:#FFFADD;">Firefox</span> with gtk3, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
 and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla source.
 <br>
-<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [optimized for Raspberry Pi3]; and <a href="#Th2bit"><span class="thtwo">32-bit build</span></a> adjustments when using a 64-bit kernel on a 32-bit system, and for building in a chroot.
+<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [optimized for Raspberry Pi3], and i686.
 <p>Customization options with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a>.
 <br>
 <hr>
@@ -154,22 +154,25 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>esr68</i></b>
 <br>
 <code class="appx">        68.2.0 rc                               <span class="off_rel">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   68.2.0 rc &diamondsuit;                             <span class="">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
+<span class="comment green">armv7</span>&diamondsuit;  68.2.0 rc                               <span class="">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
 <span class="comment green">aarch64</span> 68.2.0 rc                               <span class="">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
-                              68.1.1 &clubsuit;          <span class="off_rel">0efe7ab505b5</span>    <span class="off_rel">41c0a3653f95</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>                       68.1.1 &clubsuit;          0efe7ab505b5    41c0a3653f95    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<span class="comment green">i686</span>    68.2.0                                  <span class="off_rel">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              68.1.1 &#x02021;          <span class="off_rel">0efe7ab505b5</span>    <span class="off_rel">41c0a3653f95</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>                       68.1.1 &#x02021;          0efe7ab505b5    41c0a3653f95    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<span class="comment green">i686</span>                          68.2.2            <span class="off_rel">efd27abec3b8</span>    <span class="off_rel">4297fc81fadc</span>    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
 </code>
 <br>
 &diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
 <br>
-&clubsuit; <span class="comment">TB 68.1.1 is a bug fix and is built from the mozilla-esr68 THUNDERBIRD_68_VERBRANCH branch pulled into mozilla-unified</span>
+&#x02021; <span class="comment">TB 68.1.1 is a bug fix and is built from the mozilla-esr68 THUNDERBIRD_68_VERBRANCH branch pulled into mozilla-unified</span>
 <br><span class="comment">rc == release candidate</span>
 <p>
 <b><i>release</i></b>
 <br>
 <code class="appx">        70.0 rc                                 <span class="off_rel">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   70.0 rc &diamondsuit;                               <span class="">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;  70.0 rc                                 <span class="">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 70.0 rc                                 <span class="">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">i686</span>    70.0.1                                  <span class="off_rel">21ce5fdd3146</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               67.0b3            2a7896ba9aa5    <span class="off_rel">ac7b1df1919b</span>    a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
@@ -179,7 +182,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>beta</i></b>
 <br>
 <code class="appx">        68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   68.0b5 &diamondsuit;                                c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;  68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                   <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
                               68.0b1            c246934cd0fa    7eeeb32bfd07    c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -230,7 +233,6 @@ Typical usage is 6GB actual, 3GB swap for -j2.
 │   ├── mozilla-unified.zstd.hg			# mercurial bundle
 │   ├── rust&hellip;					# download and installation
 │   <span class="red">└── compare-locales				# to create merge-$L10N</span>
-├<span class="thtwo">── chrt					# chroot for 32-bit builds</span>
 ├<span class="red">── l10n</span>
 │   <span class="red">├── $L10N					# mercurial clone</span>
 │   <span class="red">├── merge-$L10N 				# updated $L10N files</span>
@@ -450,7 +452,7 @@ Building to a changeset - start
 <span class="tabs prefs"><a href="#known_rel">Building to a specific revision</a></span>
 <div id="known_rel" class="tab"><div class="b_prefs"><span class="tabs"><a href="#close_known_rel">close</a></span>
 <!-- leave this space -->
-<b>Building to the same revision as an <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">official release</a></b>
+<b>Building to the same revision as an <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">official</a></b> or <a class="extlink" href="https://www.mozilla.org/en-US/firefox/releases/">bug fix</a> release.
 This is relevant for release versions only, beta builds have been specifically excluded.
 
 <b><i>Either</b></i>: Prior to the release date, the changesets on which the release candidates are built can be obtained from mozilla.org.
@@ -553,7 +555,7 @@ https://us-east-1.hgmointernal.net/mozilla-unified/rev/0efe7ab505b59f1986ebedc0c
 <span class="dhash">##</span> &hellip; and find the changesets
 COMM_BUILD_CS=$(grep comm- $TB_TXT | cut -d"/" -f7 | colrm 13)
 <span class="appx">echo $COMM_BUILD_CS</span>
-TB_MOZ_BUILD_CS=$(grep mozilla-unified $TB_TXT | cut -d"/" -f6 | colrm 13)
+TB_MOZ_BUILD_CS=$(grep mozilla- $TB_TXT | cut -d"/" -f7 | colrm 13)
 <span class="appx">echo $TB_MOZ_BUILD_CS</span>
 </code>
 For non-release builds, set revisions here:
@@ -570,10 +572,10 @@ hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 <span class="dhash">##</span> <b>Firefox</b>:
 <span class="dhash">##</span> Create new bookmark to TB changeset
 hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_VER -R $MOZBUILD/mozilla
-<span style="background:#FFFADD;"><span class="dhash">##</span> update and switch to THUNDERBIRD_68_VERBRANCH if the changeset cannot be found in mozilla &hellip;
+<code class="thtwo"><span class="dhash">##</span> update and switch to THUNDERBIRD_68_VERBRANCH if the changeset cannot be found in mozilla &hellip;
 [[ $(echo $?) != 0 ]] &amp;&amp; hg update THUNDERBIRD_68_VERBRANCH -C -R $MOZBUILD/mozilla &amp;&amp; \
-hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_VER -R $MOZBUILD/mozilla</span>
-
+hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_VER -R $MOZBUILD/mozilla
+</code>
 <span class="dhash">##</span> Set the new bookmark active
 hg checkout TB_$TB_VER -R $MOZBUILD/mozilla
 </code>
@@ -663,7 +665,7 @@ EOF
 <b>FF64</b>+ needs additional setting up, including when used for SM/TB builds
 <br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
-<span class="dhash">##</span> [1] <b>cbindgen</b> - this will install to the same directory as rustc &amp; cargo
+<span class="dhash">##</span> [1] <b>cbindgen</b> - download, build, and install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
 <span class="dhash">##</span> for the latest version:
 <span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/eqrion/cbindgen/releases</span>
@@ -1380,85 +1382,6 @@ Remount 'comm' directory
 Localization - end
 -->
 
-<!--
-32-bit - start
--->
-<a name="close_32bit"></a>
-<br>
-<span class="tabs th2"><a href="#Th2bit">32-bit build</a><span style="vertical-align:-30%">&nbsp;&nbsp;Additional configuration where [1] a 64-bit kernel is being used; and [2] a chroot is to be used for building within a 64-bit system.</span></span>
-<p>
-<div id="Th2bit" class="tab"><div class="b_32bit"><span class="tabs"><a href="#close_32bit">close</a></span>
-<!-- leave this space -->
-[1] Building with a 64-bit kernel:
-<code class="thtwo">[[ $(uname -m) == x86_64 ]] &amp;&amp; \
-(cd $MOZBUILD/mozilla
-cat &gt;&gt; mozconfig.common &lt;&lt; "EOF"
-<span class="dhash">##</span> For 32 bit version
-ac_add_options --target=i686-pc-linux-gnu
-ac_add_options --host=i686-pc-linux-gnu
-
-EOF
-)
-</code>
-[2] Set up and switch to chroot, if required:
-<code class="thtwob"><code class="thtwo">ARCH=i686
-</code>
-Download and install the 32-bit version of rust:
-<code class="thtwo">cd $MOZBUILD/sources/
-<span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html</span>
-URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
-<span style="color: #c50000;">wget $URL</span>
-
-tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
-cd rust*$ARCH-unknown-linux-gnu
-./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
-</code>
-<code class="thtwo">mkdir $MOZBUILD/chrt
-CHRT=$MOZBUILD/chrt
-</code>
-<b><i>Either</i></b>:
-Build in a 32-bit environment which has been installed in $CHRT.
-
-<b><i>Or</i></b>:
-Mount a 32-bit installation from
-either VFS (offset according to fdisk setup)
-<code class="thtwob">mount -o loop -o offset=$((2048*512)) VFS $CHRT</code>
-or partition:
-<code class="thtwob">mount /dev/sdx $CHRT</code>
-
-<b><i>Then</i></b>:
-<code class="thtwo">mkdir -p $CHRT$MOZBUILD/{mozilla,sources}
-mkdir -p $CHRT$MOZBUILD/$REL/{packaging-{FF,SM,TB}-$PKG_ARCH,built,comm-$REL/mozilla}
-<span class="red">mkdir -p $CHRT$MOZBUILD/l10n</span>
-
-<span class="dhash">##</span> mount the required existing directories into the chroot:
-mount -B /dev $CHRT/dev
-mount -t proc proc $CHRT/proc
-mount -B $MOZBUILD/mozilla $CHRT$MOZBUILD/mozilla
-mount -B $MOZBUILD/sources $CHRT$MOZBUILD/sources
-mount -B $MOZBUILD/$REL/comm-$REL $CHRT$MOZBUILD/$REL/comm-$REL
-<span class="red">mount -B $MOZBUILD/l10n $CHRT$MOZBUILD/l10n</span>
-
-chroot $CHRT /bin/bash
-<code class="thtwo"><span class="dhash">##</span> Now, in the chroot:
-source /etc/profile
-
-<span class="dhash">##</span> Remove any stale configure file:
-rm -f $MOZBUILD/mozilla/configure
-<span class="dhash">##</span> set a dummy variable to be able to test whether the build is in a chroot
-CHRT_TEST=" "
-<span class="dhash">##</span> Bind the mozilla repository into the comm-$REL tree:
-mount -B $MOZBUILD/mozilla $MOZBUILD/$REL/comm-$REL/mozilla
-<span class="dhash">##</span> and for the later builds with mozilla as topsrcdir
-mkdir -p $MOZBUILD/$REL/comm-$REL/mozilla/comm
-mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
-</code></code></code>
-<span class="tabs"><a href="#close_32bit">close</a></span>
-</div>
-</div>
-<!--
-32-bit - end
--->
 <p><br>
 <a name="BuildingFFReturn"></a>
 <div style="background: #FFFADD;"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBElEQVR42qWTa0jTURiHs6sWSmnp
@@ -1493,7 +1416,7 @@ iIY95Qx9oWZP+ZPfAJM8k1+jkGe4AAAAAElFTkSuQmCC"> Nightly]</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
 </code> <a name="close_FF_xcompile"></a>                                                    <!-- FF xcompile - start -->
-<span class="tabs prefs"><a href="#FF_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<span class="tabs prefs"><a href="#FF_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="FF_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
 <!-- leave this space -->
@@ -1503,30 +1426,36 @@ The additions fit into the build tree like this:
 │   └── rust-&hellip;
 │       └── lib
 │           └── rustlib
-│               ├── x86_64-unknown-linux-gnu</span>
+│               ├── x86_64-unknown-linux-gnu		<i>x86_64 crate</i> - already in place for native build</span>
+│               ├── i686-unknown-linux-gnu		<i>i686 crate</i>
 │               ├── armv7-unknown-linux-gnueabihf	<i>armv7 crate</i>
 │               └── aarch64-unknown-linux-gnu		<i>aarch64 crate</i>
-└── $TARGET_SYSROOT					<i>bind mounted to sysroot</i> *
+└── $TARGET_INSTN					<i>target libs and headers installation - bind mounted to sysroot</i> *
 
 opt
 └── cross-pi-gcc
     ├── bin						<i>cross compiler</i>
     └── sysroot *					<i>set in cross compiler build</i>
 </code>
-<br>
-[1] Set variables for a 32-bit [armv7] or 64-bit [aarch64] build.
-<code class="thtwob"><span class="dhash">##</span> <b>32-bit</b> hard float
+
+[1] Set variables for an armv7, aarch64, or i686 build.
+<b>Don't</b> use variables used by mozilla - confuses libloading for example ..
+   and setting flags with CC etc in the shell environment will fail configure,
+   so set architecture specific variables here and re-assign them in mozconfig.cross.
+<b>Add</b> '-v' to X_CC/X_CXX exports for verbose output to aid troubleshooting
+<b>The toolchain</b> used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>,
+   which includes some compiler optimizations for the arm versions, and creating a kernel headers package.
+<code class="thtwob"><b>32-bit</b> armv7_hf
 <code class="green">export CRATE=armv7-unknown-linux-gnueabihf
-<span class="dhash">##</span> don't use variables used by mozilla - confuses libloading for example ..
 export X_TARGET=arm-linux-gnueabihf
 export X_CC=$X_TARGET-gcc
 export X_CXX=$X_TARGET-g++
 export LIBDIRSUFFIX=""
 <span class="dhash">##</span> Slack_base = where the Slackware packages a-y directories are:
 export Slack_base=<span class="comment">/path_to_Slackware_arm_current</span>
-export TARGET_SYSROOT=<span class="comment">FF-RPi3-arm-sysroot</span>
+export TARGET_INSTN=<span class="comment">FF-RPi3-arm-sysroot</span>
 <span class="dhash">##</span> Set variable for the package name
-export PKG_ARCH=<span class="comment">armv7_hf</span>
+export PKG_ARCH=armv7_hf
 <span class="dhash">##</span> Disable webrtc for FF64+ on armv7 because of multiple definitions[&diamondsuit;] relating to arm webrtc code causing <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1523162">linker error</a>
 [[ $MAJ_VER -ge 64 ]] &amp;&amp; export DISABLE_WEBRTC='ac_add_options --disable-webrtc'
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
@@ -1558,9 +1487,9 @@ done
 
 export DISABLE_WEBRTC=''
 }
-</code>
-<span class="dhash">##</span> <b>OR:</b>
-<span class="dhash">##</span> <b>64-bit</b>
+</code></code>
+<b>OR:</b>
+<code class="thtwob"><b>64-bit</b> aarch64
 <code class="green">export CRATE=aarch64-unknown-linux-gnu
 export X_TARGET=aarch64-linux-gnu
 <span class="dhash">##</span> -march=armv8-a+crc is the compiler default, so just add -mtune=cortex-a53
@@ -1570,11 +1499,36 @@ export LIBDIRSUFFIX=64
 <span class="dhash">##</span> Slack_base = where the Slarm64 packages a-y directories are:
 <span class="dhash">##</span> Download from a Slackware mirror - for example <a class="extlink" href="https://slackware.uk/slarm64/slarm64-current/slarm64/">slackware.uk</a>
 export Slack_base=<span class="comment">/path_to_Slarm64</span>
-export TARGET_SYSROOT=<span class="comment">FF-RPi3-aarch64-sysroot</span>
-export PKG_ARCH=<span class="comment">aarch64</span>
+export TARGET_INSTN=<span class="comment">FF-RPi3-aarch64-sysroot</span>
+export PKG_ARCH=aarch64
 <span class="dhash">##</span> webrtc builds ok for aarch64
 export DISABLE_WEBRTC=''
 <span class="dhash">##</span> 'disable-elf-hack' isn't an option for aarch64
+export DISABLE_ELFHACK=''
+</code></code>
+<b>OR:</b>
+<code class="thtwob"><b>32-bit</b> i686
+<code class="green">export CRATE=i686-unknown-linux-gnu
+export X_TARGET=i686-linux-gnu
+<code class="thtwo"><span class="dhash">##</span> <b>gcc optimization for HOST</b>, so only use if TARGET == same machine architecture
+OPTM=$(echo $(gcc -Q -O2 -march=native --help=target | grep -E "^  -march=|^  -mtune=|^  -mfpmath=" | tr -d [:blank:]))
+<span class="dhash">##</span> otherwise, if required, set OPTM for TARGET machine &hellip;
+echo $OPTM
+<span class="dhash">##</span> should be something like:
+<span style="color:#fafafa">#</span><span class="console"> -march=core2 -mfpmath=sse -mtune=core2</span>
+</code>
+<span class="dhash">##</span> the '-msse -msse2' flags are included as per the Mozilla release buildconfig
+export X_CC="$X_TARGET-gcc -msse -msse2 ${OPTM:-}"
+export X_CXX="$X_TARGET-g++ -msse -msse2 ${OPTM:-}"
+export LIBDIRSUFFIX=""
+<span class="dhash">##</span> Slack_base = where the Slackware32 packages a-y directories are:
+<span class="dhash">##</span> Download from a Slackware mirror - for example <a class="extlink" href="https://slackware.uk/">slackware.uk</a>
+export Slack_base=<span class="comment">/path_to_Slackware32</span>
+export TARGET_INSTN=<span class="comment">FF-i686-sysroot</span>
+export PKG_ARCH=i686
+<span class="dhash">##</span> webrtc builds ok
+export DISABLE_WEBRTC=''
+<span class="dhash">##</span> 'elf-hack' is ok
 export DISABLE_ELFHACK=''
 </code>
 </code>
@@ -1583,8 +1537,8 @@ export DISABLE_ELFHACK=''
 
 For <b>rust</b>, host relates to the architecture that the program is built on, and target relates to the architecture that the program will run on.
 
-rustc and cargo and the rust-std crate are already installed for x86 [host].
-Download and install the target crate for building RPi3 apps.
+rustc and cargo and the rust-std crate are already installed for x86_64 [host].
+Download and install the target crate for building RPi3 or i686 apps.
 This <b>must</b> be the same version as the host crate, and installed to the same prefix.
 <code class="green">cd $MOZBUILD/sources/
 RUST_VER=$(rustc -V|cut -d" " -f2)
@@ -1597,13 +1551,12 @@ cd rust-std-$RUST_VER-$CRATE
 
 [3] Cross compiler
 
-The toolchain used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>, where a RPi3 kernel headers package is also created.
-
 Set the cross tools directories
 <code class="green">export XGCC_DIR=<span class="comment">/opt/cross-pi-gcc</span>
 export SYSROOT=<span class="comment">$XGCC_DIR/sysroot</span>
 </code>
-<code class="green">installpkg <span class="comment">/tmp/</span>xgcc910-glibc2.29-4.19.27_RPi_headers-*.txz
+Install the cross compiler
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc910-glibc2.29-4.19.27*.txz
 </code>
 
 There is an issue with the different limits.h priorities which occurs in cross compiling for Firefox.
@@ -1617,14 +1570,16 @@ I've used the solution <a class="extlink" href="https://www.linuxquestions.org/q
 cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 </code>
 
-[4] Set up a sysroot for the RPi3 libs and headers needed for the Firefox build.
+[4] Set up a sysroot for the target libs and headers needed for the Firefox build.
+<b>OR</b>
+Skip this and use an existing installation.
 
 My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
 This enables me to set up different sysroots for whatever is being cross compiled.
 
-Install kernel headers and Slackware/Slarm64 libs/headers as used for the RPi3
-<code class="green">export ROOT=<span class="comment">$MOZBUILD/$TARGET_SYSROOT</span>
-installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-RPi-arm$LIBDIRSUFFIX.txz
+Install kernel headers and Slackware/Slarm64 libs/headers as used for the target OS
+<code class="green">export ROOT=$MOZBUILD/$TARGET_INSTN
+installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-<span class="comment">{i686,RPi-arm$LIBDIRSUFFIX}</span>.txz
 
 cd $Slack_base
 installpkg l/pango-*.txz
@@ -1642,6 +1597,7 @@ installpkg l/harfbuzz-*.txz
 installpkg l/cairo-*.txz
 installpkg x/pixman-*.txz
 installpkg x/mesa-*.txz
+installpkg x/libglvnd-*.txz
 installpkg x/libdrm-*.txz
 installpkg x/libX11-*.txz
 installpkg x/xorgproto-*.txz
@@ -1656,6 +1612,7 @@ installpkg x/libXxf86vm-*.txz
 installpkg x/libXrender-*.txz
 installpkg l/gtk+3-3.*.txz
 installpkg l/gdk-pixbuf2-*.txz
+installpkg x/libXtst-*.txz
 installpkg x/libXinerama-*.txz
 installpkg x/libXi-*.txz
 installpkg x/libXrandr-*.txz
@@ -1676,9 +1633,8 @@ installpkg l/libffi-*.txz
 installpkg x/libxshmfence-*.txz
 installpkg n/openssl-1.1.*.txz
 installpkg x/glu-*.txz
-<span class="dhash">##</span> these two only required for Slarm64
-installpkg l/graphite2-*-aarch64-*.txz
-installpkg l/shared-mime-info-*-aarch64-*.txz
+installpkg l/graphite2-*.txz
+installpkg l/shared-mime-info-*.txz
 <span class="dhash">##</span> move ldconfig out of the way - links will be set up by doinst.sh
 mv /sbin/ldconfig /sbin/ldconfig-bak
 installpkg l/glibc-2.29*.txz
@@ -1694,7 +1650,7 @@ export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
 export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib$LIBDIRSUFFIX/pkgconfig:$SYSROOT/usr/share/pkgconfig
 </code>
 Mount SYSROOT
-<code class="green">mount -B <span class="comment">$MOZBUILD/$TARGET_SYSROOT</span> $SYSROOT
+<code class="green">mount -B $MOZBUILD/$TARGET_INSTN $SYSROOT
 </code>
 Add the cross compiler [$X_TARGET-gcc etc..] bin directory to the PATH
 <code class="green">export PATH=$XGCC_DIR/bin:$PATH
@@ -1708,25 +1664,42 @@ Set suffix for additional mozconfigs
 Create an additional common mozconfig &Rightarrow; mozconfig.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.cross << "EOF"
-<span class="dhash">##</span> for cross compiling
+
+<span class="dhash">##</span> Set CC/CXX to enable compiler optimization set in X_CC and X_CXX
 CC=$X_CC
 CXX=$X_CXX
 ac_add_options --target=$CRATE
 
-<span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
+<span class="dhash">##</span> the i686 build sets host == target if HOST_C* not set,
+[[ $CRATE == *i686* ]] &amp;&amp; {
+mk_add_options "export HOST_CC=gcc"
+mk_add_options "export HOST_CXX=g++"
+}
+
+<span class="dhash">##</span> elfhack corrupts libxul.so on an armv7-hf build
 $DISABLE_ELFHACK
 
-<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc
+<span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc crosstools versions
 mk_add_options "export LD_LIBRARY_PATH=$XGCC_DIR/$X_TARGET/lib$LIBDIRSUFFIX"
 
 <span class="dhash">##</span> use the cross tools to strip the arm libraries during installation
 mk_add_options "export STRIP=$XGCC_DIR/$X_TARGET/bin/strip"
 
-<span class="dhash">##</span> add BINDGEN_CFLAGS for the servo/style [stylo] build
-<span class="dhash">##</span> adding the $XGCC_DIR/lib/gcc/... paths for gcc9.1.0
-mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0 -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0/$X_TARGET -I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include -I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include-fixed"
+<span class="dhash">##</span> Add <b>BINDGEN_CFLAGS</b> for the servo/style [stylo] build,
+<span class="dhash">##</span> setting include paths for the cross compiler being used,
+<span class="dhash">##</span> with BINDGEN_INCS for some includes specific to each x86/arm architecture
+[[ $CRATE == *i686* ]] &amp;&amp; {
+BINDGEN_INCS=-I$XGCC_DIR/$X_TARGET/include
+} || {
+BINDGEN_INCS="-I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include \
+-I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include-fixed"
+}
+mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT \
+-I$XGCC_DIR/$X_TARGET/include/c++/9.1.0 \
+-I$XGCC_DIR/$X_TARGET/include/c++/9.1.0/$X_TARGET \
+${BINDGEN_INCS:-}"
 
-<span class="dhash">##</span> disable webrtc for FF64+ on armv7
+<span class="dhash">##</span> maybe disable webrtc for FF64+ on armv7
 $DISABLE_WEBRTC
 
 EOF
@@ -1888,7 +1861,7 @@ yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="verti
 <code class="gray">unset XCOMPILE
 </code>
 </code> <a name="close_SM_xcompile"></a>                                                    <!-- SM xcompile - start -->
-<span class="tabs prefs"><a href="#SM_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<span class="tabs prefs"><a href="#SM_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="SM_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
 <!-- leave this space -->
@@ -2002,7 +1975,7 @@ V5u/zH0Tu/jj+fiF82e333/rjdmZF184TXOeNYTc9z/J0SNHjA0eonqY6gmqJ/9Sd+zI5OQDE//H
 <code class="gray">unset XCOMPILE
 </code>
 </code> <a name="close_TB_xcompile"></a>                                                    <!-- TB xcompile - start -->
-<span class="tabs prefs"><a href="#TB_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling for the RPi3.</span>
+<span class="tabs prefs"><a href="#TB_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="TB_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 <!-- leave this space -->
@@ -2070,47 +2043,6 @@ makepkg -l y -c n ../../../../built/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/m
 </code>
 </div>
 
-
-<p>
-If in a chroot, exit and unmount additional 32-bit build bindings:
-<br>
-<code class="thtwo">[[ $CHRT_TEST ]] &amp;&amp; unset CHRT_TEST &amp;&amp; exit
-
-[[ $(cat /proc/mounts | grep $CHRT/proc) ]] &amp;&amp; {
-umount $CHRT$MOZBUILD/$REL/comm-$REL/mozilla/comm
-umount $CHRT$MOZBUILD/$REL/comm-$REL/mozilla
-umount $CHRT$MOZBUILD/l10n
-umount $CHRT$MOZBUILD/$REL/comm-$REL
-umount $CHRT$MOZBUILD/sources
-umount $CHRT$MOZBUILD/mozilla
-umount $CHRT/proc
-umount $CHRT/dev
-
-<span class="dhash">##</span> Reset everything for a 64-bit build
-unset CHRT
-export ARCH=x86_64
-sed -i '/For 32 bit version/,+3 d' $MOZBUILD/mozilla/mozconfig.common
-}
-</code>
-
-<P>
-Reset FF57+ localization work-arounds:<br>
-<code class="red"><span class="dhash">##</span> RESET searchplugins
-rm $MOZBUILD/$REL/comm-release/suite/locales/en-US/searchplugins/*
-
-<span class="dhash">##</span> RESET all en-US files
-<b>TEST_CP=no</b>
-(cd $MOZBUILD/l10n/wip
-while read file
-do
-[[ $TEST_CP == no ]] &amp;&amp; cp -a .$file $file \
-|| echo -e "would copy en-US backup \n.$file \nto original location \n$file \n"
-done &lt; $MOZBUILD/l10n/en-US-l10n-files)
-
-<span class="dhash">##</span> and remove temporary content
-rm -rf $MOZBUILD/l10n/wip/*
-</code>
-
 <p>
 Unmount the bind mounts:
 <br>
@@ -2140,7 +2072,6 @@ git checkout gh-pages
         <p><a href="#Prefs"><span class="green">User preferences</span></a>
         <p><a href="#Ttipbox"><span class="green">Gtk3 configuration</span></a>
         <p><a href="#l10n"><span class="red">Localization</span></a>
-        <p><a href="#Th2bit"><span class="thtwo">32-bit build</span></a>
         <p><a href="#BuildingFFReturn"><span style="background: #FFFADD;">Building Firefox</span></a>
         <p><a href="#BuildingSMReturn"><span style="background: #E5F1FF;">Building SeaMonkey</span></a>
         <p><a href="#BuildingTBReturn"><span style="background: #F4f4f4;">Building Thunderbird</span></a>
