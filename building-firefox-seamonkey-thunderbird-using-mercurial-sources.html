@@ -124,14 +124,14 @@ color:darkred;
 Build <b>esr60/68</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
 <p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
-Packaging - installation and creation - is Slackware specific, but to DESTDIR, so I guess would be adaptable to other packaging systems.
+Packaging is Slackware specific, but installation for that is to DESTDIR, so I guess would be adaptable to other packaging systems.
 <br>
 Packaging from the 'mach' built packages is generic.
 <p>
 Build <span style="background:#FFFADD;">Firefox</span> with gtk3, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
 and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla source.
 <br>
-<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7/aarch64 [optimized for Raspberry Pi3], and i686.
+<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7 or aarch64 [optimized for Raspberry Pi3], or i686.
 <p>Customization options with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a>.
 <br>
 <hr>
@@ -146,6 +146,8 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <p><a name="Latest"></a><br>
 <b>Latest builds</b>
 <br>
+These are builds which have been completed and run, not always current for each repository.
+<br>
 l10n files are updated from the l10n-central base revisions during <a href="#l10n"><span class="red">Localization</span></a> using compare-locales 
 <br><code class="appx">                                                   built to <span class="off_rel">{released}</span> revision/changeset
         <u>Firefox</u>   <u>SeaMonkey</u>   <u>Thunderbird</u>       <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
@@ -153,26 +155,24 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><br>
 <b><i>esr68</i></b>
 <br>
-<code class="appx">        68.2.0 rc                               <span class="off_rel">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">armv7</span>&diamondsuit;  68.2.0 rc                               <span class="">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
-<span class="comment green">aarch64</span> 68.2.0 rc                               <span class="">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span style="color:#8F8F8F"><span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
-<span class="comment green">i686</span>    68.2.0                                  <span class="off_rel">ce462a42d4f7</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-                              68.1.1 &#x02021;          <span class="off_rel">0efe7ab505b5</span>    <span class="off_rel">41c0a3653f95</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>                       68.1.1 &#x02021;          0efe7ab505b5    41c0a3653f95    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
-<span class="comment green">i686</span>                          68.2.2            <span class="off_rel">efd27abec3b8</span>    <span class="off_rel">4297fc81fadc</span>    a1cd22844353   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<code class="appx">        68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;  68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>    68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              68.3.0            <span class="off_rel">78ab5e054eb0</span>    <span class="off_rel">228eab07a730</span>    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;                        68.3.0            78ab5e054eb0    228eab07a730    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>                       68.3.0            78ab5e054eb0    228eab07a730    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                          68.3.0            <span class="off_rel">78ab5e054eb0</span>    <span class="off_rel">228eab07a730</span>    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 &diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
-<br>
-&#x02021; <span class="comment">TB 68.1.1 is a bug fix and is built from the mozilla-esr68 THUNDERBIRD_68_VERBRANCH branch pulled into mozilla-unified</span>
-<br><span class="comment">rc == release candidate</span>
 <p>
 <b><i>release</i></b>
 <br>
-<code class="appx">        70.0 rc                                 <span class="off_rel">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">armv7</span>&diamondsuit;  70.0 rc                                 <span class="">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">aarch64</span> 70.0 rc                                 <span class="">990d9f90f0f5</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
-<span class="comment green">i686</span>    70.0.1                                  <span class="off_rel">21ce5fdd3146</span>    <span class="comment">n/a</span>             <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<code class="appx">        71.0                                    <span class="off_rel">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;  71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>    71.0                                    <span class="off_rel">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               67.0b3            2a7896ba9aa5    <span class="off_rel">ac7b1df1919b</span>    a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
@@ -199,15 +199,17 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><br>
 <b><i>esr60</i></b> <span class="comment"> [SM/TB versions as per '<a href="#Prefs">User preferences</a>[4]'</span>
 <br>
+This has been retained for SeaMonkey 2.57 builds
+<br>
 <code class="appx">        60.7.0                                  <span class="off_rel">64ee63facd4f</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   60.7.0                                  <span class="">64ee63facd4f</span>    <span class="comment">n/a</span>             24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
-                  2.57.7.0                      64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>             2.57.7.0                      64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<span class="comment green">armv7</span>   60.7.0                                  <span class="">64ee63facd4f</span>    <span class="comment">n/a</span>             24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57.9.1 <b>&#x02021;</b>                    1aeaa33a64f9    b05f05a590f4    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>             2.57.7.0                      64ee63facd4f    5822a83963e3    24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                               60.7.0            64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>                         60.7.0            64ee63facd4f    5822a83963e3    24a583bfc5c7   <span style="color:#8F8F8F"><span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
+<span class="comment green">armv7</span>                         60.7.0            64ee63facd4f    5822a83963e3    24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment">esr 60.6+ builds have been done with rust 1.31.0 because <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1520758">style_traits will not build with rust 1.33.0+</a></span>
+<span class="comment"><b>&#x02021;</b> - the mozilla and comm revisions are the changesets at tip at the time of compiling</span>
 </code>
 <p>
 
@@ -237,13 +239,14 @@ Typical usage is 6GB actual, 3GB swap for -j2.
 │   <span class="red">├── $L10N					# mercurial clone</span>
 │   <span class="red">├── merge-$L10N 				# updated $L10N files</span>
 │   <span class="red">└── wip 					# temporary workspace for FF57+ builds</span>
-└───$REL							# build tree for each of release, beta, esr60, central
+└───$REL							# build tree for each of esr, release, beta, central
     ├── comm-$REL						# mercurial clone
     │   └── mozilla						# bind to $MOZBUILD/mozilla
     │       <span class="thtwo">└── comm						# work-around for TB 64+ &amp; SM 2.57+</span>
     ├── {firefox,seamonkey,thunderbird}-build-dir-$PKG_ARCH	# build directories
     ├── packaging-{FF,SM,TB}-$PKG_ARCH
-    │   └── usr/lib						# install here to create package
+    │   └── usr
+    │       └── lib						# install here to create package
     └── built
         ├── firefox-{version}$LOCZN-$PKG_ARCH.txz		# the Firefox Slackware package
         ├── seamonkey-{version}$LOCZN-$PKG_ARCH.txz		# the SeaMonkey Slackware package
@@ -260,9 +263,9 @@ export REPOS="<b>release</b> <b>beta</b> <b>esr60</b> <b>esr68</b> <b>central</b
 <span class="dhash">##</span> choose which to build:
 export REL=<span class="comment"><b>esr68</b></span>
 <span class="dhash">##</span> set number of parallel jobs
-export NUMJOBS=-j$(getconf _NPROCESSORS_ONLN) &amp;&amp; [[ $(getconf _NPROCESSORS_ONLN) -ge 8 ]] &amp;&amp; export NUMJOBS=-j12
-<span class="dhash">##</span> 'uname -m' won't identify the architecture where a 64-bit kernel is being used for a 32-bit system
-export ARCH=x86_64 &amp;&amp; [[ $(getconf LONG_BIT) == 32 ]] &amp;&amp; export ARCH=i686 ; export PKG_ARCH=$ARCH
+export NUMJOBS=-j$[$(getconf _NPROCESSORS_ONLN)*2]
+export ARCH=x86_64
+export PKG_ARCH=$ARCH
 export LOCZN=-$(echo en-US | tr - _)
 <span class="red">export L10N=<span class="comment"><b>en-GB</b></span> &amp;&amp; export LOCZN=-$(echo $L10N | tr - _)</span>
 </code>
@@ -379,7 +382,7 @@ Links to dictionaries are available at <a class="extlink" href="https://addons.m
 <br>Build and install to temporary directory for use with this build only.
 <br>
 <code class="gray">cd $MOZBUILD/sources
-<span style="color: #c50000;">wget http://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz</span>
+<span style="color: #c50000;">wget https://ftpmirror.gnu.org/autoconf/autoconf-2.13.tar.gz</span>
 
 tar xf autoconf-2.13.tar.gz
 cd autoconf-2.13
@@ -393,6 +396,9 @@ autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and thi
 <p>
 <b>Rust</b>
 <br>
+Download and install the x86_64 version of rust which includes the rustc and cargo binaries, and the x86_64 crate.
+<br>
+armv7[hf], aarch64, and i686 crates for cross compiling will be downloaded and added to this installation as required.
 <code class="gray">cd $MOZBUILD/sources/
 <span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html</span>
 URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
@@ -466,7 +472,7 @@ This finds the latest release candidate build for any specific Firefox version, 
 ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 
 cd $MOZBUILD/sources/
-<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr60 version
+<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr version
 <span style="color: #c50000;">wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/</span>
 REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
 <span class="appx">echo $REL_CAND</span>
@@ -525,7 +531,7 @@ hg checkout ${REL}_$BUILD_CS
 
 <b><u>comm-$REL</b></u>
 SeaMonkey doesn't run beyond 2.57, so for mozilla > 60, this applies to TB only ..
-SeaMonkey releases are ad-hoc and the Thunderbird release revisions are available from the release candidates repository.
+SeaMonkey releases are ad-hoc and the Thunderbird release revision hashes are available from the candidates repository.
 This procedure is for Thunderbird releases - for other TB builds, just set the revisions as required.
 <code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
 TB_VER=$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
@@ -547,10 +553,10 @@ TB_TXT="thunderbird-$(echo $TB_REL_CAND |cut -d- -f1).txt"
 <span class="appx">echo $TB_TXT</span>
 <span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND/$TB_BUILD/linux-$ARCH/en-US/$TB_TXT</span>
 <span style="color: #E7F5E7;">&lt;&lt;'comment'</span>
-For example for TB esr68.1.1, the contents of this file are:
-20190924105435
-https://hg.mozilla.org/releases/comm-esr68/rev/41c0a3653f95cf6158a2b49ab7cb19327c50e9e8
-https://us-east-1.hgmointernal.net/mozilla-unified/rev/0efe7ab505b59f1986ebedc0c114a7d24fd93168
+For example for TBesr 68.3.0, the contents of this file are:
+20191129091924
+https://hg.mozilla.org/releases/comm-esr68/rev/228eab07a730c48763e1cd0ccff9491f66e4580e
+https://hg.mozilla.org/releases/mozilla-esr68/rev/78ab5e054eb0a2a71f3d1f1875de5fc4c575ac91
 <span style="color: #E7F5E7;">comment</span>
 <span class="dhash">##</span> &hellip; and find the changesets
 COMM_BUILD_CS=$(grep comm- $TB_TXT | cut -d"/" -f7 | colrm 13)
@@ -760,14 +766,21 @@ cd mozilla
 mkdir -p comm
 mount -B $MOZBUILD/$REL/comm-$REL comm)
 </code>
-
 <p>
 Remove any stale configure file:
 <br>
 <code class="gray">rm -f $MOZBUILD/mozilla/configure
 </code>
 <p>
-
+<a class="extlink" href="http://lists.linuxfromscratch.org/pipermail/blfs-book/2019-July/082190.html">Patch esr60</a> for SM 2.57 build failure for undocumented macros with rust-1.33+
+<br>
+<code class="gray">[[ $REL == esr60 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla
+sed -i -e 's/#!\[deny(unsafe_code, missing_docs)\]/#!\[deny(unsafe_code)\]/g' servo/components/style_traits/lib.rs
+sed -i -e '/#!\[deny(missing_docs)\]/d' servo/components/style/lib.rs
+}
+</code>
+<p>
 <!--
 User preferences - start
 -->
@@ -873,7 +886,7 @@ sed -i 's|pref("browser.startup.homepage".*$|pref("browser.startup.homepage","ab
 <span class="dhash">##</span> &hellip; and stop the privacy page loading:
 sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareporting-prefs.js
 
-<span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button - about:newtab continues to load the newtab page.
+<span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button.
 sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/[aA]boutNewTabService.js*
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
@@ -1136,10 +1149,10 @@ python setup.py build install)
 </code>
 
 <b>Known issues</b>
-<code class="console">There will be some error messages here about files not found.
+There will be some error messages here about files not found.
 This is a consequence of the localization transition and it's becoming too onerous to test for them.
-I've found them to be harmless .. and in the issues I've covered, the results are as expected.
-</code>
+I've found them to be harmless .. and in the issues I've covered, the results are as required.
+
 Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
@@ -1152,6 +1165,7 @@ To build to a release version:
 <code class="green"><b>Either:</b>
 From FF59.0, the l10n revisions are contained in the l10n-changesets.json file:
 <code class="red">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
+<span class="appx">echo $L10N_CS</span>
 [[ $L10N_CS == default ]] &amp;&amp; L10N_CS=$(hg log -l 1 -R $MOZBUILD/l10n/$L10N | head -n1 | cut -d":" -f3)
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code>
@@ -1482,7 +1496,7 @@ echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
 -
 ' | while read line
 do
-patch -p0
+patch -N -p0
 done
 
 export DISABLE_WEBRTC=''
@@ -1556,7 +1570,7 @@ Set the cross tools directories
 export SYSROOT=<span class="comment">$XGCC_DIR/sysroot</span>
 </code>
 Install the cross compiler
-<code class="green">installpkg <span class="comment">/tmp/</span>xgcc910-glibc2.29-4.19.27*.txz
+<code class="green">installpkg <span class="comment">/tmp/</span>xgcc910-glibc2.29-4.19.27-<span class="comment">&lt;re: $PKG_ARCH></span>.txz
 </code>
 
 There is an issue with the different limits.h priorities which occurs in cross compiling for Firefox.
@@ -1579,7 +1593,7 @@ This enables me to set up different sysroots for whatever is being cross compile
 
 Install kernel headers and Slackware/Slarm64 libs/headers as used for the target OS
 <code class="green">export ROOT=$MOZBUILD/$TARGET_INSTN
-installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-<span class="comment">{i686,RPi-arm$LIBDIRSUFFIX}</span>.txz
+installpkg <span class="comment">/tmp/</span>kernel-headers-4.19.27-<span class="comment">&lt;re: $PKG_ARCH></span>.txz
 
 cd $Slack_base
 installpkg l/pango-*.txz
@@ -1656,7 +1670,7 @@ Add the cross compiler [$X_TARGET-gcc etc..] bin directory to the PATH
 <code class="green">export PATH=$XGCC_DIR/bin:$PATH
 </code>
 Set suffix for additional mozconfigs
-<code class="green">XCOMPILE=.cross
+<code class="green">export XCOMPILE=.cross
 </code>
 
 [6] The build needs to be set up to use the cross compiler [CC] and the rust target crate [--target=]
@@ -1665,10 +1679,11 @@ Create an additional common mozconfig &Rightarrow; mozconfig.cross
 <code class="green">cd $MOZBUILD/mozilla
 cat > mozconfig.cross << "EOF"
 
+ac_add_options --target=$CRATE
+
 <span class="dhash">##</span> Set CC/CXX to enable compiler optimization set in X_CC and X_CXX
 CC=$X_CC
 CXX=$X_CXX
-ac_add_options --target=$CRATE
 
 <span class="dhash">##</span> the i686 build sets host == target if HOST_C* not set,
 [[ $CRATE == *i686* ]] &amp;&amp; {
@@ -1687,17 +1702,17 @@ mk_add_options "export STRIP=$XGCC_DIR/$X_TARGET/bin/strip"
 
 <span class="dhash">##</span> Add <b>BINDGEN_CFLAGS</b> for the servo/style [stylo] build,
 <span class="dhash">##</span> setting include paths for the cross compiler being used,
-<span class="dhash">##</span> with BINDGEN_INCS for some includes specific to each x86/arm architecture
+<span class="dhash">##</span> with BINDGEN_PLUS for some includes specific to each x86/arm architecture
 [[ $CRATE == *i686* ]] &amp;&amp; {
-BINDGEN_INCS=-I$XGCC_DIR/$X_TARGET/include
+BINDGEN_PLUS=-I$XGCC_DIR/$X_TARGET/include
 } || {
-BINDGEN_INCS="-I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include \
+BINDGEN_PLUS="-I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include \
 -I$XGCC_DIR/lib/gcc/$X_TARGET/9.1.0/include-fixed"
 }
 mk_add_options "export BINDGEN_CFLAGS=--sysroot=$SYSROOT \
 -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0 \
 -I$XGCC_DIR/$X_TARGET/include/c++/9.1.0/$X_TARGET \
-${BINDGEN_INCS:-}"
+${BINDGEN_PLUS:-}"
 
 <span class="dhash">##</span> maybe disable webrtc for FF64+ on armv7
 $DISABLE_WEBRTC
@@ -1736,7 +1751,7 @@ echo $'--- mfbt/LinuxSignal.h
 +    : "r"(H), "l"(aSignal), "l"(aInfo), "l"(aContext)
 ' | while read line
 do
-patch -p0
+patch -N -p0
 done
 </code>
 <b>OR</b>:
@@ -1752,7 +1767,7 @@ echo $'--- mfbt/LinuxSignal.h
 +    : "memory");
 ' | while read line
 do
-patch -p0
+patch -N -p0
 done
 </code>
 <code class="console">error: field ‘ufp’ has incomplete type ‘user_vfp’</code>
@@ -1774,7 +1789,7 @@ echo $'--- js/src/wasm/WasmSignalHandlers.cpp
 +};
 ' | while read line
 do
-patch -p0
+patch -N -p0
 done
 }
 </code>
@@ -1787,7 +1802,7 @@ echo $'--- media/libopus/silk/arm/arm_silk_map.c
 +#include "../fixed/main_FIX.h"
 ' | while read line
 do
-patch -p0
+patch -N -p0
 done
 </code>
 </code>
@@ -1882,7 +1897,7 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/seamonkey-build-dir-$PKG_ARCH
 EOF
 </code>
 3] Set suffix for mozconfig
-<code class="green thtwob">XCOMPILE=.cross
+<code class="green thtwob">export XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
 </div></div>                                                     <!-- SM xcompile - end -->
@@ -1996,7 +2011,7 @@ mk_add_options MOZ_OBJDIR=$MOZBUILD/$REL/thunderbird-build-dir-$PKG_ARCH
 EOF
 </code>
 3] Set suffix for mozconfig
-<code class="green thtwob">XCOMPILE=.cross
+<code class="green thtwob">export XCOMPILE=.cross
 </code>
 <span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 </div></div>                                                     <!-- TB xcompile - end -->
@@ -2019,7 +2034,7 @@ Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB-$PKG_ARCH ./mozilla/mach install
 </code>
 Add dictionary extension for L10N:
-This will have to be enabled on TB first run.
+This will have to be enabled on TB first run - Edit|Preferences|Composition|Language
 <code class="red">[[ $MAJ_VER -ge 67 ]] &amp;&amp; (cd $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird
 mkdir extensions
 DICT_ID=$(unzip -p $MOZBUILD/sources/$L10N-dict.xpi manifest.json | grep -o [-.a-z]*@[-.a-z]*)
