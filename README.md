@@ -16,4 +16,4 @@ or view @:
 https://ray-v.github.io/mozbuild/building-firefox-seamonkey-thunderbird-using-mercurial-sources.html
 
 
-Latest update 2019-11-10 to add cross compiling for i686
+Updated 2019-12-11 for 68.3.0 and 71.0 releases
