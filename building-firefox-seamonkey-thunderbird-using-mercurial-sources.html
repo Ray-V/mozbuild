@@ -155,7 +155,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><br>
 <b><i>esr68</i></b>
 <br>
-<code class="appx">        68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        68.8.0                                  <span class="off_rel">416007f3bb6c</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>&diamondsuit;  68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -215,12 +215,12 @@ This has been retained for SeaMonkey 2.57 builds
 
 <br>
 <b>Build times</b>
-<br><code>Machine			dual-core 2.2 GHz	2x quad-core 3GHz
-MOZ_MAKE_FLAGS		-j2			-j12
-Firefox 		~298 mins [FF70]	~62 mins [FF70]
-SeaMonkey/Thunderbird	~289 mins [TB68]	~41 mins [SM2.57esr/TB60esr]</code>
+<br><code>Machine				dual-core 2.2 GHz			2x quad-core 3GHz
+MOZ_MAKE_FLAGS		-j2			-j4			-j12
+Firefox 		~298 mins [FF70]	~264 mins [FF68esr]	~62 mins [FF70]
+SeaMonkey/Thunderbird	~289 mins [TB68]				~41 mins [SM2.57esr/TB60esr]</code>
 <br>
-Higher values for '-j' on the dual-core machine cause random build errors, unless built with adequate memory or swap.
+Higher values than '-j2' on the dual-core machine can cause random build errors, unless built with adequate memory or swap.
 <br>
 Typical usage is 6GB actual, 3GB swap for -j2.
 
@@ -391,26 +391,29 @@ make
 make install
 </code>
 <br>
-autoconf is now installed at $MOZBUILD/sources/autoconf_213/bin/autoconf and this path is included in mozconfig.common.
+As autoconf is installed off-PATH, its location is included in mozconfig.common.
 
 <p>
 <b>Rust</b>
 <br>
 Download and install the x86_64 version of rust which includes the rustc and cargo binaries, and the x86_64 crate.
 <br>
+Latest versions of rust often cause build problems with earlier mozilla releases, and it is therefore recommended that the version of rust used is the minimum required for any particular mozilla build.
+<br>
 armv7[hf], aarch64, and i686 crates for cross compiling will be downloaded and added to this installation as required.
 <code class="gray">cd $MOZBUILD/sources/
-<span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/other-installation-methods.html</span>
-URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
+<span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/infra/other-installation-methods.html</span>
+URL=$(grep "rust-[1-9].*$ARCH-unknown-linux-gnu.tar.gz\">" rust.html | sed 's|&lt;br>|\n&lt;br>|' | head -n1 | sed 's|.*href="||;s|">.*$||;s|tar.gz|tar.xz|')
+## check - should be something like https://static.rust-lang.org/dist/rust-1.42.0-x86_64-unknown-linux-gnu.tar.xz
+echo $URL
 <span style="color: #c50000;">wget $URL</span>
 
 tar xf rust*$ARCH-unknown-linux-gnu.tar.xz
 cd rust*$ARCH-unknown-linux-gnu
 ./install.sh --prefix=$MOZBUILD/sources/rust-$ARCH --components=rustc,cargo,rust-std-$ARCH-unknown-linux-gnu
 </code>
-<br>Building with rust enabled requires rustc to be in the PATH which is set as a shell variable:<br>
-<code class="gray">export PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
-</code>
+<br>
+As rustc and cargo are installed off-PATH, their locations are included in mozconfig.common.
 
 <p>
 <!--
@@ -418,7 +421,7 @@ Add new changesets - start
 -->
 <a name="close_chset"></a>
 <br>
-<span class="tabs"><a href="#Locrep">Add new changesets</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;to all cloned repositories prior to any <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">future release builds</a> [or as required].</span>
+<span class="tabs"><a href="#Locrep">Add new changesets</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;to all cloned repositories prior to any <a class="extlink" href="https://wiki.mozilla.org/Release_Management/Calendar">future release builds</a> [or as required].</span>
 <div id="Locrep" class="tab"><div class="b_32bit"><span class="tabs"><a href="#close_chset">close</a></span>
 <code class="appx"><span class="dhash">##</span> Set which repositories to update:
 REPOS=$REPOS
@@ -458,7 +461,7 @@ Building to a changeset - start
 <span class="tabs prefs"><a href="#known_rel">Building to a specific revision</a></span>
 <div id="known_rel" class="tab"><div class="b_prefs"><span class="tabs"><a href="#close_known_rel">close</a></span>
 <!-- leave this space -->
-<b>Building to the same revision as an <a class="extlink" href="https://wiki.mozilla.org/RapidRelease/Calendar">official</a></b> or <a class="extlink" href="https://www.mozilla.org/en-US/firefox/releases/">bug fix</a> release.
+<b>Building to the same revision as an <a class="extlink" href="https://wiki.mozilla.org/Release_Management/Calendar">official</a></b> or <a class="extlink" href="https://www.mozilla.org/en-US/firefox/releases/">bug fix</a> release.
 This is relevant for release versions only, beta builds have been specifically excluded.
 
 <b><i>Either</b></i>: Prior to the release date, the changesets on which the release candidates are built can be obtained from mozilla.org.
@@ -610,6 +613,21 @@ Find the Firefox major version for later version dependent settings
 <br>
 <code class="gray">export MAJ_VER=$(cat $MOZBUILD/mozilla/browser/config/version.txt | cut -d. -f1)
 </code>
+<p>
+
+<b>gcc optimization for HOST</b>, so only use if building for same machine architecture
+<br>
+- will be overridden in mozconfig.cross if cross compiling
+<br>
+- otherwise, if required, set OPTM=&lt;user_defined> for 'target' machine &hellip;
+<br>
+- should be something like:
+<br>
+<span class="console">&nbsp;-march=core2 -mtune=core2</span>
+<br>
+<code class="thtwo">export OPTM=$(echo $(gcc -Q -O2 -march=native --help=target | grep -E "^  -march=|^  -mtune=" | tr -d [:blank:]))
+echo $OPTM
+</code>
 
 <p><a name="Create_mozconfigs"></a>
 <b>Create mozconfigs</b>
@@ -629,8 +647,16 @@ cat &gt; mozconfig.common &lt;&lt; "EOF"
 mk_add_options "export MOZ_MAKE_FLAGS=$NUMJOBS"
 mk_add_options "export NO_MERCURIAL_SETUP_CHECK=1"
 mk_add_options "export AUTOCONF=$MOZBUILD/sources/autoconf_213/bin/autoconf"
+
 <span class="dhash">##</span> llvm installed off PATH for the use of this build only
 mk_add_options "export LLVM_CONFIG=$MOZBUILD/sources/llvm-$ARCH/usr/bin/llvm-config"
+
+<span class="dhash">##</span> locations of rustc and cargo
+mk_add_options "export RUSTC=$MOZBUILD/sources/rust-$ARCH/bin/rustc"
+mk_add_options "export CARGO=$MOZBUILD/sources/rust-$ARCH/bin/cargo"
+
+CC="gcc ${OPTM:-}"
+CXX="g++ ${OPTM:-}"
 
 ac_add_options --prefix=/usr
 
@@ -670,12 +696,17 @@ EOF
 <p>
 <b>FF64</b>+ needs additional setting up, including when used for SM/TB builds
 <br>
+&nbsp;&nbsp;packages
+<br>
 <code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
-<span class="dhash">##</span> [1] <b>cbindgen</b> - download, build, and install to the same directory as rustc &amp; cargo
 cd $MOZBUILD/sources
+
+<span class="dhash">##</span> [1] <b>cbindgen</b> - download, build, and install to the same directory as rustc &amp; cargo
 <span class="dhash">##</span> for the latest version:
 <span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/eqrion/cbindgen/releases</span>
 CBINDGEN_REL=$(grep archive.*tar.gz cbindgen-releases.html | head -n1 | cut -d'"' -f2 | cut -d'/' -f5)
+<span class="appx">echo $CBINDGEN_REL</span>
+PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 <span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL https://github.com/eqrion/cbindgen/archive/$CBINDGEN_REL</span>
 tar xf cbindgen-$CBINDGEN_REL
 cd cbindgen-[0-9]*
@@ -686,11 +717,22 @@ patchelf --force-rpath --set-rpath \$ORIGIN/../lib $MOZBUILD/sources/rust-$ARCH/
 
 <span class="dhash">##</span> [2] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
 installpkg nodejs-8.12.0-x86_64-1_SBo.txz
+}
+</code>
 
-<span class="dhash">##</span> [3] Set MOZBUILD_STATE_PATH so the build completes without prompting
-echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> $MOZBUILD/mozilla/mozconfig.common
+<br>
+&nbsp;&nbsp;variables
+<br>
+<code class="gray">[[ $MAJ_VER -ge 64 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla
 
-<span class="dhash">##</span> [4] With mozilla as the topsrcdir, need to set the suite/mail applications to the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1515812">'comm' directory</a>
+<span class="dhash">##</span> [1] As cbindgen is installed off-PATH, its location is included in mozconfig.common.
+echo 'mk_add_options "export CBINDGEN=$MOZBUILD/sources/rust-$ARCH/bin/cbindgen"' >> mozconfig.common
+
+<span class="dhash">##</span> [2] Set MOZBUILD_STATE_PATH so the build completes without prompting
+echo 'mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"' >> mozconfig.common
+
+<span class="dhash">##</span> [3] With mozilla as the topsrcdir, need to set the suite/mail applications to the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1515812">'comm' directory</a>
 export COMM=comm/
 }
 </code>
@@ -772,7 +814,7 @@ Remove any stale configure file:
 <code class="gray">rm -f $MOZBUILD/mozilla/configure
 </code>
 <p>
-<a class="extlink" href="http://lists.linuxfromscratch.org/pipermail/blfs-book/2019-July/082190.html">Patch esr60</a> for SM 2.57 build failure for undocumented macros with rust-1.33+
+<a class="extlink" href="http://lists.linuxfromscratch.org/pipermail/blfs-book/2019-July/082190.html">Patch esr60</a> for build failure for undocumented macros with rust-1.33+ - needed for SM 2.57
 <br>
 <code class="gray">[[ $REL == esr60 ]] &amp;&amp; {
 cd $MOZBUILD/mozilla
@@ -1150,18 +1192,19 @@ python setup.py build install)
 
 <b>Known issues</b>
 There will be some error messages here about files not found.
-This is a consequence of the localization transition and it's becoming too onerous to test for them.
-I've found them to be harmless .. and in the issues I've covered, the results are as required.
+This is a consequence of the localization transition to the <a class="extlink" href="https://firefox-source-docs.mozilla.org/l10n/migrations/index.html">use of fluent *.ftl files </a> and the outstanding need to update this process which was set up to create a single localized version prior to FF57.
+However, for the objective of localizing the build, the results are as required.
 
 Remove any previously created temporary file lists and merge-$L10N directory:
 <code class="red">rm -f $MOZBUILD/l10n/* 2>/dev/null
 rm -rf $MOZBUILD/l10n/merge-$L10N
 rm -rf $MOZBUILD/l10n/wip/*
-
-<span class="dhash">##</span> unmount 'comm' directory as it duplicates the search results
-umount $MOZBUILD/$REL/comm-$REL/mozilla/comm
 </code>
-To build to a release version:
+Temporarily unmount 'comm' directory as it duplicates the search results
+<code class="red">umount $MOZBUILD/$REL/comm-$REL/mozilla/comm
+</code>
+
+<b>To build to a release version</b>:
 <code class="green"><b>Either:</b>
 From FF59.0, the l10n revisions are contained in the l10n-changesets.json file:
 <code class="red">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
@@ -1171,8 +1214,7 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code>
 <b>Or:</b>
 For a known changeset:
-<code class="red"><span class="dhash">##</span> <b>Firefox</b>:
-export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
+<code class="red">export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code></code>
 
@@ -1351,29 +1393,46 @@ tree -fi * | grep ".*\..*$" | grep -v en-US > $MOZBUILD/l10n/wip/$L10N-l10n-file
     done
   done
 </code>
-Set the default Firefox searchplugins of choice by overriding the en-US string.
-The line to change is 3 lines beyond the unique identifier 'en-US':
+Set the default Firefox searchplugins of choice by setting locale strings in .json files.
 <code class="red">[[ $MAJ_VER -ge 68 ]] &amp;&amp; {
+<span class="dhash">##</span> Example:
 TLD=<span class="comment">.co.uk</span>
 LIST_JSON=$MOZBUILD/mozilla/browser/components/search/extensions/list.json
-<span class="dhash">##</span> for eBay<span class="comment">.co.uk</span> [<span class="comment">_locales/uk</span>] -> set as default:
-EBAY=ebay-uk
+
+<span class="dhash">##</span> .. -> create eBay<span class="comment">.co.uk</span>:
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/ebay/_locales
-sed -i "s|eBay\"|eBay$TLD\"|" uk/messages.json
-sed -i "s|\"en|\"uk|" ../manifest.json)
-<span class="dhash">##</span> for Google -> create Google<span class="comment">.co.uk</span> and set as default, and set 'ddg' as second choice:
+cp -rT en $L10N
+sed -i "s|eBay\"|eBay$TLD\"|;s|.com|$TLD|" $L10N/messages.json
+sed -i "s|\"en|\"$L10N|" ../manifest.json)
+
+<span class="dhash">##</span> .. -> create Google<span class="comment">.co.uk</span>
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/google/_locales
 cp -rT <span class="comment">b-d</span> $L10N
 sed -i "s|google.com|google$TLD|;s|Google\"|Google$TLD\"|" $L10N/messages.json
 sed -i "s|\"en|\"$L10N|" ../manifest.json
-sed -i "s|\"Google\"|\"Google$TLD\"|;s|\"Bing\"|\"ddg\"|" $LIST_JSON)
+
+<span class="dhash">##</span> overwrite list.json for required locale only,
+<span class="dhash">##</span> setting Google as default, and 'ddg' as second choice:
+cat > $LIST_JSON &lt;&lt; EOF
+{
+  "default": {
+    "searchDefault": "Google$TLD",
+    "searchOrder": ["Google$TLD", "ddg"],
+    "visibleDefaultEngines": [
+      "google-$L10N", "amazon-$L10N", "bing", "ddg", "ebay-$L10N", "twitter", "wikipedia"
+    ]
+             }
+}
+EOF
+
 } || {
-EBAY=eBay-$L10N
+
 [[ $MAJ_VER -ge 62 ]] &amp;&amp; LIST_JSON=$MOZBUILD/mozilla/browser/components/search/searchplugins/list.json || \
 LIST_JSON=$MOZBUILD/mozilla/browser/locales/search/list.json
-}
+<span class="dhash">##</span> The line to change is 3 lines beyond the unique identifier 'en-US':
 LINE_NO=$[$(grep -n en-US $LIST_JSON | cut -d: -f1)+3]
-sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"$EBAY\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
+sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
+}
 </code>
 Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
 <code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
@@ -1437,7 +1496,7 @@ iIY95Qx9oWZP+ZPfAJM8k1+jkGe4AAAAAElFTkSuQmCC"> Nightly]</b></span></span>
 The additions fit into the build tree like this:
 <code>$MOZBUILD
 <span class="comment">├── sources
-│   └── rust-&hellip;
+│   └── rust-&hellip;						<i>x86_64 installation</i>
 │       └── lib
 │           └── rustlib
 │               ├── x86_64-unknown-linux-gnu		<i>x86_64 crate</i> - already in place for native build</span>
@@ -1446,13 +1505,14 @@ The additions fit into the build tree like this:
 │               └── aarch64-unknown-linux-gnu		<i>aarch64 crate</i>
 └── $TARGET_INSTN					<i>target libs and headers installation - bind mounted to sysroot</i> *
 
-opt
+/opt
 └── cross-pi-gcc
     ├── bin						<i>cross compiler</i>
-    └── sysroot *					<i>set in cross compiler build</i>
+    └── sysroot *					<i>set when building cross compiler</i>
 </code>
 
 [1] Set variables for an armv7, aarch64, or i686 build.
+
 <b>Don't</b> use variables used by mozilla - confuses libloading for example ..
    and setting flags with CC etc in the shell environment will fail configure,
    so set architecture specific variables here and re-assign them in mozconfig.cross.
@@ -1525,15 +1585,14 @@ export DISABLE_ELFHACK=''
 <code class="green">export CRATE=i686-unknown-linux-gnu
 export X_TARGET=i686-linux-gnu
 <code class="thtwo"><span class="dhash">##</span> <b>gcc optimization for HOST</b>, so only use if TARGET == same machine architecture
-OPTM=$(echo $(gcc -Q -O2 -march=native --help=target | grep -E "^  -march=|^  -mtune=|^  -mfpmath=" | tr -d [:blank:]))
-<span class="dhash">##</span> otherwise, if required, set OPTM for TARGET machine &hellip;
+OPTM="$(echo $(gcc -Q -O2 -march=native --help=target | grep -E "^  -march=|^  -mfpmath=|^  -mtune=" | tr -d [:blank:])) -msse -msse2"
+<span class="dhash">##</span> otherwise, if required, set OPTM=&lt;user_defined> for TARGET machine &hellip;
 echo $OPTM
 <span class="dhash">##</span> should be something like:
-<span style="color:#fafafa">#</span><span class="console"> -march=core2 -mfpmath=sse -mtune=core2</span>
+<span style="color:#fafafa">#</span><span class="console"> -march=core2 -mfpmath=sse -mtune=core2 -msse -msse2</span>
 </code>
-<span class="dhash">##</span> the '-msse -msse2' flags are included as per the Mozilla release buildconfig
-export X_CC="$X_TARGET-gcc -msse -msse2 ${OPTM:-}"
-export X_CXX="$X_TARGET-g++ -msse -msse2 ${OPTM:-}"
+export X_CC="$X_TARGET-gcc ${OPTM:-}"
+export X_CXX="$X_TARGET-g++ ${OPTM:-}"
 export LIBDIRSUFFIX=""
 <span class="dhash">##</span> Slack_base = where the Slackware32 packages a-y directories are:
 <span class="dhash">##</span> Download from a Slackware mirror - for example <a class="extlink" href="https://slackware.uk/">slackware.uk</a>
@@ -1588,7 +1647,7 @@ cat limitx.h glimits.h limity.h > ../../include-fixed/limits.h)
 <b>OR</b>
 Skip this and use an existing installation.
 
-My preference is to set this up in a separate directory and bind-mount it to the cross compiler sysroot directory.
+My preference is to install the target libs and headers in a separate directory and bind-mount it to the cross compiler sysroot directory.
 This enables me to set up different sysroots for whatever is being cross compiled.
 
 Install kernel headers and Slackware/Slarm64 libs/headers as used for the target OS
@@ -1655,16 +1714,16 @@ installpkg l/glibc-2.29*.txz
 mv /sbin/ldconfig-bak /sbin/ldconfig
 unset ROOT
 </code>
+Mount to $SYSROOT
+<code class="green">mount -B $MOZBUILD/$TARGET_INSTN $SYSROOT
+</code>
 
 [5] Set up shell variables.
 
-pkg-config needs to access the libs and headers for the target system and this sets it up to prefix $SYSROOT to the -L and -I paths in the .pc files
+pkg-config needs to access the libs and headers for the target system and these exports set it up to prefix $SYSROOT to the -L and -I paths in the .pc files
 <code class="green">export PKG_CONFIG_PATH=
 export PKG_CONFIG_SYSROOT_DIR=$SYSROOT
 export PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib$LIBDIRSUFFIX/pkgconfig:$SYSROOT/usr/share/pkgconfig
-</code>
-Mount SYSROOT
-<code class="green">mount -B $MOZBUILD/$TARGET_INSTN $SYSROOT
 </code>
 Add the cross compiler [$X_TARGET-gcc etc..] bin directory to the PATH
 <code class="green">export PATH=$XGCC_DIR/bin:$PATH
@@ -1687,8 +1746,8 @@ CXX=$X_CXX
 
 <span class="dhash">##</span> the i686 build sets host == target if HOST_C* not set,
 [[ $CRATE == *i686* ]] &amp;&amp; {
-mk_add_options "export HOST_CC=gcc"
-mk_add_options "export HOST_CXX=g++"
+HOST_CC=gcc
+HOST_CXX=g++
 }
 
 <span class="dhash">##</span> elfhack corrupts libxul.so on an armv7-hf build
