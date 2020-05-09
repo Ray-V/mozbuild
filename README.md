@@ -16,4 +16,4 @@ or view @:
 https://ray-v.github.io/mozbuild/building-firefox-seamonkey-thunderbird-using-mercurial-sources.html
 
 
-Updated 2019-12-11 for 68.3.0 and 71.0 releases
+Updated 2020-05-09 for 68.8.0 release
