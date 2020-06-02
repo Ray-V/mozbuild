@@ -155,7 +155,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><br>
 <b><i>esr68</i></b>
 <br>
-<code class="appx">        68.8.0                                  <span class="off_rel">416007f3bb6c</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        68.9.0                                  <span class="off_rel">e17129d84f13</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>&diamondsuit;  68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -794,14 +794,14 @@ EOF
 </code>
 
 <p>
-[a] For Thunderbird esr60 builds, and to simplify the use of compare-locales for localization, bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
+[a] For Thunderbird esr60 builds, and to simplify the use of compare-locales for <span class=red>localization</span>, bind the mozilla repository into the comm-$REL tree - linking confuses the build for the ${_topsrcdir} value.
 <br>
 [b] For SM2.57, and TB64 onwards [maybe earlier - I didn't build TB62-63], with <b>mozilla as topsrcdir</b>, the comm-$REL directory needs to be placed as a comm directory in mozilla. This won't be used for, nor affect, builds of prior versions.
 <br>
 <code class="gray">(cd $MOZBUILD/$REL/comm-$REL
-<span class="dhash">##</span> [a]
+<code class="b_locn"><span class="dhash">##</span> [a]
 mkdir -p mozilla
-mount -B $MOZBUILD/mozilla mozilla
+mount -B $MOZBUILD/mozilla mozilla</code>
 
 <span class="dhash">##</span> [b]
 cd mozilla
@@ -1409,7 +1409,7 @@ sed -i "s|\"en|\"$L10N|" ../manifest.json)
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/google/_locales
 cp -rT <span class="comment">b-d</span> $L10N
 sed -i "s|google.com|google$TLD|;s|Google\"|Google$TLD\"|" $L10N/messages.json
-sed -i "s|\"en|\"$L10N|" ../manifest.json
+sed -i "s|\"en|\"$L10N|" ../manifest.json)
 
 <span class="dhash">##</span> overwrite list.json for required locale only,
 <span class="dhash">##</span> setting Google as default, and 'ddg' as second choice:
