@@ -121,7 +121,7 @@ color:darkred;
 </head><body>
 <br>
 <h3> Building Firefox, SeaMonkey and Thunderbird from mercurial repositories</h3>
-Build <b>esr60/68</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
+Build <b>esr</b>, <b>release</b>, <b>beta</b>, or <b>central</b> from the <b>mozilla-unified</b> repository.
 <p>This page has been laid out around a mainly distro-independent build script, defaulting to an <span class="gray">en-US</span> build on unmodified source.
 <br>
 Packaging is Slackware specific, but installation for that is to DESTDIR, so I guess would be adaptable to other packaging systems.
@@ -155,7 +155,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <br><br>
 <b><i>esr68</i></b>
 <br>
-<code class="appx">        68.9.0                                  <span class="off_rel">e17129d84f13</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        68.10.0                                 <span class="off_rel">84878756cd4f</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>&diamondsuit;  68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    68.3.0                                  <span class="off_rel">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -166,6 +166,19 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 </code>
 <br>
 &diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>
+<p>
+<b><i>esr78</i></b>
+<br>
+<code class="appx">        78.0.1                                  <span class="off_rel">b0184e78439f</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<!--<span class="comment green">armv7</span>&diamondsuit;  78.0.1                                  <span class="">b0184e78439f</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 78.0.1                                  <span class="">b0184e78439f</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>    78.0.1                                  <span class="off_rel">b0184e78439f</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                              78.0.1            <span class="off_rel">TBrevision..</span>    <span class="off_rel">COMMrevision</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>&diamondsuit;                        78.0.1            TBrevision..    COMMrevision    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>                       78.0.1            TBrevision..    COMMrevision    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                          78.0.1            <span class="off_rel">TBrevision..</span>    <span class="off_rel">COMMrevision</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>--></code>
+<!--<br>
+&diamondsuit; <span class="comment">FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for error: <i>field ‘ufp’ has incomplete type ‘user_vfp’</i></span>-->
 <p>
 <b><i>release</i></b>
 <br>
@@ -218,6 +231,7 @@ This has been retained for SeaMonkey 2.57 builds
 <br><code>Machine				dual-core 2.2 GHz			2x quad-core 3GHz
 MOZ_MAKE_FLAGS		-j2			-j4			-j12
 Firefox 		~298 mins [FF70]	~264 mins [FF68esr]	~62 mins [FF70]
+						~515 mins [FF78esr]
 SeaMonkey/Thunderbird	~289 mins [TB68]				~41 mins [SM2.57esr/TB60esr]</code>
 <br>
 Higher values than '-j2' on the dual-core machine can cause random build errors, unless built with adequate memory or swap.
@@ -398,8 +412,6 @@ As autoconf is installed off-PATH, its location is included in mozconfig.common.
 <br>
 Download and install the x86_64 version of rust which includes the rustc and cargo binaries, and the x86_64 crate.
 <br>
-Latest versions of rust often cause build problems with earlier mozilla releases, and it is therefore recommended that the version of rust used is the minimum required for any particular mozilla build.
-<br>
 armv7[hf], aarch64, and i686 crates for cross compiling will be downloaded and added to this installation as required.
 <code class="gray">cd $MOZBUILD/sources/
 <span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/infra/other-installation-methods.html</span>
@@ -451,6 +463,11 @@ Set up the local repositories for chosen $REL, removing any changes made for pre
 hg update $REL -C -R mozilla
 hg update default -C -R $REL/comm-$REL/
 <span class="red">hg update default -C -R l10n/$L10N</span>
+</code>
+<br>
+Latest versions of rust often cause build problems with earlier mozilla releases, and it is therefore recommended that the version of rust used is the minimum required for any particular mozilla build:
+<br>
+<code class="gray">grep "rustc_min_version =" $MOZBUILD/mozilla/build/moz.configure/rust.configure | tail -n1
 </code>
 <p>
 <!--
@@ -511,6 +528,20 @@ hg log -l $LOG_NUM -Gr ::$REL | grep -o FIREFOX_.*_RELEASE |head -n2
 
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
 <span class="appx">echo $REL_CS</span>
+
+<code class="thtwo"><span class="dhash">##</span> For FF 78.0.1esr the release changeset b0184e78439f can't be found in mozilla-unified, so pull the required branch into the tree
+hg pull -b FIREFOX_ESR_78_0_X_RELBRANCH https://hg.mozilla.org/releases/mozilla-esr78
+<span class="console"> pulling from https://hg.mozilla.org/releases/mozilla-esr78</span>
+<span class="console"> ...</span>
+<span class="console"> added 3 changesets with 1 changes to 4 files (+1 heads)</span>
+<span class="console"> new changesets a01822789162:b0184e78439f</span>
+
+<span class="dhash">##</span> update to FIREFOX_ESR_78_0_X_RELBRANCH &hellip;
+hg update FIREFOX_ESR_78_0_X_RELBRANCH -C -R $MOZBUILD/mozilla
+<span class="console"> 10 files updated, 0 files merged, 0 files removed, 0 files unresolved</span>
+<span class="console"> (leaving bookmark esr78)</span>
+</code>
+
 <span class="dhash">##</span> Create new bookmark to that release changeset
 hg bookmark -r $REL_CS ${REL}_$REL_TAG
 <span class="dhash">##</span> Set the new bookmark active
@@ -676,7 +707,7 @@ ac_add_options --enable-default-toolkit=cairo-gtk3
 <span class="dhash">#</span>ac_add_options --disable-pulseaudio
 
 <span class="dhash">##</span> If you have installed GConf, comment out this line
-ac_add_options --disable-gconf
+[[ $MAJ_VER -lt 78 ]] &amp;&amp; ac_add_options --disable-gconf
 
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
@@ -715,8 +746,8 @@ cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 <span class="dhash">##</span> if cbindgen decides it can't find some rustc libs, set RPATH as per rustc:
 patchelf --force-rpath --set-rpath \$ORIGIN/../lib $MOZBUILD/sources/rust-$ARCH/bin/cbindgen
 
-<span class="dhash">##</span> [2] <b>nodejs</b> - v8.12.0 builds from the script at slackbuilds.org
-installpkg nodejs-8.12.0-x86_64-1_SBo.txz
+<span class="dhash">##</span> [2] <b>nodejs</b> - builds from the script at slackbuilds.org
+installpkg nodejs-*-x86_64-1_SBo.txz
 }
 </code>
 
@@ -930,6 +961,9 @@ sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareport
 
 <span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button.
 sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/[aA]boutNewTabService.js*
+
+<span class="dhash">##</span> Remove drop down list of sites from URL address bar
+sed -i '/www.youtube.com/d' $MOZBUILD/mozilla/browser/components/newtab/lib/ActivityStream.jsm
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 <span class="dhash">##</span> Default to blank page on start &hellip;
