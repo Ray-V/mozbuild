@@ -275,7 +275,7 @@ Typical usage is 6GB actual, 3GB swap for -j2.
 <span class="dhash">##</span> Set which repositories to clone:
 export REPOS="<b>release</b> <b>beta</b> <b>esr60</b> <b>esr68</b> <b>central</b>"
 <span class="dhash">##</span> choose which to build:
-export REL=<span class="comment"><b>esr68</b></span>
+export REL=<span class="comment"><b>esr78</b></span>
 <span class="dhash">##</span> set number of parallel jobs
 export NUMJOBS=-j$[$(getconf _NPROCESSORS_ONLN)*2]
 export ARCH=x86_64
@@ -962,14 +962,77 @@ sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareport
 <span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button.
 sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/[aA]boutNewTabService.js*
 
-<span class="dhash">##</span> Remove drop down list of sites from URL address bar
+<span class="dhash">##</span> Remove drop down pre-set list of sites from URL address bar
 sed -i '/www.youtube.com/d' $MOZBUILD/mozilla/browser/components/newtab/lib/ActivityStream.jsm
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 <span class="dhash">##</span> Default to blank page on start &hellip;
 sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/chrome/browser/region.properties
 </code>
-<b>[6]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
+<b>[6]</b> Reinstate the option to print to lpr, which was removed in <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1425188">bug 1425188</a> - <a class="extlink" href="https://forums.freebsd.org/threads/no-print-to-lpr-in-firefox-print-dialog.65805/">with thanks to &hellip;</a>
+Currently only tested for FF78.0.1esr.
+<code class="green">cd $MOZBUILD/mozilla
+patch -p0 &lt;&lt; EOF
+--- widget/gtk/nsDeviceContextSpecG.cpp
++++ widget/gtk/nsDeviceContextSpecG.cpp
+@@ -155,2 +155,2 @@
+-      // There is nothing to detect on Print Preview, use PDF.
+-      format = nsIPrintSettings::kOutputFormatPDF;
++      // There is nothing to detect on Print Preview, use PS.
++      format = nsIPrintSettings::kOutputFormatPS;
+--- widget/gtk/nsPrintDialogGTK.cpp
++++ widget/gtk/nsPrintDialogGTK.cpp
+@@ -180,1 +180,2 @@
+-          GTK_PRINT_CAPABILITY_SCALE | GTK_PRINT_CAPABILITY_GENERATE_PDF));
++          GTK_PRINT_CAPABILITY_SCALE | GTK_PRINT_CAPABILITY_GENERATE_PDF |
++          GTK_PRINT_CAPABILITY_GENERATE_PS));
+--- widget/gtk/nsPrintSettingsGTK.cpp
++++ widget/gtk/nsPrintSettingsGTK.cpp
+@@ -189,6 +189,16 @@
+-  if (format == nsIPrintSettings::kOutputFormatNative &amp;&amp;
+-      GTK_IS_PRINTER(mGTKPrinter)) {
+-    if (gtk_printer_accepts_pdf(mGTKPrinter)) {
+-      format = nsIPrintSettings::kOutputFormatPDF;
+-    } else {
+-      format = nsIPrintSettings::kOutputFormatPS;
++  if (format == nsIPrintSettings::kOutputFormatNative) {
++    const gchar* fmtGTK =
++      gtk_print_settings_get(mPrintSettings,
++                             GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT);
++    if (fmtGTK) {
++      if (nsDependentCString(fmtGTK).EqualsIgnoreCase("pdf")) {
++        format = nsIPrintSettings::kOutputFormatPDF;
++      } else {
++        format = nsIPrintSettings::kOutputFormatPS;
++      }
++    } else if (GTK_IS_PRINTER(mGTKPrinter)) {
++      if (gtk_printer_accepts_pdf(mGTKPrinter)) {
++        format = nsIPrintSettings::kOutputFormatPDF;
++      } else {
++        format = nsIPrintSettings::kOutputFormatPS;
++      }
+@@ -387,2 +387,5 @@
+-  gtk_print_settings_set(mPrintSettings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT,
+-                         "pdf");
++  if (StringEndsWith(aToFileName, NS_LITERAL_STRING(".ps"))) {
++    gtk_print_settings_set(mPrintSettings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "ps");
++  } else {
++    gtk_print_settings_set(mPrintSettings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "pdf");
++  }
+--- widget/nsPrintSettingsService.cpp
++++ widget/nsPrintSettingsService.cpp
+@@ -541,8 +541,0 @@
+-      if (StringEndsWith(str, NS_LITERAL_STRING(".ps"))) {
+-        // We only support PDF since bug 1425188 landed.  Users may still have
+-        // prefs with .ps filenames if they last saved a file as Postscript
+-        // though, so we fix that up here.  (The pref values will be
+-        // overwritten the next time they save to file as a PDF.)
+-        str.Truncate(str.Length() - 2);
+-        str.AppendLiteral("pdf");
+-      }
+EOF
+</code>
+<b>[7]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
 [[ ! $Gecko_Rev ]] &amp;&amp; export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla | grep \* |cut -d: -f2)
 </code>
