@@ -131,7 +131,7 @@ Packaging from the 'mach' built packages is generic.
 Build <span style="background:#FFFADD;">Firefox</span> with gtk3, using mach, and rust; and package it to install to /opt/firefox-{version} ...<br>
 and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla source.
 <br>
-<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for armv7 or aarch64 [optimized for Raspberry Pi3], or i686.
+<p>Builds default to x86_64 with additional setting up for cross compiling <a href="#FF_xcompile"><span class="green">Firefox</span> </a> - <a href="#SM_xcompile"><span class="green">Seamonkey</span></a> - <a href="#TB_xcompile"><span class="green">Thunderbird</span></a> for aarch64 or armv7 [optimized for Raspberry Pi3], or i686.
 <p>Customization options with <a href="#Prefs"><span class="green">user preferences</span></a> and <a href="#l10n"><span class="red">single localization</span></a>.
 <br>
 <hr>
@@ -157,25 +157,25 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <p>
 <b><i>esr78</i></b>
 <br><code class="appx">        78.1.0                                  <span class="off_rel">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   78.1.0                                  <span class="">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 78.1.0                                  <span class="">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   78.1.0                                  <span class="">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    78.1.0                                  <span class="off_rel">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<!--                              78.0.1            <span class="off_rel">TBrevision..</span>    <span class="off_rel">COMMrevision</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>                         78.0.1            TBrevision..    COMMrevision    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>                       78.0.1            TBrevision..    COMMrevision    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>                          78.0.1            <span class="off_rel">TBrevision..</span>    <span class="off_rel">COMMrevision</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>--></code>
+                              78.1.0            <span class="off_rel">fc56efe4d94d</span>    <span class="off_rel">b3c7804f5734</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>                       78.1.0            fc56efe4d94d    b3c7804f5734    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>                         78.1.1            fc56efe4d94d    655a8e12794b    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                          78.1.1            <span class="off_rel">fc56efe4d94d</span>    <span class="off_rel">655a8e12794b</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
 <br>
 
 <p>
 <b><i>esr68</i></b>
 <br>
 <code class="appx">        68.10.0                                 <span class="off_rel">84878756cd4f</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   68.3.0                                  <span class="">fd17b62d5247</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    68.10.0                                 <span class="off_rel">84878756cd4f</span>    <span class="comment">n/a</span>             a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                               68.3.0            <span class="off_rel">78ab5e054eb0</span>    <span class="off_rel">228eab07a730</span>    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>                         68.3.0            78ab5e054eb0    228eab07a730    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span>                       68.3.0            78ab5e054eb0    228eab07a730    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>                         68.3.0            78ab5e054eb0    228eab07a730    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>                          68.3.0            <span class="off_rel">78ab5e054eb0</span>    <span class="off_rel">228eab07a730</span>    a1cd22844353   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 
@@ -184,8 +184,8 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>release</i></b>
 <br>
 <code class="appx">        71.0                                    <span class="off_rel">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    71.0                                    <span class="off_rel">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                   <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>
                               67.0b3            2a7896ba9aa5    <span class="off_rel">ac7b1df1919b</span>    a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -198,8 +198,8 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b><i>beta</i></b>
 <br>
 <code class="appx">        68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                   <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
                               68.0b1            c246934cd0fa    7eeeb32bfd07    c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
@@ -356,9 +356,9 @@ hg pull -b FIREFOX_ESR_78_0_X_RELBRANCH https://hg.mozilla.org/releases/mozilla-
 <span class="console"> added 3 changesets with 1 changes to 4 files (+1 heads)</span>
 <span class="console"> new changesets a01822789162:b0184e78439f</span></code>
 <br>
-&hellip; and update to FIREFOX_ESR_78_0_X_RELBRANCH &hellip;
+&hellip; and update if required
 <br>
-<code class="gray">(cd $MOZBUILD/mozilla
+<code class="green">(cd $MOZBUILD/mozilla
 hg update FIREFOX_ESR_78_0_X_RELBRANCH -C -R $MOZBUILD/mozilla)
 </code>
 <br>
@@ -579,6 +579,7 @@ hg checkout ${REL}_$BUILD_CS
 SeaMonkey doesn't run beyond 2.57, so for mozilla > 60, this applies to TB only ..
 SeaMonkey releases are ad-hoc and the Thunderbird release revision hashes are available from the candidates repository.
 This procedure is for Thunderbird releases - for other TB builds, just set the revisions as required.
+The TB release revision could also be found from the comm-$REL log, but that wouldn't give the mozilla revision that the build is based on, so this procedure is used in all cases.
 <code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
 TB_VER=$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
 <span class="appx">echo $TB_VER</span>
@@ -895,17 +896,48 @@ sed -i 's|IsAsciiCompatible() .*$|IsAsciiCompatible() ) {|;/UTF_8/d' mozilla/dom
 sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' mozilla/modules/libpref/init/all.js
 
 <span class="dhash">##</span> <b>Firefox</b>:
-<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu -
+<span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to
+<span class="dhash">##</span>    "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu -
 <span class="dhash">##</span> Replace/remove 'legacy' reference in menu -
 <span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;' -
-[[ $MAJ_VER == 60 ]] &amp;&amp; {
+
+[[ $MAJ_VER == <b>60</b> ]] &amp;&amp; {
 sed -i "293i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
 sed -i '104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode"&gt;' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/chrome/browser/preferences/fonts.dtd
 sed -i 's| [a-z]* selections| the selections|' mozilla/browser/locales/en-US/chrome/browser/preferences/{colors,fonts}.dtd
+
 } || {
+[[ $MAJ_VER == <b>68</b> ]] &amp;&amp; {
 sed -i 's|^.*turkish.*$|&amp;\n            &lt;menuitem data-l10n-id="fonts-languages-fallback-name-unicode"     value="UTF-8"/>|' mozilla/browser/components/preferences/fonts.xul
 sed -i 's|^.*turkish.*$|&amp;\n                fonts-languages-fallback-name-unicode.label,|' mozilla/browser/components/preferences/in-content/main.xul
+
+} || {
+<span class="dhash">##</span> for <b>FF78+</b>
+sed -i 's|^.*turkish.*$|&amp;\n            &lt;menuitem data-l10n-id="fonts-languages-fallback-name-unicode"     value="UTF-8"/>|' mozilla/browser/components/preferences/dialogs/fonts.xhtml
+sed -i 's|^.*turkish.*$|&amp;\n                fonts-languages-fallback-name-unicode.label,|' mozilla/browser/components/preferences/main.inc.xhtml
+sed -i 's|.label = Turkish|&amp;\nfonts-languages-fallback-name-unicode =\n    .label = Unicode|' mozilla/third_party/rust/fluent-syntax/benches/contexts/preferences/fonts.ftl &amp;&amp; {
+CHK_SUM_NEW=$(sha256sum mozilla/third_party/rust/fluent-syntax/benches/contexts/preferences/fonts.ftl | cut -d' ' -f1)
+CHK_SUM_OLD=$(grep -o preferences/fonts.ftl\":\"[0-9a-f]* mozilla/third_party/rust/fluent-syntax/.cargo-checksum.json | cut -d'"' -f3)
+sed -i "s|$CHK_SUM_OLD|$CHK_SUM_NEW|" mozilla/third_party/rust/fluent-syntax/.cargo-checksum.json
+}
+
+<span class="dhash">##</span> To enable user selection of encoding [aka 'Fallback Text Encoding' menu], disable the new encoding detector
+<span class="dhash">##</span> [ otherwise set in about:config with intl.charset.detector.ng.enabled ]
+patch -p0 &lt;&lt; EOF
+--- mozilla/modules/libpref/init/StaticPrefList.yaml
++++ mozilla/modules/libpref/init/StaticPrefList.yaml
+@@ -4630,5 +4630,5 @@
+ - name: intl.charset.detector.ng.enabled
+   type: bool
+-  value: true
++  value: false
+   mirror: always
+
+EOF
+}
+
+<span class="dhash">##</span> for <b>FF68+</b>
 sed -i 's|^.*Turkish.*$|&amp;\nfonts-languages-fallback-name-unicode =\n    .label = Unicode|' mozilla/browser/locales/en-US/browser/preferences/fonts.ftl
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locales/en-US/browser/preferences/fonts.ftl
 sed -i 's| [a-z]* selections| the selections|' mozilla/browser/locales/en-US/browser/preferences/{colors,fonts}.ftl
@@ -925,6 +957,8 @@ sed -i 's|Legacy|Unidentified|' $REL/comm-$REL/suite/locales/en-US/chrome/common
 <span class="dhash">##</span> <b>Thunderbird</b>:
 <span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
 sed -i 's| [a-z]* selections| the selections|' $REL/comm-$REL/mail/locales/en-US/chrome/messenger/preferences/colors.dtd
+<span class="dhash">##</span> for <b>78+</b>
+sed -i 's| [a-z]* selections| the selections|' $REL/comm-$REL/mail/locales/en-US/messenger/preferences/colors.ftl
 </code>
 <b>[3]</b> To include the search box by default:
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
@@ -933,71 +967,65 @@ sed -i 's|urlbar-container",|&amp;\n      "search-container",|' mozilla/browser/
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|nav-bar-inner,|&amp;search-container,|' $REL/comm-$REL/suite/browser/navigator.xul
 </code>
-<b>[4]</b> For esr??, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
+<b>[4]</b> For esr60, set SeaMonkey and Thunderbird versions to correspond to the mozilla [FF] release on which they are based:
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
-[[ $REL == esr* ]] &amp;&amp; {
-echo 2.$[$MAJ_VER-3].$(cat $MOZBUILD/mozilla/browser/config/version.txt|cut -d. -f2-) > $MOZBUILD/$REL/comm-$REL/suite/config/version.txt
-[[ $TB_VER ]] &amp;&amp; echo $TB_VER > $MOZBUILD/$REL/comm-$REL/mail/config/version.txt || \
-cp $MOZBUILD/mozilla/browser/config/version.txt $MOZBUILD/$REL/comm-$REL/mail/config/version.txt
+[[ $REL == esr60 ]] &amp;&amp; {
+echo 2.$[$MAJ_VER-3].$(cat mozilla/browser/config/version.txt|cut -d. -f2-) > $REL/comm-$REL/suite/config/version.txt
+[[ $TB_VER ]] &amp;&amp; echo $TB_VER > $REL/comm-$REL/mail/config/version.txt || \
+cp mozilla/browser/config/version.txt $REL/comm-$REL/mail/config/version.txt
 }
 </code>
 <b>[5]</b> Change default page options for FF57+:
-Ref. [aA]boutNewTabService.js{,m}:
-<code class="console"> * 1. Browser chrome access:
- *
- * When the user issues a command to open a new tab page, usually clicking a button
- * in the browser chrome or using shortcut keys, the browser chrome code invokes the
- * service to obtain the newtab URL. It then loads that URL in a new tab.
- *
- * When not overridden, the default URL emitted by the service is "about:newtab".
- * When overridden, it returns the overriden URL.
- *
- * 2. Redirector Access:
- *
- * When the URL loaded is about:newtab, the default behavior, or when entered in the
- * URL bar, the redirector is hit. The service is then called to return either of
- * two URLs, a chrome or the activity stream one, based on the
- * browser.newtabpage.activity-stream.enabled pref.
- *
- * NOTE: "about:newtab" will always result in a default newtab page, and never an overridden URL.
- *</code>
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 <span class="dhash">##</span> Default to blank page on start &hellip;
 <span class="dhash">##</span> This <span class="appx">"about:blank";</span> replacement could be <span class="appx">"file:///path/to/my/startup_page.html";</span> to load a customized page:
-[[ $MAJ_VER == 60 ]] &amp;&amp; \
-sed -i 's|about:home|about:blank|' $MOZBUILD/mozilla/browser/branding/*/locales/browserconfig.properties || \
-sed -i 's|pref("browser.startup.homepage".*$|pref("browser.startup.homepage","about:blank");|' $MOZBUILD/mozilla/browser/app/profile/firefox.js
+[[ $MAJ_VER == <b>60</b> ]] &amp;&amp; \
+sed -i 's|about:home|about:blank|' mozilla/browser/branding/*/locales/browserconfig.properties || \
+sed -i 's|pref("browser.startup.homepage".*$|pref("browser.startup.homepage","about:blank");|' mozilla/browser/app/profile/firefox.js
 
 <span class="dhash">##</span> &hellip; and stop the privacy page loading:
-sed -i 's|true|false|' $MOZBUILD/mozilla/toolkit/components/telemetry/datareporting-prefs.js
+sed -i 's|true|false|' mozilla/toolkit/components/telemetry/datareporting-prefs.js
+<span class="dhash">##</span> for <b>FF78+</b>
+sed -i 's|dataSubmissionEnabled", true);|dataSubmissionEnabled", false);|' mozilla/modules/libpref/init/all.js
 
 <span class="dhash">##</span> Load a blank page with Ctrl+T or new tab button.
-sed -i 's|"about:newtab";|"about:blank";|' $MOZBUILD/mozilla/browser/components/newtab/[aA]boutNewTabService.js*
+sed -i 's|"about:newtab";|"about:blank";|' mozilla/browser/components/newtab/[aA]boutNewTabService.js*
+<span class="dhash">##</span> for <b>FF78+</b>
+patch -p0 &lt;&lt; EOF
+--- mozilla/modules/libpref/init/StaticPrefList.yaml
++++ mozilla/modules/libpref/init/StaticPrefList.yaml
+@@ -963,5 +963,5 @@
+ - name: browser.newtabpage.enabled
+   type: bool
+-  value: true
++  value: false
+   mirror: always
 
+EOF
+
+<span class="dhash">##</span> for <b>FF78+</b>
 <span class="dhash">##</span> Remove drop down pre-set list of sites from URL address bar
-sed -i '/www.youtube.com/d' $MOZBUILD/mozilla/browser/components/newtab/lib/ActivityStream.jsm
+sed -i '/www.youtube.com/d' mozilla/browser/components/newtab/lib/ActivityStream.jsm
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
 <span class="dhash">##</span> Default to blank page on start &hellip;
-sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/chrome/browser/region.properties
+sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $REL/comm-$REL/suite/locales/en-US/chrome/browser/region.properties
 </code>
 <b>[6]</b> Reinstate the option to print to lpr, which was removed in <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1425188">bug 1425188</a> - with thanks to <a class="extlink" href="https://forums.freebsd.org/threads/no-print-to-lpr-in-firefox-print-dialog.65805/">freebsd forum</a> &hellip;
-<code class="green">cd $MOZBUILD/mozilla
-
-patch -p0 &lt;&lt; EOF
---- widget/gtk/nsDeviceContextSpecG.cpp
-+++ widget/gtk/nsDeviceContextSpecG.cpp
+<code class="green">patch -p0 &lt;&lt; EOF
+--- mozilla/widget/gtk/nsDeviceContextSpecG.cpp
++++ mozilla/widget/gtk/nsDeviceContextSpecG.cpp
 @@ -154,1 +154,1 @@
 -    format = nsIPrintSettings::kOutputFormatPDF;
 +    format = nsIPrintSettings::kOutputFormatPS;
---- widget/gtk/nsPrintDialogGTK.cpp
-+++ widget/gtk/nsPrintDialogGTK.cpp
+--- mozilla/widget/gtk/nsPrintDialogGTK.cpp
++++ mozilla/widget/gtk/nsPrintDialogGTK.cpp
 @@ -180,1 +180,2 @@
 -          GTK_PRINT_CAPABILITY_SCALE | GTK_PRINT_CAPABILITY_GENERATE_PDF));
 +          GTK_PRINT_CAPABILITY_SCALE | GTK_PRINT_CAPABILITY_GENERATE_PDF |
 +          GTK_PRINT_CAPABILITY_GENERATE_PS));
---- widget/gtk/nsPrintSettingsGTK.cpp
-+++ widget/gtk/nsPrintSettingsGTK.cpp
+--- mozilla/widget/gtk/nsPrintSettingsGTK.cpp
++++ mozilla/widget/gtk/nsPrintSettingsGTK.cpp
 @@ -189,6 +189,16 @@
 -  if (format == nsIPrintSettings::kOutputFormatNative &amp;&amp;
 -      GTK_IS_PRINTER(mGTKPrinter)) {
@@ -1029,8 +1057,8 @@ patch -p0 &lt;&lt; EOF
 +  } else {
 +    gtk_print_settings_set(mPrintSettings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "pdf");
 +  }
---- widget/nsPrintSettingsService.cpp
-+++ widget/nsPrintSettingsService.cpp
+--- mozilla/widget/nsPrintSettingsService.cpp
++++ mozilla/widget/nsPrintSettingsService.cpp
 @@ -541,8 +541,0 @@
 -      if (StringEndsWith(str, NS_LITERAL_STRING(".ps"))) {
 -        // We only support PDF since bug 1425188 landed.  Users may still have
@@ -1043,9 +1071,9 @@ patch -p0 &lt;&lt; EOF
 EOF
 </code>
 <b>[7]</b> Add a search extension
-<code class="green">mkdir $MOZBUILD/mozilla/browser/components/search/extensions/onelook
+<code class="green">mkdir mozilla/browser/components/search/extensions/onelook
 (
-cd $MOZBUILD/mozilla/browser/components/search/extensions/onelook
+cd mozilla/browser/components/search/extensions/onelook
 
 echo 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
 WXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5AcYDQAmvFlG+gAABs5JREFUWMPVl3tQVdcVxn/7nPsC
@@ -1109,21 +1137,21 @@ echo '{
 The 'true' setting in browser/app/profile/firefox.js ends up in firefox/browser/omni.ja and overrides the 'false' setting in modules/libpref/init/all.js which ends up in firefox/omni.ja resulting in user defined search extensions not showing
 Setting 'false' provides the expected and required behaviour
 <code class="green">[[ $MAJ_VER -ge 78 ]] &amp;&amp; \
-sed -i 's|pref("browser.search.modernConfig", true);|pref("browser.search.modernConfig", false);|' $MOZBUILD/mozilla/browser/app/profile/firefox.js
+sed -i 's|pref("browser.search.modernConfig", true);|pref("browser.search.modernConfig", false);|' mozilla/browser/app/profile/firefox.js
 </code>
 <b>[9]</b> Set the mouse-wheel controlled zoom increments to other than the default 10% - for example 5%
 [The cache in an existing installation will need to be cleared for this to be effective]
 <code class="green">[[ $MAJ_VER -ge 78 ]] &amp;&amp; \
-sed -i 's|0.1);|<span class="appx">0.05</span>);|' $MOZBUILD/mozilla/browser/base/content/browser-fullZoom.js
+sed -i 's|0.1);|<span class="appx">0.05</span>);|' mozilla/browser/base/content/browser-fullZoom.js
 </code>
 Ctrl+|- incremental values can be set with <b>toolkit.zoomManager.zoomValues</b> in prefs.js/about:config;
-or here - in this case without extending pre-set min/max values - for example to .86  and 1:
+or here - in this case without extending pre-set min/max values - for example to 86% and 100%:
 <code class="green">sed -i 's|pref("toolkit.zoomManager.zoomValues.*$|pref("toolkit.zoomManager.zoomValues", "<span class="appx">.86,1</span>");|' \
-$MOZBUILD/mozilla/modules/libpref/init/all.js
+mozilla/modules/libpref/init/all.js
 </code>
 <b>[10]</b> Record the mozilla revision that the SeaMonkey/Thunderbird builds are based on to add to application.ini in the packages.
 <code class="green"><span class="dhash">##</span> <b>SeaMonkey/Thunderbird</b>:
-[[ ! $Gecko_Rev ]] &amp;&amp; export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla | grep \* |cut -d: -f2)
+[[ ! $Gecko_Rev ]] &amp;&amp; export Gecko_Rev=$(hg bookmarks -R mozilla | grep \* |cut -d: -f2)
 </code>
 <span class="tabs"><a href="#close_prefs">close</a></span>
 </div>
@@ -1507,11 +1535,20 @@ sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/bro
 
 <span class="dhash">##</span> <b>Thunderbird</b>:
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/mail/chrome/messenger/preferences/colors.dtd
+<span class="dhash">##</span> for <b>TB78+</b>
+sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/$L10N/mail/messenger/preferences/colors.ftl
 </code></code>
 
 Default to blank page on start &hellip;
 <code class="green"><code class="red"><span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $MOZBUILD/l10n/$L10N/suite/chrome/browser/region.properties
+</code></code>
+
+Replace en-US with dictionary for localization
+<code class="green"><code class="red">(cd $MOZBUILD/mozilla/extensions/spellcheck/locales/en-US/hunspell/
+rm en-US*
+unzip -j $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*
+rename $L10N en-US *)
 </code></code>
 
 <b>Workaround for FF57+.</b>
@@ -1579,7 +1616,8 @@ tree -fi * | grep ".*\..*$" | grep -v en-US > $MOZBUILD/l10n/wip/$L10N-l10n-file
     done
   done
 </code>
-Set the default Firefox searchplugins of choice by setting locale strings in .json files.
+<b>Firefox</b>
+Set the default searchplugins of choice by setting locale strings in .json files.
 <code class="red">[[ $MAJ_VER -ge 68 ]] &amp;&amp; {
 <span class="dhash">##</span> Example:
 TLD=<span class="comment">.co.uk</span>
@@ -1595,6 +1633,7 @@ sed -i "s|\"en|\"$L10N|" ../manifest.json)
 (cd $MOZBUILD/mozilla/browser/components/search/extensions/google/_locales
 cp -rT <span class="comment">b-d</span> $L10N
 sed -i "s|google.com|google$TLD|;s|Google\"|Google$TLD\"|" $L10N/messages.json
+sed -i 's|q={searchTerms}|&amp;\&amp;ie=utf-8\&amp;oe=utf-8|' $L10N/messages.json
 sed -i "s|\"en|\"$L10N|" ../manifest.json)
 
 <span class="dhash">##</span> overwrite list.json for required locale only, setting Google as default, and 'ddg' as second choice
@@ -1620,8 +1659,10 @@ LINE_NO=$[$(grep -n en-US $LIST_JSON | cut -d: -f1)+3]
 sed -i "${LINE_NO}s|.*|          \"google-$L10N\", \"eBay-$L10N\", \"amazon-$L10N\", \"ddg\", \"wikipedia\", \"bing\", \"chambers-$L10N\"|" $LIST_JSON
 }
 </code>
-Set the default SeaMonkey searchplugins of choice - source them from the browser locale and the L10N repo:
-<code class="red">rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
+<b>SeaMonkey</b>
+Set the default searchplugins of choice - source them from the browser locale and the L10N repo:
+<code class="red">[[ $MAJ_VER == 60 ]] &amp;&amp; {
+rm $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/*
 cp $MOZBUILD/mozilla/browser/locales/searchplugins/{{eBay,google}-$L10N,bing,wikipedia,ddg}.xml $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/
 cp $MOZBUILD/l10n/$L10N/mail/searchplugins/amazon-$L10N.xml $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/
 echo "ddg
@@ -1630,6 +1671,7 @@ eBay-$L10N
 google-$L10N
 wikipedia
 bing" > $MOZBUILD/$REL/comm-$REL/suite/locales/en-US/searchplugins/list.txt
+}
 </code>
 Remount 'comm' directory
 <code class="red">mount -B $MOZBUILD/$REL/comm-$REL $MOZBUILD/$REL/comm-$REL/mozilla/comm
@@ -1674,7 +1716,7 @@ ci1E7Pr9T59qvfTMVToNfgX4j8GVb34z3n+rzd7vf/32sb2v3rzcknKW6eacd3bTwnJaP7fHcdTQ
 iIY95Qx9oWZP+ZPfAJM8k1+jkGe4AAAAAElFTkSuQmCC"> Nightly]</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
-</code> <a name="close_FF_xcompile"></a>                                                    <!-- FF xcompile - start -->
+</code> <a name="close_FF_xcompile"></a>                         <!-- FF xcompile - start -->
 <span class="tabs prefs"><a href="#FF_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="FF_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
@@ -1721,7 +1763,7 @@ export PKG_ARCH=armv7_hf
 <span class="dhash">##</span> running elfhack during the build doesn't fail, but corrupts libxul.so
 export DISABLE_ELFHACK='ac_add_options --disable-elf-hack'
 </code>
-<span class="dhash">##</span> [&diamondsuit;] To include webrtc in this build, <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/af7f8f492855">remove the duplicate code</a>:
+<span class="dhash">##</span> [&diamondsuit;] To include webrtc in a FF/TB 68 build, <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/af7f8f492855">remove the duplicate code</a>:
 <code class="green">[[ $MAJ_VER -lt 69 ]] &amp;&amp; {
 cd $MOZBUILD/mozilla
 echo $'--- media/webrtc/trunk/webrtc/system_wrappers/source/cpu_features.cc
@@ -1747,6 +1789,9 @@ done
 
 export DISABLE_WEBRTC=''
 }
+</code>
+Webrtc is back on the agenda for 78.1.0 - it didn't build for 78.0.1
+<code class="green">[[ $MAJ_VER -ge 78 ]] &amp;&amp; export DISABLE_WEBRTC=''
 </code></code>
 <b>OR:</b>
 <code class="thtwob"><b>64-bit</b> aarch64
@@ -1949,7 +1994,7 @@ mk_add_options "export STRIP=$XGCC_DIR/$X_TARGET/bin/strip"
 <span class="dhash">##</span> setting include paths for the cross compiler being used.
 <span class="dhash">##</span> <b>BINDGEN_PLUS</b> adds some includes specific to each x86/arm architecture
 [[ $CRATE == *i686* ]] &amp;&amp; {
-<span class="dhash">##</span> &hellip; ensure the correct nss.h is used for the neqo-crypto build to prevent
+<span class="dhash">##</span> &hellip; prioritize the mozilla nss.h for the neqo-crypto build to prevent
 <span class="dhash">##</span> error[E0425]: cannot find function, ... `NSS_Shutdown` in module `nss` etc.
 BINDGEN_PLUS="-I$MOZBUILD/mozilla/security/nss/lib/nss/ -I$XGCC_DIR/$X_TARGET/include"
 } || {
@@ -2064,17 +2109,9 @@ A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
 To take your build for a test drive, run: |mach run|
 </code>
-<b>Installation</b>
-Install a dictionary:
-<code class="red">(cd $MOZBUILD/$REL/firefox-build-dir-$PKG_ARCH/dist/bin
-rm -rf dictionaries
-unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*
-<span class="dhash">##</span> workaround for FF67+ for l10n method used:
-[[ ! $MAJ_VER == 60 ]] &amp;&amp; rename $L10N en-US dictionaries/*)
-</code>
 Let's take it for a test drive:
 <code>./mach run
-</code>                                                    <!-- mach package - start -->
+</code>                                                          <!-- mach package - start -->
 <b>Installation:</b> <a name="close_machpk"></a>
 Use either './mach install' or &nbsp;<span class="tabs prefs"><a href="#Mpack">'./mach package'</a></span>
 <div id="Mpack" class="tab">
@@ -2090,7 +2127,7 @@ for 57+ builds:
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-FF-$PKG_ARCH ./mach install
 </code>
-<b>Create package</b>
+<br><b>Create package</b>
 Includes setting up a relative link for /usr/bin/firefox &hellip;
 <code class="gray">cd ../$REL/packaging-FF-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
@@ -2123,7 +2160,7 @@ xmIX7nCswMDD7+bpbLUvH5XqcrDtzOsRUUxaTNwdjmyUJA2x2PTs1NRoew7MjbACzSyuE0LG8cf6
 yr3efUG7XVY4q8DuNRqdD8Xjl5/jH/sNIBmHpcHZfUMAAAAASUVORK5CYII="><span style="vertical-align:20%"><b> Building SeaMonkey</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
-</code> <a name="close_SM_xcompile"></a>                                                    <!-- SM xcompile - start -->
+</code> <a name="close_SM_xcompile"></a>                         <!-- SM xcompile - start -->
 <span class="tabs prefs"><a href="#SM_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="SM_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_SM_xcompile">close</a></span>
@@ -2159,19 +2196,14 @@ To take your build for a test drive, run: |mach run|</code>
 Ignore end build failure for esr60.7+ builds:
 <code class="console"> gmake[5]: *** No rule to make target '../../../dist/bin/distribution/extensions', needed by 'pack-ext'.  Stop.
 </code>
-<b>Installation</b>
-Install a dictionary:
-<code class="red">(cd $MOZBUILD/$REL/seamonkey-build-dir-$PKG_ARCH/dist/bin
-rm -rf dictionaries
-unzip $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
-</code>
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
+<b>Installation</b>
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-SM-$PKG_ARCH ./mozilla/mach install
 </code>
-<b>Create package</b>
+<br><b>Create package</b>
 Includes setting up a relative link for /usr/bin/seamonkey &hellip;
 <code class="gray">cd ../packaging-SM-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
@@ -2237,7 +2269,7 @@ V5u/zH0Tu/jj+fiF82e333/rjdmZF184TXOeNYTc9z/J0SNHjA0eonqY6gmqJ/9Sd+zI5OQDE//H
 +BPvaAJjezKnjwAAAABJRU5ErkJggg=="> Daily]</b></span></span>
 <code class="gray">unset XCOMPILE
 </code>
-</code> <a name="close_TB_xcompile"></a>                                                    <!-- TB xcompile - start -->
+</code> <a name="close_TB_xcompile"></a>                         <!-- TB xcompile - start -->
 <span class="tabs prefs"><a href="#TB_xcompile">Cross compiling</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;additional setting up for cross compiling.</span>
 <div id="TB_xcompile" class="tab">
 <div class="b_prefs"><span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
@@ -2270,25 +2302,14 @@ export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird${XCOMPILE:-}
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
 To take your build for a test drive, run: |mach run|</code>
-<b>Installation</b>
-Add a L10N dictionary:
-<code class="red">[[ $MAJ_VER == 60 ]] &amp;&amp; (cd $MOZBUILD/$REL/thunderbird-build-dir-$PKG_ARCH/dist/bin/dictionaries
-unzip -j $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*)
-</code>
 Let's take it for a test drive:
 <code>./mozilla/mach run
 </code>
+<b>Installation</b>
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB-$PKG_ARCH ./mozilla/mach install
 </code>
-Add dictionary extension for L10N:
-This will have to be enabled on TB first run - Edit|Preferences|Composition|Language
-<code class="red">[[ $MAJ_VER -ge 67 ]] &amp;&amp; (cd $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird
-mkdir extensions
-DICT_ID=$(unzip -p $MOZBUILD/sources/$L10N-dict.xpi manifest.json | grep -o [-.a-z]*@[-.a-z]*)
-cp $MOZBUILD/sources/$L10N-dict.xpi extensions/$DICT_ID.xpi)
-</code>
-<b>Create package</b>
+<br><b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
 <code class="gray">cd ../packaging-TB-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
