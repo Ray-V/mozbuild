@@ -19,6 +19,8 @@ body {font:14px sans;max-width: 1000px;padding:0px 10px;margin: 0 auto; /* cente
 .dhash {color: #978DFF;}
 .comment {color: #acacac;}
 .off_rel  {color: magenta;}
+.loc_border {border: 8px solid #E7F5E7;}
+.menu_border {border-radius: 4px;padding:1px 2px 1px 1px;}
 div {padding: 5px;white-space: pre-wrap;}
 code {font-size:12px;padding: 5px;display: inline-block;white-space: pre-wrap;margin: 5px 0;}
 pre {font-size:12px;}
@@ -74,7 +76,7 @@ z-index:1;
 #menu div {
 position:fixed;
 top:20;right:10;bottom:10;
-max-height: 360px;
+max-height: 340px;
  overflow-y: auto;
  white-space: nowrap;
 z-index:4;
@@ -146,7 +148,7 @@ and/or <span style="background:#E5F1FF;">SeaMonkey</span> and/or <span style="ba
 <p><a name="Latest"></a><br>
 <b>Latest builds</b>
 <br>
-These are builds which have been completed and run, not always current for each repository.
+These are builds which have been completed and run.
 <br>
 l10n files are updated from the l10n-central base revisions during <a href="#l10n"><span class="red">Localization</span></a> using compare-locales 
 <br><code class="appx">                                                   built to <span class="off_rel">{release}</span> revision/changeset
@@ -169,13 +171,12 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <p>
 <b><i>release</i></b>
 <br>
-<code class="appx">        79.0                                    <span class="off_rel">df3ed76cf46b</span>    <span class="comment">n/a</span>             6392a264f14b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment"><span class="comment green">aarch64</span> 71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>   71.0                                    <span class="">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>    71.0                                    <span class="off_rel">501aef7fe1d9</span>    <span class="comment">n/a</span>             a163b7571caf   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<!--                  <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>-->
-                              67.0b3            2a7896ba9aa5    <span class="off_rel">ac7b1df1919b</span>    a6ac37b9e82b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-</span></code>
+<code class="appx">        80.0                                    <span class="off_rel">bd5d1f49975d</span>    <span class="comment">n/a</span>             52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span> 80.0                                    <span class="">bd5d1f49975d</span>    <span class="comment">n/a</span>             52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>   80.0                                    <span class="">bd5d1f49975d</span>    <span class="comment">n/a</span>             52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>    80.0                                    <span class="off_rel">bd5d1f49975d</span>    <span class="comment">n/a</span>             52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--                  <span class="comment">2.61                          8337ebb86a42    f2b7084210a3    <span class="">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span></span>-->
+                              80.0[b5]          <span class="off_rel">11b86995fb07</span>    <span class="off_rel">1bd09bf0d762</span>    52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+</code>
 <br>
 <!--<span class="comment">SM2.61 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>-->
 
@@ -186,15 +187,14 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <code class="appx">        80.0                                    bd5d1f49975d    <span class="comment">n/a</span>             52094e06e816   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <!--<span class="comment green">aarch64</span> 68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>   68.0b5                                  c246934cd0fa    <span class="comment">n/a</span>             c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>-->
-<span class="comment">                              68.0b1            c246934cd0fa    7eeeb32bfd07    c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></span>
-</code>
+                  <span class="comment">2.64                          d1a98fb42cb8    5d37c065e0f2</span>    <span class="comment">not used&nbsp;&nbsp;&nbsp;&nbsp;</span>   <span class="gray"> </span><span class=""> </span> <span class=""> </span> <span class=""> </span>
+                              68.0b1            c246934cd0fa    7eeeb32bfd07    c00e6692735c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>--></code>
 <br>
 <!--<span class="comment">SM2.64 builds but continues to be <a class="extlink" href="https://wiki.mozilla.org/SeaMonkey/StatusMeetings/2019-04-28#Status_of_the_SeaMonkey_Source_Tree">unusable</a>.</span>-->
 <p>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">        81.0a1 &#x000a7;                                c105f961424c    <span class="comment">n/a</span>             95673f514f7c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">        81.0a1                                &#x000a7; c105f961424c    <span class="comment">n/a</span>             95673f514f7c   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment"><b>&#x000a7;</b> - the revisions are the changesets at tip at the time of compiling</span>
@@ -220,7 +220,7 @@ This has been retained for SeaMonkey 2.57 builds
 <br>
 <code class="appx">        60.7.0                                  <span class="off_rel">64ee63facd4f</span>    <span class="comment">n/a</span>             <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>   60.7.0                                  <span class="">64ee63facd4f</span>    <span class="comment">n/a</span>             24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                  2.57.9.1 <b>&#x02021;</b>                    1aeaa33a64f9    b05f05a590f4    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                  2.57.9.1                    <b>&#x02021;</b> 1aeaa33a64f9    b05f05a590f4    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>             2.57.7.0                      64ee63facd4f    5822a83963e3    24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                               60.7.0            64ee63facd4f    33572eeede63    <span class="">24a583bfc5c7</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>                         60.7.0            64ee63facd4f    5822a83963e3    24a583bfc5c7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -655,7 +655,7 @@ Find the Firefox major version for later version dependent settings
 <p>
 
 
-Latest versions of rust often cause build problems with earlier mozilla releases, so let's use the minimum required for any particular mozilla build:
+Latest versions of rust can cause build problems, so let's use the minimum required for any particular mozilla build:
 <br>
 <code class="gray">[[ $MAJ_VER -lt 80 ]] &amp;&amp; \
 grep "rustc_min_version =" $MOZBUILD/mozilla/build/moz.configure/rust.configure | tail -n1 || \
@@ -905,7 +905,7 @@ sed -i 's|fallback.override.*$|fallback.override",      "UTF-8");|' mozilla/modu
 <span class="dhash">##</span> To allow manual selection of UTF-8, add Unicode option to
 <span class="dhash">##</span>    "Preferences|Content|Fonts &amp; Colors|Advanced|Fallback Text Encoding" menu -
 <span class="dhash">##</span> Replace/remove 'legacy' reference in menu -
-<span class="dhash">##</span> Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;' -
+<span class="dhash">##</span> Change some of '&hellip; {my,your} &hellip;' to '&hellip; the &hellip;'
 
 [[ $MAJ_VER == <b>60</b> ]] &amp;&amp; {
 sed -i "293i\            &lt;menuitem label=\"\&amp;languages.customize.Fallback.unicode;\"     value=\"UTF-8\"/&gt;" mozilla/browser/components/preferences/fonts.xul
@@ -953,6 +953,8 @@ sed -i 's|Legacy|Unidentified|;s|legacy content|content|' mozilla/browser/locale
 
 <span class="dhash">##</span> for <b>FF68+</b>
 sed -i 's| [a-z]* selections| the selections|' mozilla/browser/locales/en-US/browser/preferences/{colors,fonts}.ftl
+sed -i 's|your computer’s|the computer’s|;s|your operating|the operating|' \
+mozilla/browser/locales/en-US/browser/preferences/preferences.ftl
 }
 
 <span class="dhash">##</span> <b>SeaMonkey</b>:
@@ -1025,6 +1027,7 @@ sed -i '/youtube/d;/baidu/d' mozilla/browser/components/newtab/lib/$JSM
 sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $REL/comm-$REL/suite/locales/en-US/chrome/browser/region.properties
 </code>
 <b>[6]</b> Reinstate the option to print to lpr/postscript, which was removed in <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1425188">bug 1425188</a> - with thanks to <a class="extlink" href="https://forums.freebsd.org/threads/no-print-to-lpr-in-firefox-print-dialog.65805/">freebsd forum</a> &hellip;
+For FF81+, use the 'Print using the system dialogue …' option.
 <code class="green">patch -p0 &lt;&lt; EOF
 --- mozilla/widget/gtk/nsDeviceContextSpecG.cpp
 +++ mozilla/widget/gtk/nsDeviceContextSpecG.cpp
@@ -1153,7 +1156,7 @@ echo '{
 )
 </code>
 <b>[8]</b> Disable search modernisation re-introduced in FF78.1.0 which had been fixed by <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1649558">bug 1649558</a> for FF78.0.1esr to address <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1649393">bug 1649393</a>
-The 'true' setting in browser/app/profile/firefox.js ends up in firefox/browser/omni.ja and overrides the 'false' setting in modules/libpref/init/all.js which ends up in firefox/omni.ja resulting in user defined search extensions not showing
+The 'false' setting in modules/libpref/init/all.js [which ends up in firefox/omni.ja] is overridden by the 'true' setting in browser/app/profile/firefox.js [which ends up in firefox/browser/omni.ja], resulting in user defined search extensions not showing
 Setting 'false' provides the expected and required behaviour
 <code class="green">[[ $MAJ_VER -ge 78 ]] &amp;&amp; \
 sed -i 's|pref("browser.search.modernConfig", true);|pref("browser.search.modernConfig", false);|' mozilla/browser/app/profile/firefox.js
@@ -1437,19 +1440,26 @@ Temporarily unmount 'comm' directory as it duplicates the search results
 <code class="red">umount $MOZBUILD/$REL/comm-$REL/mozilla/comm
 </code>
 
+<b>Bugs</b>
+Make any changes pending upstream revisions
+<code class="red">[[ $MAJ_VER -ge 81 ]] &amp;&amp; {
+<span class="dhash">##</span> for 'British' english locales only:
+sed -i 's|dialog…|dialogue …|' $MOZBUILD/l10n/$L10N/toolkit/toolkit/printing/printUI.ftl ;}
+</code>
+
 <b>To build to a release version</b>:
-<code class="green"><b>Either:</b>
+<b>Either:</b>
 From FF59.0, the l10n revisions are contained in the l10n-changesets.json file:
-<code class="red">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
+<code class="red loc_border">export L10N_CS=$(grep -A 15 $L10N $MOZBUILD/mozilla/browser/locales/l10n-changesets.json | grep revision | colrm 1 21 |sed 's|"||')
 [[ $L10N_CS == default ]] &amp;&amp; L10N_CS=$(hg log -l 1 -R $MOZBUILD/l10n/$L10N | head -n1 | cut -d":" -f3)
 <span class="appx">echo $L10N_CS</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code>
 <b>Or:</b>
 For a known changeset:
-<code class="red">export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
+<code class="red loc_border">export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
-</code></code>
+</code>
 
 <b>Comparing en-US and $L10N localizations</b> &hellip;
 Create a list of default en-US localization files:
@@ -1530,38 +1540,39 @@ mv mail/searchplugins/eBay-$L10N.xml $SEARCHPLUGINS_DIR)
 
 <b>To enable default fallback encoding to be set to UTF-8</b>:
 Requires <b>[2]</b> in the previous section '<a href="#Prefs">User preferences</a>' to have been set up.
-<code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
+<code class="red loc_border"><span class="dhash">##</span> <b>Firefox</b>:
 <span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
 (cd $MOZBUILD/l10n/
 [[ $MAJ_VER == 60 ]] &amp;&amp; \
 sed -i -e 's|Legacy|Unidentified|;s|legacy content|content|;104i&lt;!ENTITY languages.customize.Fallback.unicode     "Unicode">' {,merge-}$L10N/browser/chrome/browser/preferences/fonts.dtd 2>/dev/null || \
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|;s|^.*Turkish.*$|&amp;\nfonts-languages-fallback-name-unicode =\n    .label = Unicode|' {,merge-}$L10N/browser/browser/preferences/fonts.ftl 2>/dev/null)
-</code>
-<code class="red"><span class="dhash">##</span> <b>SeaMonkey</b>:
-<span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
 
+<span class="dhash">##</span> <b>SeaMonkey</b>:
+<span class="dhash">##</span> Modify files in the $L10N and merge-$L10N directories
 (cd $MOZBUILD/l10n/
 sed -i '37i&lt;!ENTITY FallbackCharset.unicode      "Unicode">' {,merge-}$L10N/suite/chrome/common/pref/prefutilities.dtd 2>/dev/null
 sed -i 's|Legacy|Unidentified|;s|legacy content|content|' {,merge-}$L10N/suite/chrome/common/pref/pref-languages.dtd 2>/dev/null
 sed -i 's|Legacy|Unidentified|' {,merge-}$L10N/suite/chrome/common/help/cs_nav_prefs_navigator.xhtml 2>/dev/null)
-</code></code>
+</code>
 
-Change '&hellip; {my,your} selections &hellip;' to '&hellip; the selections &hellip;'
-<code class="green"><code class="red"><span class="dhash">##</span> <b>Firefox</b>:
+Change some of '&hellip; {my,your} &hellip;' to '&hellip; the &hellip;'
+<code class="red loc_border"><span class="dhash">##</span> <b>Firefox</b>:
 [[ $MAJ_VER == 60 ]] &amp;&amp; \
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/chrome/browser/preferences/{colors,fonts}.dtd || \
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/browser/browser/preferences/{colors,fonts}.ftl
+sed -i 's|your computer’s|the computer’s|;s|your operating|the operating|' \
+$MOZBUILD/l10n/$L10N/browser/browser/preferences/preferences.ftl
 
 <span class="dhash">##</span> <b>Thunderbird</b>:
 [[ $MAJ_VER -lt 78 ]] &amp;&amp; \
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/{,merge-}$L10N/mail/chrome/messenger/preferences/colors.dtd || \
 sed -i 's| [a-z]* selections| the selections|' $MOZBUILD/l10n/$L10N/mail/messenger/preferences/colors.ftl
-</code></code>
+</code>
 
 Default to blank page on start &hellip;
-<code class="green"><code class="red"><span class="dhash">##</span> <b>SeaMonkey</b>:
+<code class="red loc_border"><span class="dhash">##</span> <b>SeaMonkey</b>:
 sed -i 's|http://www.seamonkey-project.org/start/|about:blank|' $MOZBUILD/l10n/$L10N/suite/chrome/browser/region.properties
-</code></code>
+</code>
 
 <b>Dictionary</b>
 Replace en-US with dictionary for localization
@@ -1569,6 +1580,12 @@ Replace en-US with dictionary for localization
 rm en-US*
 unzip -oj $MOZBUILD/sources/$L10N-dict.xpi dictionaries/*
 rename $L10N en-US *)
+</code>
+
+<b>Locale</b>
+Use the operating system settings to format dates, times, numbers, and measurements.
+<code class="red loc_border">sed -i 's|"intl.regional_prefs.use_os_locales",.*$|"intl.regional_prefs.use_os_locales", true);|' \
+$MOZBUILD/mozilla/{modules/libpref/init/all,browser/app/profile/firefox}.js
 </code>
 
 <b>Workaround for FF57+.</b>
@@ -2052,7 +2069,8 @@ EOF
 <code class="console"> {standard input}: Assembler messages:
  {standard input}:1022: Error: bad expression -- `b #_ZL14SigprofHandleriP9siginfo_tPv'</code>
 This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/537f4d1d837a">SignalTrampoline to work properly with clang</a> fix which needs to be <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1434526#c2">reverted</a> to work with gcc when cross compiling.</code>
-<code class="green">cd $MOZBUILD/mozilla
+<code class="green">[[ $MAJ_VER -lt 80 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla
 echo $'--- mfbt/LinuxSignal.h
 +++ mfbt/LinuxSignal.h
 @@ -29 +29 @@
@@ -2065,9 +2083,11 @@ echo $'--- mfbt/LinuxSignal.h
 do
 patch -N -p0
 done
+}
 </code>
 <b>OR</b>:
-<code class="green">cd $MOZBUILD/mozilla
+<code class="green">[[ $MAJ_VER -lt 80 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla
 echo $'--- mfbt/LinuxSignal.h
 +++ mfbt/LinuxSignal.h
 @@ -25 +25,5 @@
@@ -2081,6 +2101,7 @@ echo $'--- mfbt/LinuxSignal.h
 do
 patch -N -p0
 done
+}
 </code>
 <code class="console">error: field ‘ufp’ has incomplete type ‘user_vfp’</code>
 FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for this error
@@ -2725,6 +2746,7 @@ Qlw7pBtcCCGEkLAWQgghhIS1EEIIIWEthBBCCAlrIYQQQkhYCyGEENei/w9zHTgtQ9xMHAAAAABJ
 RU5ErkJggg==">
 This overrides <i>dom.security.https_only_mode</i> whether it's set to true or false
 so, if implemented, the URLs for sites with http only will have to be entered with the http:// prefix
+[The cache in an existing installation will need to be cleared for this to be effective]
 <code class="green">(cd ../$REL/packaging-FF-$PKG_ARCH/usr/lib/firefox/
 
 <b>edit_omni_ja</b> modules/URIFixup.jsm
@@ -2961,15 +2983,15 @@ git checkout gh-pages
         <p><a href="#DirStructure">Directory structure</a>
         <p><a href="#Set_variables">Set variables</a>
         <p><a href="#Mercurial_bundles">Mercurial bundles</a>
-        <p><a href="#Locrep">Add new changesets</a>
-        <p><a href="#known_rel"><span class="green">Building to a revision</span></a>
+        <p><a href="#Locrep"><span class="menu_border" style="border:solid 1px #e5e5e5;">Add new changesets</span></a>
+        <p><a href="#known_rel"><span class="green menu_border">Building to a revision</span></a>
         <p><a href="#Create_mozconfigs">Create mozconfigs</a>
-        <p><a href="#Prefs"><span class="green">User preferences</span></a>
-        <p><a href="#Ttipbox"><span class="green">Gtk3 configuration</span></a>
-        <p><a href="#l10n"><span class="red">Localization</span></a>
-        <p><a href="#BuildingFFReturn"><span style="background: #FFFADD;">Building Firefox</span></a>
-        <p><a href="#BuildingSMReturn"><span style="background: #E5F1FF;">Building SeaMonkey</span></a>
-        <p><a href="#BuildingTBReturn"><span style="background: #F4f4f4;">Building Thunderbird</span></a>
+        <p><a href="#Prefs"><span class="green menu_border">User preferences</span></a>
+        <p><a href="#Ttipbox"><span class="green menu_border">Gtk3 configuration</span></a>
+        <p><a href="#l10n"><span class="red menu_border">Localization</span></a>
+        <p><a href="#BuildingFFReturn"><span class="menu_border" style="background: #FFFADD;">Building Firefox</span></a>
+        <p><a href="#BuildingSMReturn"><span class="menu_border" style="background: #E5F1FF;">Building SeaMonkey</span></a>
+        <p><a href="#BuildingTBReturn"><span class="menu_border" style="background: #F4f4f4;">Building Thunderbird</span></a>
       </div>
     </li>
 </ul>
