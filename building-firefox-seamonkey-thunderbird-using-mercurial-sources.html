@@ -158,7 +158,7 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 
 <p>
 <b><i>esr78</i></b>
-<br><code class="appx">        78.8.0                                  <span class="off_rel">f35972ee2800</span>    <span class="comment">n/a</span>             c32f5142ad93   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<br><code class="appx">        78.10.0                                 <span class="off_rel">0dac34b853c6</span>    <span class="comment">n/a</span>             c32f5142ad93   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span> 78.1.0                                  <span class="">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>   78.1.0                                  <span class="">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>    78.1.0                                  <span class="off_rel">fc56efe4d94d</span>    <span class="comment">n/a</span>             1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -511,9 +511,9 @@ ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
 <span class="dhash">##</span> Print the latest release version ..
 hg log -l $LOG_NUM -Gr ::$REL | grep -o FIREFOX_.*_RELEASE |head -n2
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;FIREFOX_78_8_0esr_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;FIREFOX_78_10_0esr_RELEASE</span>
 <span class="dhash">##</span> .. then from that set the Firefox version - excluding any esr suffix
-<b>REL_TAG</b>=<span class="comment">78_8_0</span>
+<b>REL_TAG</b>=<span class="comment">78_10_0</span>
 
 REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
 <span class="appx">echo $REL_CS</span>
