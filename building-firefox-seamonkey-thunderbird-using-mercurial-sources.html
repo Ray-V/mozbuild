@@ -149,7 +149,7 @@ and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla
 <br>
 These are builds which have been completed and run.
 <br>
-l10n files are updated from the l10n-central base revisions during <a href="#l10n"><span class="red">Localization</span></a>
+l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><span class="red">Localization</span></a>
 <br><code class="appx">                                      built to <span class="off_rel">{released}</span> revision/changeset
           <u>Firefox</u>   <u>Thunderbird</u>    <u>mozilla</u>         <u>comm-$REL</u>       <u>l10n-central</u>   <u>Options</u>
 </code>
@@ -165,6 +165,18 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <span class="comment green">aarch64</span>             78.1.0         fc56efe4d94d    b3c7804f5734    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>               78.1.1         fc56efe4d94d    655a8e12794b    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>                78.1.1         <span class="off_rel">fc56efe4d94d</span>    <span class="off_rel">655a8e12794b</span>    1789c49d6a47   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
+<br>
+
+<p>
+<b><i>esr91</i></b>
+<br><code class="appx">          91.0                     <span class="off_rel">42e1acb39aff</span>    <span class="comment">n/a</span>             54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   91.0                     <span class="">42e1acb39aff</span>    <span class="comment">n/a</span>             54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     91.0                     <span class="">42e1acb39aff</span>    <span class="comment">n/a</span>             54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      91.0                     <span class="off_rel">42e1acb39aff</span>    <span class="comment">n/a</span>             54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    91.0           <span class="off_rel">42e1acb39aff</span>    <span class="off_rel">4f872f047007</span>    54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>             91.0           42e1acb39aff    4f872f047007    54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>               91.0           42e1acb39aff    4f872f047007    54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                91.0           <span class="off_rel">42e1acb39aff</span>    <span class="off_rel">4f872f047007</span>    54c106553467   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
 <br>
 
 <p>
@@ -201,11 +213,11 @@ l10n files are updated from the l10n-central base revisions during <a href="#l10
 <b>Build times</b>
 <br><code>Machine				dual-core 2.2 GHz	2x quad-core 3GHz
 Ram				6 GB			32 GB
-MOZ_MAKE_FLAGS			-j4			-j12
-Firefox 			~542 mins [FF78esr]	~62 mins [FF70]
-				~593 mins [FF90]
-Thunderbird			~503 mins [TB78esr]	~41 mins [TB60esr]
-				~645 mins [TB90]</code>
+MOZ_MAKE_FLAGS			-j4			-j8 [x2 builds simultaneously]
+Firefox 			~542 mins [78esr]	
+				~601 mins [91esr]	~180 mins [91esr]
+Thunderbird			~503 mins [78esr]	
+				~743 mins [91esr]	~175 mins [91esr]</code>
 <br>
 Typical usage on the dual-core machine is 6GB actual, with up to 10GB swap.
 
@@ -315,9 +327,6 @@ Use l10n mozilla-central repository and revert to the official revisions when re
 <code class="red">(cd $MOZBUILD/l10n/
 hg clone https://hg.mozilla.org/l10n-central/$L10N/)
 </code>
-
-<br>
-If the localization has not been updated for new files or strings from the en-US locale, then the build will fail or run-time failures will occur on those omissions.
 
 <p>
 <a name="UpdateRepoReturn"></a>
@@ -465,73 +474,36 @@ Building to a changeset - start
 <span class="tabs prefs"><a href="#known_rel">Building to a specific revision</a></span>
 <div id="known_rel" class="tab"><div class="b_prefs"><span class="tabs"><a href="#close_known_rel">close</a></span>
 <!-- leave this space -->
-<b>Building to the same revision as an <a class="extlink" href="https://wiki.mozilla.org/Release_Management/Calendar">official</a></b> or <a class="extlink" href="https://www.mozilla.org/en-US/firefox/releases/">bug fix</a> release.
-This is relevant for release versions only, beta builds have been specifically excluded.
-
-<b><i>Either</b></i>: Prior to the release date, the changesets on which the release candidates are built can be obtained from mozilla.org.
-The final release candidate can be as late as the weekend before the scheduled release date.
-This finds the latest release candidate build for any specific Firefox version, and sets up a new bookmark to that revision &hellip;
-<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
-<span class="dhash">##</span> FF_VER defaults to the current repo Firefox version and will only give a resultant release candidate changeset [REL_CAND_CS] when the release candidate loses its beta suffix which should be 7-12 days before the release date
-<b>FF_VER</b>=$(cat $MOZBUILD/mozilla/browser/config/version.txt)
-<span class="appx">echo $FF_VER</span>
-<span class="dhash">##</span> Override with <b>FF_VER</b>=xx.x[.x] for an earlier version
-
-ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
-
-cd $MOZBUILD/sources/
-<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release/esr version
-<span style="color: #c50000;">wget -O candidates.html https://archive.mozilla.org/pub/firefox/candidates/</span>
-REL_CAND=$(grep $FF_VER candidates.html|grep -v b[0-9] | grep -o $FF_VER${ESR_SUFF:-}-candidates | head -n1)
-<span class="appx">echo $REL_CAND</span>
-
-<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
-<span style="color: #c50000;">wget -O $REL_CAND.html https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/</span>
-BUILD=$(grep build $REL_CAND.html|tail -n1|cut -d"/" -f6)
-<span class="appx">echo $BUILD</span>
-
-<span class="dhash">##</span> [3] Download the .json file which includes the changeset reference for that build and find the changeset
-JSON="firefox-$(echo $REL_CAND |cut -d- -f1).json"
-<span style="color: #c50000;">wget -O $JSON https://archive.mozilla.org/pub/firefox/candidates/$REL_CAND/$BUILD/linux-$ARCH/en-US/$JSON</span>
-REL_CAND_CS=$(grep stamp $JSON |colrm 1 23|colrm 13)
-<span class="appx">echo $REL_CAND_CS</span>
-
-<span class="dhash">##</span> Create new bookmark to that release candidate changeset
-hg bookmark -r $REL_CAND_CS ${REL}_$FF_VER -R $MOZBUILD/mozilla
-<span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$FF_VER -R $MOZBUILD/mozilla
-</code>
-<b><i>Or</b></i>: Where the FF version is known, i.e. after its release date, the changeset on which it was built can be determined from the repo log and then the repo reverted to that changeset.
-The changeset for any specific release is only tagged as FIREFOX_xx_x[_x]_RELEASE on the official release date.
+<b>Building to the same revision as the latest <a class="extlink" href="https://wiki.mozilla.org/Release_Management/Calendar">official</a></b> or <a class="extlink" href="https://www.mozilla.org/en-US/firefox/releases/">bug fix</a> release.
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
 cd $MOZBUILD/mozilla/
 
-<span class="dhash">##</span> Set to a sufficiently high number for the changeset to be found
-<b>LOG_NUM</b>=<span class="comment">500</span>
-ESR_SUFF="" &amp;&amp; [[ $REL == esr?? ]] &amp;&amp; ESR_SUFF=esr
-<span class="dhash">##</span> Print the latest release version ..
-hg log -l $LOG_NUM -Gr ::$REL | grep -o FIREFOX_.*_RELEASE |head -n2
+<span class="dhash">##</span> Get the latest release candidate from the repository log
+Tg_STR=$(hg log -l 500 -Gr ::$REL | grep -o Tagging.*FIREFOX_.*_RELEASE|head -n1)
+<span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;FIREFOX_78_12_0esr_RELEASE</span>
-<span class="dhash">##</span> .. then from that set the Firefox version - excluding any esr suffix
-<b>REL_TAG</b>=<span class="comment">78_12_0</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 42e1acb39affae65d50ced864d28672d67aa0181 with FIREFOX_91_0esr_RELEASE</span>
 
-REL_CS=$(hg log -l $LOG_NUM -Gr ::$REL | grep FIREFOX_$REL_TAG${ESR_SUFF:-}_RELEASE | grep -o "Tagging [0-f]*"|colrm 1 8|colrm 13)
+<span class="dhash">##</span> Set the changeset for the build
+REL_CS=$(echo $Tg_STR | cut -d" " -f2 | colrm 13)
 <span class="appx">echo $REL_CS</span>
 
+REL_TAG=$(echo $Tg_STR | cut -d" " -f4 | sed 's|FIREFOX_||;s|_RELEASE||')
+<span class="appx">echo $REL_TAG</span>
+
 <span class="dhash">##</span> Create new bookmark to that release changeset
-hg bookmark -r $REL_CS ${REL}_$REL_TAG
+hg bookmark -r $REL_CS $REL_TAG
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout ${REL}_$REL_TAG
+hg checkout $REL_TAG
 </code>
 <b><i>Building to any other revision</b></i>:
 Find the changesets within mozilla-unified applicable to REL only.
-<code class="green"><span class="dhash">##</span> List last NUM_CS changesets:
+<code class="green thtwob"><span class="dhash">##</span> List last NUM_CS changesets:
 cd $MOZBUILD/mozilla/
 <b>NUM_CS</b>=<span class="comment">5</span>
-hg log -l $NUM_CS -Gr ::$REL -R $MOZBUILD/mozilla | colrm 1 3
+hg log -l $NUM_CS -Gr ::$REL | colrm 1 3
 
-<span class="dhash">##</span> Select a changeset from that list, and create a bookmark and set it active:
+<span class="dhash">##</span> Select a changeset from that list
 <b>BUILD_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 
 <span class="dhash">##</span> Create new bookmark to that changeset
@@ -543,56 +515,55 @@ hg checkout ${REL}_$BUILD_CS
 <b><u>comm-$REL</b></u>
 The Thunderbird release revision hashes are available from the candidates repository.
 This procedure is for Thunderbird releases - for other TB builds, just set the revisions as required.
-The TB release revision could also be found from the comm-$REL log, but that wouldn't give the mozilla revision that the build is based on, so this procedure is used in all cases.
 <code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
-TB_VER=$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
-<span class="appx">echo $TB_VER</span>
-
 cd $MOZBUILD/sources/
-<span class="dhash">##</span> [1] Get list of release candidates and find the latest for this release version
-<span style="color: #c50000;">wget -O TB-candidates.html https://archive.mozilla.org/pub/thunderbird/candidates/</span>
-TB_REL_CAND=$(grep -oE "${TB_VER}-candidates|${TB_VER}b[0-9]-candidates" TB-candidates.html | tail -n 1)
+
+<span class="dhash">##</span> Get the latest release candidate and build from the repository log
+Tg_STR=$(hg log -l 500 -R $MOZBUILD/$REL/comm-$REL | grep -o Tagging.*THUNDERBIRD_.*_RELEASE|head -n1)
+<span class="appx">echo $Tg_STR</span>
+<span class="dhash">##</span> which will show, for example
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 4f872f047007bba905dc504e3b0ffeaeca7f3690 with THUNDERBIRD_91_0_BUILD1, THUNDERBIRD_91_0_RELEASE</span>
+
+<span class="dhash">##</span> Set the release candidate
+TB_REL_CAND=$(echo $Tg_STR | cut -d" " -f5 | sed 's|THUNDERBIRD_||;s|_RELEASE||' | tr _ .)
 <span class="appx">echo $TB_REL_CAND</span>
 
-<span class="dhash">##</span> [2] Get list of release candidate builds and find the latest
-<span style="color: #c50000;">wget -O $TB_REL_CAND.html https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND/</span>
-TB_BUILD=$(grep build $TB_REL_CAND.html|tail -n1|cut -d"/" -f6)
+<span class="dhash">##</span> Set the build
+TB_BUILD=$(echo $Tg_STR | grep -o BUILD[0-9]* | tr [:upper:] [:lower:] )
 <span class="appx">echo $TB_BUILD</span>
 
-<span class="dhash">##</span> [3] Download the .txt file which includes the changeset reference for that build ...
-TB_TXT="thunderbird-$(echo $TB_REL_CAND |cut -d- -f1).txt"
-<span class="appx">echo $TB_TXT</span>
-<span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND/$TB_BUILD/linux-$ARCH/en-US/$TB_TXT</span>
-<span style="color: #E7F5E7;">&lt;&lt;'comment'</span>
-For example for TBesr 78.1.1, the contents of this file are:
-20200805003102
-https://hg.mozilla.org/releases/comm-esr78/rev/655a8e12794b141effe6d9e626bb526730aae597
-https://hg.mozilla.org/releases/mozilla-esr78/rev/fc56efe4d94deab2c7d3ee49f116e98d0bc827f6
-<span style="color: #E7F5E7;">comment</span>
+<span class="dhash">##</span> Download the .txt file which includes the mozilla changeset for that build
+<span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL_CAND-candidates/$TB_BUILD/linux-x86_64/en-US/thunderbird-$TB_REL_CAND.txt</span>
+
+<span style="color: #E7F5E7;">#</span>For example for TBesr 91.0, the contents of this file are:
+<span style="color: #E7F5E7;"># </span>20210805011554
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/4f872f047007bba905dc504e3b0ffeaeca7f3690
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/42e1acb39affae65d50ced864d28672d67aa0181
+
 <span class="dhash">##</span> &hellip; and find the changesets
-COMM_BUILD_CS=$(grep comm- $TB_TXT | cut -d"/" -f7 | colrm 13)
+COMM_BUILD_CS=$(grep comm- thunderbird-$TB_REL_CAND.txt | cut -d"/" -f7 | colrm 13)
 <span class="appx">echo $COMM_BUILD_CS</span>
-TB_MOZ_BUILD_CS=$(grep mozilla- $TB_TXT | cut -d"/" -f7 | colrm 13)
+TB_MOZ_BUILD_CS=$(grep mozilla- thunderbird-$TB_REL_CAND.txt | cut -d"/" -f7 | colrm 13)
 <span class="appx">echo $TB_MOZ_BUILD_CS</span>
 </code>
-For non-release builds, set revisions here:
-<code class="appx"><span class="dhash">##</span> The comm-$REL revision
+<b><i>Building to any other revision</b></i>:
+<code class="green thtwob"><span class="dhash">##</span> The comm-$REL revision
 COMM_BUILD_CS=
 <span class="dhash">##</span> The mozilla revision
 TB_MOZ_BUILD_CS=
-<span class="dhash">##</span> The TB version - only used here to set a name for the bookmark
-TB_VER=
+<span class="dhash">##</span> Set a name for the bookmark
+TB_REL_CAND=
 </code>
 <code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
 hg checkout -r $COMM_BUILD_CS -R $MOZBUILD/$REL/comm-$REL
 
 <span class="dhash">##</span> <b>Mozilla</b>:
 <span class="dhash">##</span> Create new bookmark to TB changeset
-hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_VER -R $MOZBUILD/mozilla
+hg bookmark -r $TB_MOZ_BUILD_CS TB_$TB_REL_CAND -R $MOZBUILD/mozilla
 <span class="dhash">##</span> Set the new bookmark active
-hg checkout TB_$TB_VER -R $MOZBUILD/mozilla
+hg checkout TB_$TB_REL_CAND -R $MOZBUILD/mozilla
 </code>
-Record the mozilla revision that the Thunderbird build is based on to add to application.ini in the packages.
+Record the mozilla revision that the Thunderbird build is based on to add to application.ini in the package.
 <code class="green">export Gecko_Rev=$TB_MOZ_BUILD_CS
 </code>
 Check that the repositories are set up for the correct revisions:
@@ -623,7 +594,7 @@ Building to a changeset - end
 <br>
 <span class="console">&nbsp;-march=core2 -mtune=core2</span>
 <br>
-&hellip; and suppress compiler warnings [-w] which are only useful for developers &hellip;
+&hellip; and suppress [-w] compiler warnings which are only useful for developers &hellip;
 <br>
 <code class="green">export OPTM=$(echo $(gcc -Q -O2 -march=native --help=target | grep -E "^  -march=|^  -mtune=" | tr -d [:blank:]))
 OPTM="$OPTM -w"
@@ -759,6 +730,8 @@ User preferences - start
 <div id="Prefs" class="tab"><div class="b_prefs"><span class="tabs"><a href="#close_prefs">close</a></span>
 <!-- leave this space -->
 <b>User preferences options</b>
+<code class="green">cd $MOZBUILD
+</code>
 <b>[1]</b> Where the server or meta tags don't identify file encoding, setting default fallback encoding to UTF-8 has been <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=967981#c4">deliberately blocked</a>.
 To enable default fallback encoding to be set to UTF-8:
 <code class="green"><span class="dhash">##</span> <b>Firefox</b>:
@@ -837,8 +810,8 @@ patch -p0 &lt;&lt; EOF
 EOF
 
 <span class="dhash">##</span> Remove drop down pre-set list of sites from URL bar
-<span class="dhash">##</span> for <b>FF78+</b>
-[[ $MAJ_VER -lt 80 ]] &amp;&amp; JSM=ActivityStream.jsm || JSM=DefaultSites.jsm
+<span class="dhash">##</span> for <b>FF78esr</b>
+[[ $MAJ_VER == 78 ]] &amp;&amp; JSM=ActivityStream.jsm || JSM=DefaultSites.jsm
 sed -i '/youtube/d;/baidu/d' mozilla/browser/components/newtab/lib/$JSM
 <span class="dhash">##</span> for <b>FF90+</b>
 [[ $MAJ_VER -ge 90 ]] &amp;&amp; {
@@ -889,7 +862,8 @@ For FF81+, if <b>print.tab_modal.enabled</b>==<b>true</b>, use the <b>Print usin
 +      }
 EOF
 
-sed -i 's/GTK_PRINT_CAPABILITY_GENERATE_PDF));/GTK_PRINT_CAPABILITY_GENERATE_PDF | GTK_PRINT_CAPABILITY_GENERATE_PS));/' mozilla/widget/gtk/nsPrintDialogGTK.cpp
+sed -i 's/GTK_PRINT_CAPABILITY_GENERATE_PDF));/GTK_PRINT_CAPABILITY_GENERATE_PDF | GTK_PRINT_CAPABILITY_GENERATE_PS));/' \
+mozilla/widget/gtk/nsPrintDialogGTK.cpp
 
 <span class="dhash">##</span> FF78 esr and FF release differ here for PS_STR &hellip;
 [[ $MAJ_VER -lt 80 ]] &amp;&amp; PS_STR=NS_LITERAL_STRING\(\".ps\"\)\)\) || PS_STR=u\".ps\"_ns\)\)
@@ -1310,7 +1284,7 @@ echo $'{"data":[
 
 {"schema":1599421304249,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"amazondotcom@search.mozilla.org"},"id":"071c671c-7c1b-469d-a771-ab16ff6e8beb","last_modified":1599574471320},
 
-{"schema":1594312388385,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"ddg@search.mozilla.org"},"default":"yes","id":"c0b26c0e-63e6-4235-b2ce-5f16b6a8bf87","last_modified":1595254832054},
+{"schema":1594312388385,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"ddg@search.mozilla.org"},"<b>default</b>":"<b>yes</b>","id":"c0b26c0e-63e6-4235-b2ce-5f16b6a8bf87","last_modified":1595254832054},
 
 {"schema":1592948527171,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"bing@search.mozilla.org"},"id":"7ec766f6-639a-4618-91bc-33eb3d4378c6","last_modified":1593025575021},
 
@@ -1331,6 +1305,7 @@ sed -i 's|keyword.enabled", true|keyword.enabled", false|' mozilla/browser/app/p
 sed -i 's|browser.search.suggest.enabled", true|browser.search.suggest.enabled", false|' \
 mozilla/{modules/libpref/init/all.js,browser/components/urlbar/{UrlbarPrefs.jsm,tests/browser/browser_speculative_connect.js}}
 
+<span class="comment">## TODO: remove browser.properties after 78esr eol</span>
 sed -i 's|Search with .* or enter address|Search or enter address|' \
 mozilla/browser/locales/en-US/{browser/browser.ftl,chrome/browser/browser.properties}
 
@@ -1904,7 +1879,7 @@ Use the operating system settings to format dates, times, numbers, and measureme
 $MOZBUILD/mozilla/{modules/libpref/init/all,browser/app/profile/firefox}.js
 </code>
 
-As for User Preference <b>[8]</b> Disable predictive search in URL bar
+As for [part of] User Preference <b>[8]</b> Disable predictive search in URL bar
 <code class="red loc_border">sed -i 's|Search with .* or enter address|Search or enter address|' \
 $MOZBUILD/l10n/<span class="comment">en-GB</span>/browser/{chrome/browser/browser.properties,browser/browser.ftl}
 </code>
@@ -1962,16 +1937,26 @@ Copy localized files to en-US locations with a test run if required:
     | sed "s|$REL/comm-$REL/||")
 
 <span class="dhash">##</span> if the edited strings match [a == b], copy the localized file to the en-US location
-      [[ $localized_edited_path ==  $en_US_edited_path ]] &amp;&amp; {
+      [[ $localized_edited_path == $en_US_edited_path ]] &amp;&amp; {
       [[ <b>$TEST_CP != yes</b> ]] &amp;&amp; {
       cp $localized_file $en_US_file
-      } || {
-      echo
-      echo $localized_file
-      echo $en_US_file
-      echo -e "would copy
+      echo -e "
+copying
  $localized_file
 to
+ $en_US_file"
+      } || {
+      echo -e "
+would copy
+ $localized_file
+to
+ $en_US_file"
+      }
+      } || {
+      [[ <b>$TEST_CP == yes</b> ]] &amp;&amp; {
+      echo -e "
+ $localized_file
+would NOT be copied to
  $en_US_file"
       }
       }
@@ -2367,20 +2352,6 @@ This is caused by the <a class="extlink" href="https://hg.mozilla.org/mozilla-ce
 cd $MOZBUILD/mozilla
 echo $'--- mfbt/LinuxSignal.h
 +++ mfbt/LinuxSignal.h
-@@ -29 +29 @@
--    "b %0"
-+    "bx %0"
-@@ -31 +31 @@
--    : "X"(H)
-+    : "r"(H), "l"(aSignal), "l"(aInfo), "l"(aContext)
-' | patch -N -p0
-}
-</code>
-<b>OR</b>:
-<code class="green">[[ $MAJ_VER -lt 80 ]] &amp;&amp; {
-cd $MOZBUILD/mozilla
-echo $'--- mfbt/LinuxSignal.h
-+++ mfbt/LinuxSignal.h
 @@ -25 +25,5 @@
 -  asm volatile("b %0" : : "X"(H) : "memory");
 +  asm volatile (
@@ -2392,8 +2363,8 @@ echo $'--- mfbt/LinuxSignal.h
 }
 </code>
 <code class="console">error: field ‘ufp’ has incomplete type ‘user_vfp’</code>
-FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for this error
-<code class="green">[[ $MAJ_VER -ge 66 ]] &amp;&amp; {
+FF66+ for armv7 requires <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1526653">patching</a> for this error, which has been <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1587757">fixed</a> for FF92
+<code class="green">[[ $MAJ_VER -le 91 ]] &amp;&amp; {
 cd $MOZBUILD/mozilla
 echo $'--- js/src/wasm/WasmSignalHandlers.cpp
 +++ js/src/wasm/WasmSignalHandlers.cpp
@@ -2431,6 +2402,7 @@ echo $'--- build/moz.configure/pkg.configure
 +                    "usr/lib64/pkgconfig",
                      "usr/lib/pkgconfig",
 ' | patch -N -p0
+}
 </code>
 <code class="console">   Compiling qcms v0.2.0 (/mozbuild/mozilla/gfx/qcms)
 error[E0432]: unresolved imports `core::arch::arm::float32x4_t`, `core::arch::arm::int32x4_t`, `core::arch::arm::vaddq_f32`</code>
@@ -2882,24 +2854,24 @@ EOF
 </code>
 <span class="tabs th2"><a href="#close_TB_xcompile">close</a></span>
 </div></div>                                                     <!-- TB xcompile - end -->
-<code class="gray">cd $MOZBUILD/$REL/comm-$REL
-export MOZCONFIG=$MOZBUILD/$REL/comm-$REL/mozconfig.thunderbird${XCOMPILE:-}
+<code class="gray">cd $MOZBUILD/mozilla/comm
+export MOZCONFIG=$MOZBUILD/mozilla/comm/mozconfig.thunderbird${XCOMPILE:-}
 [[ $MAJ_VER -gt 80 ]] &amp;&amp; export MACH_USE_SYSTEM_PYTHON=1
-./mozilla/mach build
+../mach build
 </code>
 A successful build will end with a message like:
 <code class="console">mmm:ss.xx We know it took a while, but your build finally finished successfully!
 To take your build for a test drive, run: |mach run|</code>
 Let's take it for a test drive:
-<code>./mozilla/mach run
+<code>../mach run
 </code>
 <b>Installation</b>
 Install to $DESTDIR for packaging:
-<code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB-$PKG_ARCH ./mozilla/mach install
+<code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB-$PKG_ARCH ../mach install
 </code>
 <br><b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
-<code class="gray">cd ../packaging-TB-$PKG_ARCH/usr/lib
+<code class="gray">cd ../../$REL/packaging-TB-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 mv thunderbird pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version.txt)
 <span class="green"><span class="dhash">##</span> Set SourceStamp to comm-$REL revision:
