@@ -182,19 +182,17 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <br>
 <code class="appx">          95.0b5                   <span class="off_rel">e03a1e92e93b</span>    <span class="comment">n/a</span>             b0be334ed00b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span>   95.0b5                   <span class="">e03a1e92e93b</span>    <span class="comment">n/a             </span>b0be334ed00b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     <span class="comment">95.0b5 <sup>1</sup></span>                 <span class="">            </span>    <span class="comment">                </span>               <span class=""> </span> <span class=""> </span> <span class=""> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     95.0b5                   <span class="">e03a1e92e93b</span>    <span class="comment">n/a             </span>b0be334ed00b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      95.0b5                   <span class="">e03a1e92e93b</span>    <span class="comment">n/a             </span>b0be334ed00b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                     95.0b2         <span class="off_rel">15bacbe42d01    625f7225da7c</span>    17569bbfec7b   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
-<br>
-<span class="comment"><sup>1</sup> armv7 build fails for swgl</span>
 <p>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">          96.0a1                   300fc6bd088e <span class="comment"><sup>2</sup></span>  <span class="comment">n/a</span>             7efa6b04391e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          96.0a1                   300fc6bd088e<span class="comment"><sup>[1]</sup></span> <span class="comment">n/a</span>             7efa6b04391e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b><sup>2</sup></b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2021/11/2021-11-11-04-55-25-mozilla-central/firefox-96.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
+<span class="comment"><b><sup>[1]</sup></b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2021/11/2021-11-11-04-55-25-mozilla-central/firefox-96.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
 
 <p>
 <br>
@@ -646,7 +644,9 @@ mk_add_options "export CBINDGEN=$MOZBUILD/sources/rust-$ARCH/bin/cbindgen"
 
 <span class="dhash">##</span> Set MOZBUILD_STATE_PATH so the build completes without prompting
 <span class="dhash">##</span> Needs to be set directly in the shell for FF -gt 91
+[[ $MAJ_VER -le 91 ]] &amp;&amp; {
 mk_add_options "export MOZBUILD_STATE_PATH=$MOZBUILD/.mozilla"
+}
 
 CC="gcc ${OPTM:-}"
 CXX="g++ ${OPTM:-}"
@@ -2530,6 +2530,20 @@ This is a failure to find the <a class="extlink" href="https://bugzilla.mozilla.
 +                    "usr/lib64/pkgconfig",
                      "usr/lib/pkgconfig",
 ' | patch -N -p0
+</code>
+<code class="console">error: failed to run custom build command for `swgl v0.1.0 (/mozbuild/mozilla/gfx/wr/swgl)`</code>
+Caused by the <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1739040">'Pick cc upstream patch for GCC 11 on armhf linux'</a> changeset &hellip;
+This work-around is to substitute the fpu parameter with the default from the gcc toolchain used here.
+The substitution may need to be set differently for any other toolchain - use 'arm-linux-gnueabihf-gcc -v' to find out what it is.
+<code class="green">[[ $X_TARGET == arm-linux-gnueabihf ]] &amp;&amp; {
+cd $MOZBUILD/mozilla/
+
+sed -i '1644s|vfpv3-d16|<span class="comment">neon-fp-armv8</span>|' third_party/rust/cc/src/lib.rs
+
+CHK_SUM_OLD=$(grep -o src/lib.rs\":\"[0-9a-f]* third_party/rust/cc/.cargo-checksum.json | cut -d'"' -f3)
+CHK_SUM_NEW=$(sha256sum third_party/rust/cc/src/lib.rs | cut -d' ' -f1)
+sed -i "s|$CHK_SUM_OLD|$CHK_SUM_NEW|" third_party/rust/cc/.cargo-checksum.json
+}
 </code>
 
 <span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
