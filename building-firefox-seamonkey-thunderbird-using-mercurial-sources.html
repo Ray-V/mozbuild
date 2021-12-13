@@ -2086,9 +2086,10 @@ hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 
 <b>Bugs</b>
 Make any changes pending upstream fixes
-<code class="red"><span class="dhash">##</span> for 'British' english locales only:
+<code class="red"><span class="dhash">##</span> for 'British' english locales:
 sed -i 's|dialog…|dialogue|' $MOZBUILD/l10n/$L10N/toolkit/toolkit/printing/printUI.ftl
 sed -i 's|This dialog |This dialogue |' $MOZBUILD/l10n/$L10N/mail/messenger/accountcreation/accountSetup.ftl
+sed -i 's|dialog:|dialogue:|' $MOZBUILD/l10n/$L10N/mail/chrome/messenger/chat.dtd
 </code>
 
 <b>User Preferences</b>
@@ -2282,12 +2283,12 @@ The additions fit into the build tree like this:
 [1] Set variables for an aarch64, armv7, or i686 build.
 
 Unset any optimization which might have been set for a x86_64 build
-<code class="green">unset $OPTM
+<code class="green">unset OPTM
 </code>
 <b>Don't</b> use variables used by mozilla - confuses libloading for example ..
    and setting flags with CC etc in the shell environment will fail configure,
    so set architecture specific variables here and re-assign them in mozconfig.cross.
-<b>The toolchain</b> used is the custom built gcc cross compiler <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">here</a>,
+<b>The toolchain</b> used is a <a class="extlink" href="https://ray-v.github.io/tde-slackbuilds/cross-compiling-TDE-for-the-RPi3.html#gcc_x">custom built gcc cross compiler</a>,
    which includes some compiler optimizations for the arm versions, and creating a kernel headers package.
 <code class="thtwob"><b>64-bit</b> aarch64
 <code class="green">export CRATE=aarch64-unknown-linux-gnu
@@ -2596,25 +2597,14 @@ To take your build for a test drive, run: |mach run|
 </code>
 Let's take it for a test drive:
 <code>./mach run
-</code>                                                          <!-- mach package - start -->
-<b>Installation:</b> <a name="close_machpk"></a>
-Use either './mach install' or &nbsp;<span class="tabs prefs"><a href="#Mpack">'./mach package'</a></span>
-<div id="Mpack" class="tab">
-<div class="b_prefs"><span class="tabs th2"><a href="#close_machpk">close</a></span>
-<!-- leave this space -->
-<b>Using './mach package'</b>&nbsp;
-<code class="gray">./mach package</code>
-will create -
-for 57+ builds:
-<code class="console">** WiP **</code>
-<span class="tabs th2"><a href="#close_machpk">close</a></span>
-</div></div>                                                     <!-- mach package - end -->
+</code>
+<b>Installation:</b>
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-FF-$PKG_ARCH ./mach install
 </code>
 <p><b>Create package</b>
 Includes setting up a relative link for /usr/bin/firefox &hellip;
-<code class="gray">cd ../$REL/packaging-FF-$PKG_ARCH/usr/lib
+<code class="gray">cd $MOZBUILD/$REL/packaging-FF-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 mv firefox pkg/opt/firefox-$(cat $MOZBUILD/mozilla/browser/config/version_display.txt)
 <span class="red"><span class="dhash">##</span> 'for the record', add the l10n revision that this build is based on:
@@ -2720,9 +2710,98 @@ Let's take it for a test drive:
 Install to $DESTDIR for packaging:
 <code class="gray">DESTDIR=$MOZBUILD/$REL/packaging-TB-$PKG_ARCH ../mach install
 </code>
+                                                                 <!-- build libotr - start -->
+<span class="tabs prefs"><a href="#otr_">OTR</a></span><span style="vertical-align:-30%">&nbsp;&nbsp;&hellip; add libotr for <a class="extlink" href="https://wiki.mozilla.org/Thunderbird:OTR">Off-the-Record Messaging</a>.</span>
+<div id="otr_" class="tab">
+<div class="b_prefs"><span class="tabs th2"><a href="#close_otr_">close</a></span>
+<!-- leave this space -->
+This is based on the script <i>comm-*/taskcluster/scripts/build-libotr.sh</i>.
+For cross compiling, sysroot is defined in the cross-compiler and the relevant
+ libraries and headers are mounted to that point so setting --sysroot= is not needed.
+<code class="green thtwob"><span class="dhash">##</span> Build in the existing third_party directory
+DEST=$MOZBUILD/$REL/thunderbird-build-dir-$PKG_ARCH/third_party
+<span class="dhash">##</span> Install dependencies to the build tree as only libotr.so is required
+export DESTDIR=$DEST/build-libotr
+<span class="dhash">##</span> Where to find the libgpg-error and libgcrypt headers
+export CFLAGS=-I$DESTDIR/include
+<span class="dhash">##</span> Where to find gpg-error-config and libgcrypt-config
+PATH=$DESTDIR/bin:$PATH
+CONF_STATIC="--enable-static --disable-shared"
+NUMJOBS=-j2
+<span class="dhash">##</span> X_ variables from the TB cross build
+CC=${X_CC:-"gcc ${OPTM:-}"}
+HOST=${X_TARGET:-}
+STRIP=${HOST:+$HOST-}strip
+
+<span class="dhash">##</span> Copy sources to build directory
+(cd $MOZBUILD/$REL/comm-$REL/third_party
+cp -a {libgcrypt,libgpg-error,libotr} $DEST)
+
+<span class="dhash">##</span> <b>Build libgpg-error</b>
+cd $DEST/libgpg-error
+
+./configure --prefix=/ --host=$HOST $CONF_STATIC --disable-tests --disable-doc --with-pic
+<span style="color:#E7F5E7;">#</span><code class="console">gpg-error.h:112x:1: error: expected identifier or '(' before numeric constant</code>
+<span class="dhash">##</span> This is caused by the lock-obj-pub.native.h generated by ./configure when cross compiling.
+<span class="dhash">##</span> Replace lock-obj-pub.native.h with the pre-built file included with the source.
+
+[[ $PKG_ARCH == aarch64 ]] &amp;&amp; \
+cp src/syscfg/lock-obj-pub.aarch64-unknown-linux-gnu.h src/lock-obj-pub.native.h
+
+[[ $PKG_ARCH == armv7_hf ]] &amp;&amp; \
+cp src/syscfg/lock-obj-pub.arm-unknown-linux-gnueabi.h src/lock-obj-pub.native.h
+
+[[ $PKG_ARCH == i686 ]] &amp;&amp; \
+cp src/syscfg/lock-obj-pub.i686-unknown-gnu.h src/lock-obj-pub.native.h
+
+make $NUMJOBS -C src code-to-errno.h
+make $NUMJOBS -C src code-from-errno.h
+make $NUMJOBS -C src gpg-error.h
+make $NUMJOBS -C src libgpg-error.la
+
+make -C src install-nodist_includeHEADERS install-binSCRIPTS install-libLTLIBRARIES
+
+<span class="dhash">##</span> <b>Build libgcrypt</b>
+cd $DEST/libgcrypt
+
+./configure --prefix=/ --host=$HOST $CONF_STATIC --disable-doc --with-pic
+
+make $NUMJOBS -C cipher libcipher.la
+make $NUMJOBS -C random librandom.la
+make $NUMJOBS -C mpi libmpi.la
+make $NUMJOBS -C compat libcompat.la
+make $NUMJOBS -C src libgcrypt.la
+
+make -C src install-nodist_includeHEADERS install-binSCRIPTS install-libLTLIBRARIES
+
+<span class="dhash">##</span> <b>Build libotr</b>
+cd $DEST/libotr
+
+./configure --host=$HOST --enable-shared --with-pic
+
+sed -i "s|-L//lib.*$|-L$DESTDIR/lib|" src/Makefile
+sed -i "s|D_FORTIFY_SOURCE=2|D_FORTIFY_SOURCE=0|" src/Makefile
+
+make $NUMJOBS -C src
+
+cd src
+$CC -shared .libs/*.o $DESTDIR/lib/libgcrypt.a $DESTDIR/lib/libgpg-error.a \
+-Wl,-soname -Wl,libotr.so -o $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird/libotr.so
+
+$STRIP $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird/libotr.so
+
+<span class="dhash">##</span> Check that otr chat is enabled
+zipgrep chat.otr.enable $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird/omni.ja \ 
+defaults/pref/all-thunderbird.js
+
+<span class="dhash">##</span> Should be
+<span style="color:#E7F5E7;">#</span><code class="console">defaults/pref/all-thunderbird.js:pref("chat.otr.enable", true);</code>
+</code>
+<span class="tabs th2"><a href="#close_otr_">close</a></span>
+</div></div>                                                     <!-- build libotr - end -->
 <br><b>Create package</b>
 Includes setting up a relative link for /usr/bin/thunderbird &hellip;
-<code class="gray">cd ../../$REL/packaging-TB-$PKG_ARCH/usr/lib
+<code class="gray">cd $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib
 mkdir -p pkg/{opt,usr/bin}
 mv thunderbird pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/version_display.txt)
 <span class="green"><span class="dhash">##</span> Set SourceStamp to comm-$REL revision:
