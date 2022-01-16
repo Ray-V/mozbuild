@@ -156,17 +156,14 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 
 <p>
 <b><i>esr91</i></b>
-<br><code class="appx">          91.4.0                   <span class="off_rel">3359a85a2277</span>    <span class="comment">n/a</span>             72f8c5d8305d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   91.4.0                   <span class="">3359a85a2277</span>    <span class="comment">n/a</span>             72f8c5d8305d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     91.4.0                   <span class="">3359a85a2277</span>    <span class="comment">n/a</span>             72f8c5d8305d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>      91.4.0                   <span class="off_rel">3359a85a2277</span>    <span class="comment">n/a</span>             72f8c5d8305d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    91.4.0         <span class="off_rel">b6173cd78c9d</span>    <span class="off_rel">ab6dfcf3a37b</span>    3349a313e376   <span class="gray"> </span> <span class="green"> </span> <span class="red comment">&sect;</span> <span class=""> </span>
-<span class="comment green">aarch64</span>             91.4.0         b6173cd78c9d    ab6dfcf3a37b    3349a313e376   <span class="gray"> </span> <span class="green"> </span> <span class="red comment">&sect;</span> <span class=""> </span>
-<span class="comment green">armv7</span>               91.4.0         b6173cd78c9d    ab6dfcf3a37b    3349a313e376   <span class="gray"> </span> <span class="green"> </span> <span class="red comment">&sect;</span> <span class=""> </span>
-<span class="comment green">i686</span>                91.4.0         <span class="off_rel">b6173cd78c9d</span>    <span class="off_rel">ab6dfcf3a37b</span>    3349a313e376   <span class="gray"> </span> <span class="green"> </span> <span class="red comment">&sect;</span> <span class=""> </span></code>
-<br>
-<span class="comment">&sect; - localization to changeset 3349a313e376 because Edit|Preferences|General
-<br>didn't display with the specified changeset 72f8c5d8305d</span>
+<br><code class="appx">          91.5.0                   <span class="off_rel">28571c2eb962</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   91.5.0                   <span class="">28571c2eb962</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     91.5.0                   <span class="">28571c2eb962</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      91.5.0                   <span class="off_rel">28571c2eb962</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    91.5.0         <span class="off_rel">28571c2eb962</span>    <span class="off_rel">bcd2aab51cd0</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>             91.5.0         28571c2eb962    bcd2aab51cd0    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>               91.5.0         28571c2eb962    bcd2aab51cd0    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                91.5.0         <span class="off_rel">28571c2eb962</span>    <span class="off_rel">bcd2aab51cd0</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span></code>
 <p>
 <b><i>release</i></b>
 <br>
@@ -382,7 +379,7 @@ Building to a changeset - start
 Tg_STR=$(hg log -l 500 -Gr ::$REL | grep -o Tagging.*FIREFOX_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging 3359a85a2277bbcbcc2b5ebcc425922a23d07f34 with FIREFOX_91_4_0esr_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 28571c2eb9624cfc7842c8f20a7c4682e8f4d3af with FIREFOX_91_5_0esr_RELEASE</span>
 
 <span class="dhash">##</span> Set the changeset for the build
 REL_CS=$(echo $Tg_STR | cut -d" " -f2 | colrm 13)
@@ -426,7 +423,7 @@ Thunderbird builds at the same major revision as Firefox release use the beta re
 Tg_STR=$(hg log -l 500 -R $MOZBUILD/$REL/comm-$REL | grep -o Tagging.*THUNDERBIRD_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging ab6dfcf3a37bf53aac1a9d632d45ee51047050bb with THUNDERBIRD_91_4_0_BUILD2, THUNDERBIRD_91_4_0_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging bcd2aab51cd0889d506d29455210d65602b97430 with THUNDERBIRD_91_5_0_BUILD1, THUNDERBIRD_91_5_0_RELEASE</span>
 
 <span class="dhash">##</span> Get the release version
 TB_REL=$(echo $Tg_STR | cut -d" " -f5 | sed 's|THUNDERBIRD_||;s|_RELEASE||' | tr _ .)
@@ -439,10 +436,10 @@ TB_BUILD=$(echo $Tg_STR | grep -o BUILD[0-9]* | tr [:upper:] [:lower:] )
 <span class="dhash">##</span> Download the .txt file which includes the mozilla changeset for that build
 <span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL-candidates/$TB_BUILD/linux-x86_64/en-US/thunderbird-$TB_REL.txt</span>
 
-<span style="color: #E7F5E7;">#</span>For example for TBesr 91.4.0, build2 [tagged as 91.4.0 release], the contents of this file are:
-<span style="color: #E7F5E7;"># </span>20211203141721
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/ab6dfcf3a37bf53aac1a9d632d45ee51047050bb
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/b6173cd78c9d522f2e3257c408933db4f9cedc13
+<span style="color: #E7F5E7;">#</span>For example for TBesr 91.5.0, build1 [tagged as 91.5.0 release], the contents of this file are:
+<span style="color: #E7F5E7;"># </span>20220106182030
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/bcd2aab51cd0889d506d29455210d65602b97430
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/28571c2eb9624cfc7842c8f20a7c4682e8f4d3af
 
 <span class="dhash">##</span> &hellip; and extract the changesets
 COMM_BUILD_CS=$(grep comm- thunderbird-$TB_REL.txt | cut -d"/" -f7 | colrm 13)
@@ -1792,7 +1789,18 @@ patch -p0 &lt;&lt; EOF
  
 EOF
 </code>
-<b>[10]</b> Record the mozilla revision that the Thunderbird build is based on to add to application.ini in the package.
+<b>[10]</b> Default to scaled printing
+<code class="green"><span class="dhash">##</span> <b>Firefox</b>:
+sed -i 's|mShrinkToFit(true)|mShrinkToFit(false)|' \
+mozilla/widget/nsPrintSettingsImpl.cpp
+sed -i 's|print.more-settings.open", false|print.more-settings.open", true|' \
+mozilla/modules/libpref/init/all.js
+
+<span class="dhash">##</span> For the "Mozilla Save to PDF" printer - default to 70%
+sed -i 's|print.more-settings.open.*$|&amp;\npref("print.printer_Mozilla_Save_to_PDF.print_scaling", "0.7");|' \
+mozilla/modules/libpref/init/all.js
+</code>
+<b>[11]</b> Record the mozilla revision that the Thunderbird build is based on to add to application.ini in the package.
 <code class="green"><span class="dhash">##</span> <b>Thunderbird</b>:
 [[ ! $Gecko_Rev ]] &amp;&amp; export Gecko_Rev=$(hg bookmarks -R $MOZBUILD/mozilla | grep \* |cut -d: -f2)
 </code>
@@ -2718,33 +2726,35 @@ Install to $DESTDIR for packaging:
 This is based on the script <i>comm-*/taskcluster/scripts/build-libotr.sh</i>.
 For cross compiling, sysroot is defined in the cross-compiler and the relevant
  libraries and headers are mounted to that point so setting --with-sysroot= is not needed.
-<code class="green thtwob"><span class="dhash">##</span> Build in the existing third_party directory
+<code class="green thtwob"><span class="dhash">##</span> <span style="color:gray">Build in the existing third_party directory</span>
 DEST=$MOZBUILD/$REL/thunderbird-build-dir-$PKG_ARCH/third_party
-<span class="dhash">##</span> Install dependencies to the build tree as only libotr.so is required
+<span class="dhash">##</span> <span style="color:gray">Install dependencies to the build tree as only libotr.so is required</span>
 export DESTDIR=$DEST/build-libotr
-<span class="dhash">##</span> Where to find the libgpg-error and libgcrypt headers
+<span class="dhash">##</span> <span style="color:gray">Where to find the libgpg-error and libgcrypt headers</span>
 export CFLAGS=-I$DESTDIR/include
+<span class="dhash">##</span> <span style="color:gray">Build static libraries for libgpg-error and libgcrypt</span>
 CONF_STATIC="--enable-static --disable-shared"
 NUMJOBS=-j2
-<span class="dhash">##</span> X_ variables from the TB cross build
+<span class="dhash">##</span> <span style="color:gray">X_ variables are from the TB cross build</span>
 CC=${X_CC:-"gcc ${OPTM:-}"}
 HOST=${X_TARGET:-}
 STRIP=${HOST:+$HOST-}strip
 
-<span class="dhash">##</span> Copy sources to build directory
+<span class="dhash">##</span> <span style="color:gray">Copy sources to build directory</span>
 (cd $MOZBUILD/$REL/comm-$REL/third_party
 cp -a {libgcrypt,libgpg-error,libotr} $DEST)
 
-<span class="dhash">##</span> Set gpg-error-config and libgcrypt-config prefix directory
+<span class="dhash">##</span> <span style="color:gray">Set gpg-error-config and libgcrypt-config prefix directory</span>
 sed -i "s|^prefix=.*$|prefix=$DESTDIR|" $DEST/*/src/*-config.in
 
 <span class="dhash">##</span> <b>Build libgpg-error</b>
 cd $DEST/libgpg-error
 
 ./configure --prefix=/ --host=$HOST $CONF_STATIC --with-pic
-<span style="color:#E7F5E7;">#</span><code class="console">gpg-error.h:112x:1: error: expected identifier or '(' before numeric constant</code>
-<span class="dhash">##</span> This is caused by the lock-obj-pub.native.h generated by ./configure when cross compiling.
-<span class="dhash">##</span> Replace lock-obj-pub.native.h with the pre-built file included with the source.
+<span style="color:#E7F5E7;">#</span><code class="console"><span style="color:gray">gpg-error.h:112x:1: error: expected identifier or '(' before numeric constant</span></code>
+<span class="dhash">##</span> <span style="color:gray">This is caused by the lock-obj-pub.native.h generated by ./configure when cross compiling.</span>
+<span class="dhash">##</span> <span style="color:gray">It should be generated by gen-posix-lock-obj which isn't built when cross compiling,</span>
+<span class="dhash">##</span> <span style="color:gray">so replace that lock-obj-pub.native.h with the pre-built file included with the source.</span>
 
 [[ $PKG_ARCH == aarch64 ]] &amp;&amp; \
 cp src/syscfg/lock-obj-pub.aarch64-unknown-linux-gnu.h src/lock-obj-pub.native.h
@@ -2775,7 +2785,8 @@ make -C src install-nodist_includeHEADERS install-binSCRIPTS install-libLTLIBRAR
 
 <span class="dhash">##</span> <b>Build libotr</b>
 cd $DEST/libotr
-sed -i "s|D_FORTIFY_SOURCE=2|D_FORTIFY_SOURCE=0|" configure
+<span style="color:#E7F5E7;">#</span><code class="console"><span style="color:gray">/usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]</span></code>
+sed -i "s|-D_FORTIFY_SOURCE=2|-O2 &amp;|" configure
 
 ./configure --host=$HOST --with-libgcrypt-prefix=$DESTDIR --enable-shared --with-pic
 
@@ -2787,12 +2798,12 @@ $CC -shared .libs/*.o $DESTDIR/lib/libgcrypt.a $DESTDIR/lib/libgpg-error.a \
 
 $STRIP $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird/libotr.so
 
-<span class="dhash">##</span> Check that otr chat is enabled
+<span class="dhash">##</span> <span style="color:gray">Check that otr chat is enabled</span>
 zipgrep chat.otr.enable $MOZBUILD/$REL/packaging-TB-$PKG_ARCH/usr/lib/thunderbird/omni.ja \
 defaults/pref/all-thunderbird.js
 
-<span class="dhash">##</span> Should be
-<span style="color:#E7F5E7;">#</span><code class="console">defaults/pref/all-thunderbird.js:pref("chat.otr.enable", true);</code>
+<span class="dhash">##</span> <span style="color:gray">Should be</span>
+<span style="color:#E7F5E7;">#</span><code class="console"><span style="color:gray">defaults/pref/all-thunderbird.js:pref("chat.otr.enable", true);</span></code>
 </code>
 <span class="tabs th2"><a href="#close_otr_">close</a></span>
 </div></div>                                                     <!-- build libotr - end -->
