@@ -156,14 +156,14 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 
 <p>
 <b><i>esr91</i></b>
-<br><code class="appx">          91.7.0                   <span class="off_rel">a9d3c0f4732a</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   91.7.0                   <span class="">a9d3c0f4732a</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     91.7.0                   <span class="">a9d3c0f4732a</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>      91.7.0                   <span class="off_rel">a9d3c0f4732a</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    91.7.0         <span class="off_rel">a9d3c0f4732a</span>    <span class="off_rel">39ccd0b9ea03</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>             91.7.0         a9d3c0f4732a    39ccd0b9ea03    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>               91.7.0         a9d3c0f4732a    39ccd0b9ea03    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
-<span class="comment green">i686</span>                91.7.0         <span class="off_rel">a9d3c0f4732a</span>    <span class="off_rel">39ccd0b9ea03</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span></code>
+<br><code class="appx">          91.8.0                   <span class="off_rel">3b54d6b5407f</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   91.8.0                   <span class="">3b54d6b5407f</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     91.8.0                   <span class="">3b54d6b5407f</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      91.8.0                   <span class="off_rel">3b54d6b5407f</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    91.8.0         <span class="off_rel">3b54d6b5407f</span>    <span class="off_rel">525d4941f487</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>             91.8.0         3b54d6b5407f    525d4941f487    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>               91.8.0         3b54d6b5407f    525d4941f487    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                91.8.0         <span class="off_rel">3b54d6b5407f</span>    <span class="off_rel">525d4941f487</span>    99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span></code>
 <p>
 <b><i>release</i></b>
 <br>
@@ -387,7 +387,7 @@ Building to a changeset - start
 Tg_STR=$(hg log -l 500 -Gr ::$REL | grep -o Tagging.*FIREFOX_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging a9d3c0f4732a9a62428089fff64ae8ff3d608918 with FIREFOX_91_7_0esr_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 3b54d6b5407fca03efdb2e2f57a9838498e0d038 with FIREFOX_91_8_0esr_RELEASE</span>
 
 <span class="dhash">##</span> Set the changeset for the build
 REL_CS=$(echo $Tg_STR | cut -d" " -f2 | colrm 13)
@@ -431,7 +431,7 @@ Thunderbird builds at the same major revision as Firefox release use the beta re
 Tg_STR=$(hg log -l 500 -R $MOZBUILD/$REL/comm-$REL | grep -o Tagging.*THUNDERBIRD_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging 39ccd0b9ea033f3292af90667e470b98a79eb8c9 with THUNDERBIRD_91_7_0_BUILD2, THUNDERBIRD_91_7_0_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 525d4941f4870a56f714af775b7d7bc18175021d with THUNDERBIRD_91_8_0_BUILD2, THUNDERBIRD_91_8_0_RELEASE</span>
 
 <span class="dhash">##</span> Get the release version
 TB_REL=$(echo $Tg_STR | cut -d" " -f5 | sed 's|THUNDERBIRD_||;s|_RELEASE||' | tr _ .)
@@ -444,10 +444,10 @@ TB_BUILD=$(echo $Tg_STR | grep -o BUILD[0-9]* | tr [:upper:] [:lower:] )
 <span class="dhash">##</span> Download the .txt file to get the mozilla changeset for that build
 <span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL-candidates/$TB_BUILD/linux-x86_64/en-US/thunderbird-$TB_REL.txt</span>
 
-<span style="color: #E7F5E7;">#</span>For example for TBesr 91.7.0, build2 [tagged as 91.7.0 release], the contents of this file are:
-<span style="color: #E7F5E7;"># </span>20220305171341
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/39ccd0b9ea033f3292af90667e470b98a79eb8c9
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/a9d3c0f4732a9a62428089fff64ae8ff3d608918
+<span style="color: #E7F5E7;">#</span>For example for TBesr 91.8.0, build2 [tagged as 91.8.0 release], the contents of this file are:
+<span style="color: #E7F5E7;"># </span>20220401203107
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/525d4941f4870a56f714af775b7d7bc18175021d
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/3b54d6b5407fca03efdb2e2f57a9838498e0d038
 
 <span class="dhash">##</span> &hellip; and extract the changesets
 COMM_BUILD_CS=$(grep comm- thunderbird-$TB_REL.txt | cut -d"/" -f7 | colrm 13)
