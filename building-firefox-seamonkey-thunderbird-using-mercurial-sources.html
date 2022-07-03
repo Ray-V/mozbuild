@@ -155,6 +155,20 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 </code>
 
 <p>
+<b><i>esr102</i></b>
+<br><code class="appx">          102.0                    <span class="off_rel">4180ec744bb7</span>    <span class="comment">n/a</span>             be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   102.0                    <span class="">4180ec744bb7</span>    <span class="comment">n/a</span>             be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     102.0+ <span class="comment">&Dagger;</span>                 <span class="">3447ce3987c3</span>    <span class="comment">n/a</span>             be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      102.0                    <span class="off_rel">4180ec744bb7</span>    <span class="comment">n/a</span>             be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    102.0          <span class="off_rel">4180ec744bb7</span>    <span class="off_rel">08b9912ecc4b</span>    be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>             102.0          4180ec744bb7    08b9912ecc4b    be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>               102.0          4180ec744bb7    08b9912ecc4b    be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span>
+<span class="comment green">i686</span>                102.0          <span class="off_rel">4180ec744bb7</span>    <span class="off_rel">08b9912ecc4b</span>    be0f991d50e3   <span class="gray"> </span> <span class="green"> </span> <span class="red comment"> </span> <span class=""> </span></code>
+<br>
+<span class="comment"><b>&Dagger;</b> built <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1738845#c34">with webrtc patch</a></span>
+<br>
+
+<p>
 <b><i>esr91</i></b>
 <br><code class="appx">          91.10.0                  <span class="off_rel">9cbe8ffa1210</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span>   91.10.0                  <span class="">9cbe8ffa1210</span>    <span class="comment">n/a</span>             99b77bfd6b1a   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
@@ -237,9 +251,9 @@ Typical usage on the dual-core machine is 6GB actual, with up to 10GB swap.
 <br>
 <code class="gray">export MOZBUILD=<b>/mozbuild</b>
 <span class="dhash">##</span> Set which repositories to clone:
-export REPOS="<b>esr91</b> <b>release</b> <b>beta</b> <b>central</b>"
+export REPOS="<b>esr102</b> <b>esr91</b> <b>release</b> <b>beta</b> <b>central</b>"
 <span class="dhash">##</span> choose which to build:
-export REL=<span class="comment appx">esr91</span>
+export REL=<span class="comment appx">esr102</span>
 <span class="dhash">##</span> set number of parallel jobs
 export NUMJOBS=<span class="comment appx">-j8</span>
 export ARCH=x86_64
@@ -349,7 +363,7 @@ hg pull -R $repo/comm-$repo
 done
 
 <span class="dhash">##</span> De-clutter the mozilla[-unified] bookmarks list
-sed -i '/ au/d;/esr[1-7]/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
+sed -i '/ au/d;/esr[1-7][0-9]$/d;/fx-team/d;/inbound/d' $MOZBUILD/mozilla/.hg/bookmarks
 </code>
 <span class="tabs"><a href="#close_chset">close</a></span>
 </div>
@@ -383,7 +397,7 @@ Building to a changeset - start
 Tg_STR=$(hg log -l 500 -Gr ::$REL | grep -o Tagging.*FIREFOX_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging 9cbe8ffa12101019dbe0da698f869ed3ef0b9370 with FIREFOX_91_10_0esr_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 4180ec744bb748a5fd39e25d122c4b500c3a2a00 with FIREFOX_102_0esr_RELEASE</span>
 
 <span class="dhash">##</span> Set the changeset for the build
 REL_CS=$(echo $Tg_STR | cut -d" " -f2 | colrm 13)
@@ -407,7 +421,7 @@ cd $MOZBUILD/mozilla/
 hg log -l $NUM_CS -Gr ::$REL | colrm 1 3
 
 <span class="dhash">##</span> Select a changeset from that list
-<span class="dhash">##</span> Close to the release date, the log might show the latest release candidate revision which will most likely be the actual release revision - select the changeset tagged as '<i>Tagging ... with FIREFOX_91_...esr_BUILD... a=release</i>'.
+<span class="dhash">##</span> Close to the release date, the log might show the latest release candidate revision which will most likely be the actual release revision - select the changeset tagged as '<i>Tagging ... with FIREFOX_102_...esr_BUILD... a=release</i>'.
 <b>BUILD_CS</b>=<span class="comment">............</span>
 
 <span class="dhash">##</span> Create new bookmark to that changeset
@@ -427,7 +441,7 @@ Thunderbird builds at the same major revision as Firefox release use the beta re
 Tg_STR=$(hg log -l 500 -R $MOZBUILD/$REL/comm-$REL | grep -o Tagging.*THUNDERBIRD_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging 4a4b901410a9055d078d0cdd7c62b2b5d56ffbad with THUNDERBIRD_91_10_0_BUILD1, THUNDERBIRD_91_10_0_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 08b9912ecc4b5e84a7f89fd114f773bb7e7c180c with THUNDERBIRD_102_0_BUILD2, THUNDERBIRD_102_0_RELEASE</span>
 
 <span class="dhash">##</span> Get the release version
 TB_REL=$(echo $Tg_STR | cut -d" " -f5 | sed 's|THUNDERBIRD_||;s|_RELEASE||' | tr _ .)
@@ -440,10 +454,10 @@ TB_BUILD=$(echo $Tg_STR | grep -o BUILD[0-9]* | tr [:upper:] [:lower:] )
 <span class="dhash">##</span> Download the .txt file to get the mozilla changeset for that build
 <span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL-candidates/$TB_BUILD/linux-x86_64/en-US/thunderbird-$TB_REL.txt</span>
 
-<span style="color: #E7F5E7;">#</span>For example for TBesr 91.10.0, build1 [tagged as 91.10.0 release], the contents of this file are:
-<span style="color: #E7F5E7;"># </span>20220525135609
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr91/rev/4a4b901410a9055d078d0cdd7c62b2b5d56ffbad
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr91/rev/9cbe8ffa12101019dbe0da698f869ed3ef0b9370
+<span style="color: #E7F5E7;">#</span>For example for TBesr 102.0, build2 [tagged as 102.0 release], the contents of this file are:
+<span style="color: #E7F5E7;"># </span>20220627231524
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr102/rev/08b9912ecc4b5e84a7f89fd114f773bb7e7c180c
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr102/rev/4180ec744bb748a5fd39e25d122c4b500c3a2a00
 
 <span class="dhash">##</span> &hellip; and extract the changesets
 COMM_BUILD_CS=$(grep comm- thunderbird-$TB_REL.txt | cut -d"/" -f7 | colrm 13)
@@ -559,7 +573,7 @@ Aarch64, armv7[hf], and i686 crates for cross compiling will be downloaded and a
 <span style="color: #c50000;">wget -O rust.html https://forge.rust-lang.org/infra/other-installation-methods.html</span>
 URL=$(sed 's|https|\n&amp;|;s|tar.gz|tar.xz|' rust.html | grep -o https://.*$ARCH-unknown-linux-gnu.tar.xz |head -n1)
 <span class="dhash">##</span> check for latest version and adjust if the minimum version is required -
-<span class="dhash">##</span> will be something like https://static.rust-lang.org/dist/rust-1.56.1-x86_64-unknown-linux-gnu.tar.xz
+<span class="dhash">##</span> will be something like https://static.rust-lang.org/dist/rust-1.59.0-x86_64-unknown-linux-gnu.tar.xz
 <span class="appx">echo $URL</span>
 <span style="color: #c50000;">wget $URL</span>
 
@@ -1452,6 +1466,9 @@ echo '{
 }' > manifest.json
 )
 </code>
+<span class="dhash">  &blacktriangleright;</span> Reinstate a removed search extension
+<code class="green"><span style="color:darkcyan;">hg revert --cwd mozilla -r 2bad4a67f807 browser/components/search/extensions/chambers-en-GB</span>
+</code>
 <span class="dhash">  &blacktriangleright;</span> Rewrite search-config.json, with <b>DuckDuckGo</b> as the default search engine
 <code class="green"><span class="dhash">##</span> <span class="comment">Re: bug <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1725660">1725660</a>, CS <a class="extlink" href="https://hg.mozilla.org/mozilla-central/rev/b25c6fb8520a#l16.1">b25c6fb8520a</a></span>
 [[ $MAJ_VER -ge 101 ]] &amp;&amp; TIMESTAMP=', "timestamp": 1648132005528 '
@@ -1470,7 +1487,7 @@ echo $'{"data":[
 
 {"schema":1588177692141,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"wikipedia@search.mozilla.org"},"id":"3f3beb1d-e32e-40a4-b6ed-56741803e1d8","last_modified":1589299342069},
 
-{"schema":1582890778608,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"chambers-en-GB@search.mozilla.org"},"id":"270000f0-8527-4f98-aa17-879820209f68","last_modified":1583937832350},
+<span style="color:darkcyan;">{"schema":1582890778608,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"chambers-en-GB@search.mozilla.org"},"id":"270000f0-8527-4f98-aa17-879820209f68","last_modified":1583937832350},</span>
 
 {"schema":1582890802298,"appliesTo":[{"included":{"everywhere":true}}],"webExtension":{"id":"onelook@search.mozilla.org"},"id":""}
 
@@ -2542,6 +2559,7 @@ HOST_CXX=g++
 $DISABLE_ELFHACK
 
 <span class="dhash">##</span> for FF96+/armv7, multiple definitions relating to arm webrtc code cause <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1738845">linker errors</a>
+<span class="dhash">##</span><span class="comment"> This has been fixed for FF102.1.0esr/FF103 and was commented out for the FF102.0+ armv7 build</span>
 [[ $MAJ_VER != 91 &amp;&amp; $PKG_ARCH == armv7_hf ]] &amp;&amp; ac_add_options --disable-webrtc
 
 <span class="dhash">##</span> use LD_LIBRARY_PATH to find libstdc++ etc crosstools versions
@@ -2817,7 +2835,7 @@ cd $DEST/libotr
 <span style="color:#E7F5E7;">#</span><code class="console"><span style="color:gray">/usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]</span></code>
 sed -i "s|-D_FORTIFY_SOURCE=2|-O2 &amp;|" configure
 
-<span class="dhash">##</span> <span style="color:gray">update timestamps on libotr files >= libgpg-error &amp; libgcrypt
+<span class="dhash">##</span> <span style="color:gray">update timestamps on libotr files which need to be the same as or later than for libgpg-error &amp; libgcrypt
 <span class="dhash">##</span> to avoid 'cd .. &amp;&amp; make  am--refresh' when running make</span>
 TSTMP=$(date +%Y%m%d%H%M)
 [[ $REL != esr91 ]] &amp;&amp; {
