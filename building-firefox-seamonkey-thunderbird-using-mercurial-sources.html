@@ -180,12 +180,12 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <br>
 <code class="appx">          104.0                    <span class="off_rel">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span>   104.0                    <span class="">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     <span class="comment">101.0 <span class="comment">&sect;</span>                  <span class="">bd46064a613a</span>    <span class="comment">n/a</span>             015dd831a635</span>   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     104.0 <span class="comment">&sect;</span>                  <span class="">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      104.0                    <span class="off_rel">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                     98.0b3         <span class="off_rel">1da9a66b6dc2</span>    <span class="off_rel">a23f836bee6f</span>    f623ff497604   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&sect;</b> built <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1738845#a9782464_24572">without webrtc</a> - 104.0 doesn't build</span>
+<span class="comment"><b>&sect;</b> built with <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1787405">patch</a></span>
 <br>
 
 <p>
@@ -193,10 +193,12 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <br>
 <code class="appx">          102.0b1                  <span class="off_rel">06fb57a24a5f</span>    <span class="comment">n/a</span>             92289c24f1f6   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">aarch64</span>   102.0b1                  <span class="">06fb57a24a5f</span>    <span class="comment">n/a             </span>92289c24f1f6   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     102.0b1 <span class="comment">&sect;</span>                <span class="">06fb57a24a5f</span>    <span class="comment">n/a             </span>92289c24f1f6   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     102.0b1 <span class="comment">&Dagger;</span>                <span class="">06fb57a24a5f</span>    <span class="comment">n/a             </span>92289c24f1f6   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      102.0b1                  <span class="off_rel">06fb57a24a5f</span>    <span class="comment">n/a             </span>92289c24f1f6   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                     99.0b1         <span class="off_rel">58e8f0215162    996cb44748f0</span>    7ba1e18df507   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
+<br>
+<span class="comment"><b>&Dagger;</b> built <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1738845#a9782464_24572">without webrtc</a></span>
 <br>
 
 <p>
@@ -2649,6 +2651,20 @@ echo $'--- third_party/rust/cc/src/lib.rs
 CHK_SUM_OLD=$(grep -o src/lib.rs\":\"[0-9a-f]* third_party/rust/cc/.cargo-checksum.json | cut -d'"' -f3)
 CHK_SUM_NEW=$(sha256sum third_party/rust/cc/src/lib.rs | cut -d' ' -f1)
 sed -i "s|$CHK_SUM_OLD|$CHK_SUM_NEW|" third_party/rust/cc/.cargo-checksum.json
+</code>
+<code class="console">Error: immediate expression requires a # prefix -- `pld [r2,1792]'</code>
+<code class="green">[[ $MAJ_VER -ge 104 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla/
+echo $'--- media/libyuv/libyuv/source/row_neon.cc
++++ media/libyuv/libyuv/source/row_neon.cc
+@@ -591 +591 @@
+-      "pld         [%0, 1792]                    \n"
++      "pld         [%0, #1792]                   \n"
+@@ -612 +612 @@
+-      "pld         [%0, 1792]                    \n"
++      "pld         [%0, #1792]                   \n"
+' | patch -p0
+}
 </code>
 
 <span class="tabs th2"><a href="#close_FF_xcompile">close</a></span>
