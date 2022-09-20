@@ -16,4 +16,4 @@ or view @:
 https://ray-v.github.io/mozbuild/building-firefox-seamonkey-thunderbird-using-mercurial-sources.html
 
 
-Updated 2022-08-24 for Firefox 102.2.0esr, Thunderbird 102.2.0, and Firefox 104.0
+Updated 2022-09-20 for Firefox 102.3.0esr & Thunderbird 102.3.0
