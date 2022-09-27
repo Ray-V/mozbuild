@@ -168,14 +168,14 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <p>
 <b><i>release</i></b>
 <br>
-<code class="appx">          104.0                    <span class="off_rel">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   104.0                    <span class="">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     104.0 <span class="comment">&sect;</span>                  <span class="">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>      104.0                    <span class="off_rel">ae56b3bb7fa3</span>    <span class="comment">n/a</span>             06fb38137803   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          105.0.1                  <span class="off_rel">92187d03adde</span>    <span class="comment">n/a</span>             70c06c5ec5a1   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   105.0.1                  <span class="">92187d03adde</span>    <span class="comment">n/a</span>             70c06c5ec5a1   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     105.0.1                  <span class="">92187d03adde</span>    <span class="comment">n/a</span>             70c06c5ec5a1   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      105.0.1 <span class="comment">&sect;</span>                <span class="off_rel">92187d03adde</span>    <span class="comment">n/a</span>             70c06c5ec5a1   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                     98.0b3         <span class="off_rel">1da9a66b6dc2</span>    <span class="off_rel">a23f836bee6f</span>    f623ff497604   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&sect;</b> built with <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1787405">patch</a></span>
+<span class="comment"><b>&sect;</b> built with <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1792159">patch</a></span>
 <br>
 
 <p>
@@ -1452,8 +1452,9 @@ mozilla/toolkit/components/search/SearchSettings.${EXTN:-jsm}
 <b>[6]</b> Disable predictive search in URL bar
 <code class="green">sed -i 's|keyword.enabled", true|keyword.enabled", false|' mozilla/browser/app/profile/firefox.js
 
+[[ $MAJ_VER -ge 105 ]] &amp;&amp; EXTN5=sys.mjs
 sed -i 's|browser.search.suggest.enabled", true|browser.search.suggest.enabled", false|' \
-mozilla/{modules/libpref/init/all.js,browser/components/urlbar/{UrlbarPrefs.jsm,tests/browser/browser_speculative_connect.js}}
+mozilla/{modules/libpref/init/all.js,browser/components/urlbar/{UrlbarPrefs.${EXTN5:-jsm},tests/browser/browser_speculative_connect.js}}
 
 sed -i 's|Search with .* or enter address|Search or enter address|' mozilla/browser/locales/en-US/browser/browser.ftl
 
@@ -2566,11 +2567,24 @@ cd $MOZBUILD/mozilla/
 echo $'--- media/libyuv/libyuv/source/row_neon.cc
 +++ media/libyuv/libyuv/source/row_neon.cc
 @@ -591 +591 @@
--      "pld         [%0, 1792]                    \n"
-+      "pld         [%0, #1792]                   \n"
+-      "pld         [%0, 1792]                    \\n"
++      "pld         [%0, #1792]                   \\n"
 @@ -612 +612 @@
--      "pld         [%0, 1792]                    \n"
-+      "pld         [%0, #1792]                   \n"
+-      "pld         [%0, 1792]                    \\n"
++      "pld         [%0, #1792]                   \\n"
+' | patch -p0
+}
+</code>
+<code class="console">.../SIMD_avx2.cpp:66:10: error: ‘_mm_cvtsi64_si128’ was not declared in this scope</code>
+_mm_cvtsi64_si128 is for __x86_64__ only in emmintrin.h
+Only builds for x86_64 and i686, so extra define directs i686 to else option
+<code class="green">[[ $MAJ_VER -ge 105 ]] &amp;&amp; {
+cd $MOZBUILD/mozilla/
+echo $'--- mozglue/misc/SIMD_avx2.cpp
++++ mozglue/misc/SIMD_avx2.cpp
+@@ -58 +58 @@
+-#  if defined(__GNUC__) &amp;&amp; !defined(__clang__)
++#  if defined(__GNUC__) &amp;&amp; !defined(__clang__) &amp;&amp; defined(__x86_64__)
 ' | patch -p0
 }
 </code>
