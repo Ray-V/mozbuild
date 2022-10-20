@@ -183,10 +183,10 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <p>
 <b><i>beta</i></b>
 <br>
-<code class="appx">          106.0b8                  <span class="off_rel">9825a8346d93</span>    <span class="comment">n/a</span>             14b0bb4b5d87   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   106.0b8                  <span class="">9825a8346d93</span>    <span class="comment">n/a             </span>14b0bb4b5d87   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>     106.0b8 <span class="comment">&Dagger;</span>                <span class="">9825a8346d93</span>    <span class="comment">n/a             </span>14b0bb4b5d87   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>      106.0b8 <span class="comment">&sect;</span>                <span class="off_rel">9825a8346d93</span>    <span class="comment">n/a             </span>14b0bb4b5d87   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          107.0b2                  <span class="off_rel">caf91dd6d3f3</span>    <span class="comment">n/a</span>             25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   107.0b2                  <span class="">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">armv7</span>     107.0b2                  <span class="">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">i686</span>      107.0b2                  <span class="off_rel">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
                     99.0b1         <span class="off_rel">58e8f0215162    996cb44748f0</span>    7ba1e18df507   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
@@ -672,16 +672,12 @@ ac_add_options --with-system-zlib
 ac_add_options --with-clang-path=$MOZBUILD/sources/llvm-x86_64/usr/bin/clang++
 
 <span class="dhash">##</span> From FF95 - choose whether to build with a wasi sysroot
-[[ $MAJ_VER -ge 95 ]] &amp;&amp; {
 <span class="dhash">#</span>ac_add_options --with-wasi-sysroot=&lt;location>
 <span class="dhash">##</span> or:
 ac_add_options --without-wasm-sandboxed-libraries
-}
 
 <span class="dhash">##</span> From FF96 - choose whether to build with a bootstrapped toolchain
-[[ $MAJ_VER -ge 96 ]] &amp;&amp; {
 ac_add_options --disable-bootstrap
-}
 
 <span class="dhash">##</span> The last expression in mozconfig determines its exit status,
 <span class="dhash">##</span> so ensure that it is always 0
@@ -1716,9 +1712,10 @@ RU5ErkJggg==">
 This overrides <i>dom.security.https_only_mode</i> whether it's set to true or false
 so, if implemented, the URLs for sites with http only will have to be entered with the http:// prefix
 [The cache in an existing installation will need to be cleared for this to be effective]
-<code class="green">patch -p0 &lt;&lt; EOF
---- mozilla/docshell/base/URIFixup.jsm
-+++ mozilla/docshell/base/URIFixup.jsm
+<code class="green">[[ $MAJ_VER -ge 107 ]] &amp;&amp; EXTN7=sys.mjs
+patch -p0 &lt;&lt; EOF
+--- mozilla/docshell/base/URIFixup.${EXTN7:-jsm}
++++ mozilla/docshell/base/URIFixup.${EXTN7:-jsm}
 @@ -863 +863 @@
 -    uriString = "http://" + uriString;
 +    uriString = "https://" + uriString;
@@ -1728,7 +1725,7 @@ EOF
 <span class="dhash">  &blacktriangleright;</span> set scrollbar width
 <span class="dhash">  &blacktriangleright;</span> set slider relative width
 <span class="dhash">  &blacktriangleright;</span> add stepper buttons to scrollbars - requires <a href="#Ttipbox">Gtk3 configuration [2]</a>.
-<span class="dhash">  &blacktriangleright;</span> set overlay scrollbars on GTK to false
+<span class="dhash">  &blacktriangleright;</span> keep scrollbar at set width
 <code class="green">patch -p0 &lt;&lt; EOF
 --- mozilla/modules/libpref/init/StaticPrefList.yaml
 +++ mozilla/modules/libpref/init/StaticPrefList.yaml
