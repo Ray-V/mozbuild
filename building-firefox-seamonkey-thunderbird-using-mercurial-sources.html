@@ -172,7 +172,7 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <span class="comment green">aarch64</span>   106.0                    <span class="">eecea05aff4d</span>    <span class="comment">n/a</span>             8475095fc001   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>     106.0 <span class="comment">&Dagger;</span>                  <span class="">eecea05aff4d</span>    <span class="comment">n/a</span>             8475095fc001   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      106.0 <span class="comment">&sect;</span>                  <span class="off_rel">eecea05aff4d</span>    <span class="comment">n/a</span>             8475095fc001   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    98.0b3         <span class="off_rel">1da9a66b6dc2</span>    <span class="off_rel">a23f836bee6f</span>    f623ff497604   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    106.0b5        <span class="off_rel">187612f15795</span>    <span class="off_rel">99c99d63628d</span>    e8bc3c37e6d9   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <span class="comment"><b>&Dagger;</b> built with patch for bug <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1793289">1793289</a></span>
@@ -187,17 +187,17 @@ l10n-$REL repositories are reverted from l10n-central during <a href="#l10n"><sp
 <span class="comment green">aarch64</span>   107.0b2                  <span class="">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>     107.0b2                  <span class="">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      107.0b2                  <span class="off_rel">caf91dd6d3f3</span>    <span class="comment">n/a             </span>25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    99.0b1         <span class="off_rel">58e8f0215162    996cb44748f0</span>    7ba1e18df507   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    107.0b1        <span class="off_rel">e868d275004b    8b303f5a6ea4</span>    25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 
 <p>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">         100.0a1                   700a74195d08<span class="comment"> &ContourIntegral;</span>  <span class="comment">n/a</span>             79f590aeb2ff   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">         108.0a1                   ca2873779214<span class="comment"> &ContourIntegral;</span>  <span class="comment">n/a</span>             25b96d1c5fb2   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2022/03/2022-03-19-09-41-58-mozilla-central/firefox-100.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
+<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2022/10/2022-10-20-10-56-05-mozilla-central/firefox-108.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
 
 <p>
 <br>
@@ -1436,10 +1436,11 @@ This search-config.json fails verification checks and is overridden by the app d
 <code class="green"><span class="dhash">##</span> Avoid replacement of the user set search engines
 sed -i 's|retry: true|retry: false|' mozilla/services/settings/RemoteSettingsClient.jsm
 
-[[ $MAJ_VER -ge 104 ]] &amp;&amp; EXTN=sys.mjs
 <span class="dhash">##</span> &hellip; the phone-home URLs aren't then needed
+[[ $MAJ_VER -ge 104 ]] &amp;&amp; EXTN=sys.mjs
+[[ $MAJ_VER -ge 108 ]] &amp;&amp; EXTN8=sys.mjs
 sed -i 's|"https:.*$|"",|' mozilla/toolkit/components/search/SearchUtils.${EXTN:-jsm}
-sed -i 's|    "https:.*$|    "",|' mozilla/toolkit/modules/AppConstants.jsm
+sed -i 's|    "https:.*$|    "",|' mozilla/toolkit/modules/AppConstants.${EXTN8:-jsm}
 
 <span class="dhash">##</span> &hellip; and let's see the data as plain text - replaces search.json.mozlz4 in the profile directory
 sed -i 's|compress: true|compress: false|;s|SETTINGS_FILENAME = .*$|SETTINGS_FILENAME = "search.json";|' \
