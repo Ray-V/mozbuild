@@ -150,6 +150,8 @@ and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla
 These are builds which have been completed and run.
 <br>
 $L10N repositories are reverted from l10n-central/$L10N during <a href="#l10n"><span class="red">Localization</span></a>
+<br>
+From release 113, Thunderbird $L10N repositories are reverted from projects/comm-l10n
 <br><code class="appx">                                      built to <span class="off_rel">{released}</span> revision/changeset
           <u>Firefox</u>   <u>Thunderbird</u>    <u>mozilla</u>         <u>comm-$REL</u>       <u>$L10N</u>          <u>Options</u>
 </code>
@@ -172,10 +174,10 @@ $L10N repositories are reverted from l10n-central/$L10N during <a href="#l10n"><
 <span class="comment green">aarch64</span>   113.0                    <span class="">484eaf4a9552</span>    <span class="comment">n/a</span>             3f088452a319   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>     113.0 <span class="comment">&Dagger;</span>                  <span class="">484eaf4a9552</span>    <span class="comment">n/a</span>             3f088452a319   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      113.0                    <span class="off_rel">484eaf4a9552</span>    <span class="comment">n/a</span>             3f088452a319   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    113.0b6        <span class="off_rel">c49389f57a85</span>    <span class="off_rel">2516634f200d</span>    3f088452a319   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    113.0b6        <span class="off_rel">c49389f57a85</span>    <span class="off_rel">2516634f200d</span>    2a113d22534d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&Dagger;</b> patched for <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1827845#c9">skia/skcms build</a></span>
+<span class="comment"><b>&Dagger;</b> patched for <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1827845#c11">skia/skcms build</a></span>
 <br>
 <p>
 <b><i>beta</i></b>
@@ -184,16 +186,16 @@ $L10N repositories are reverted from l10n-central/$L10N during <a href="#l10n"><
 <span class="comment green">aarch64</span>   114.0b1                  <span class="">bb39b1033710</span>    <span class="comment">n/a             </span>6c0305c220a3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">armv7</span>     114.0b1 <span class="comment">&Dagger;</span>                <span class="">bb39b1033710</span>    <span class="comment">n/a             </span>6c0305c220a3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 <span class="comment green">i686</span>      114.0b1                  <span class="off_rel">bb39b1033710</span>    <span class="comment">n/a             </span>6c0305c220a3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    114.0b1        <span class="off_rel">bb39b1033710    146d4e95b9ba</span>    6c0305c220a3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    114.0b4        <span class="off_rel">c31effa96e5a    5c8a060eaf9e</span>    7fa4a0f78078   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <p>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">          115.0a1                  <span class="off_rel">ab25e7dfc0dc</span> <span class="comment">&ContourIntegral;</span>  <span class="comment">n/a</span>             6c0305c220a3   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          115.0a1                  <span class="off_rel">edf46b420e6b</span> <span class="comment">&ContourIntegral;</span>  <span class="comment">n/a</span>             76850c678057   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2023/05/2023-05-10-09-42-06-mozilla-central/firefox-115.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
+<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2023/05/2023-05-24-09-41-21-mozilla-central/firefox-115.0a1.en-US.linux-x86_64.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
 
 <p>
 <br>
@@ -216,6 +218,8 @@ Typical usage on the dual-core machine is 6GB actual, with up to 10GB swap.
 │   ├── llvm-$ARCH				# for LLVM_CONFIG for stylo build
 │   ├── mozilla-unified.zstd.hg			# mercurial bundle
 │   └── rust&hellip;					# download and installation
+├<span class="red">── comm-l10n</span>
+│   <span class="red">├── $L10N					# mercurial repository clone for TB113+</span>
 ├<span class="red">── l10n</span>
 │   <span class="red">├── $L10N					# mercurial repository clone</span>
 │   <span class="red">└── wip 					# temporary workspace for localized builds</span>
@@ -314,8 +318,13 @@ hg clone https://hg.mozilla.org/l10n-central/$L10N/)
 </code>
 
 <p>
-<a name="UpdateRepoReturn"></a>
+From Thunderbird 113, localization for calendar, chat, and mail has been moved to a <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1827358">project repository</a>
+<br>
+<code class="red">(cd $MOZBUILD/
+hg clone -U https://hg.mozilla.org/projects/comm-l10n/)
+</code>
 
+<p>
 Once these locally cloned repositories have been set up, they can be kept up-to-date for future builds - see '<a href="#Locrep">Add new changesets</a>'.
 <p>
 
@@ -340,7 +349,8 @@ REPOS=$REPOS
 
 cd $MOZBUILD
 hg pull -R mozilla
-<span class="red">hg pull -R l10n/$L10N</span>
+<span class="red">hg pull -R l10n/$L10N
+hg pull -R comm-l10n</span>
 
 for repo in $REPOS
 do
@@ -361,7 +371,8 @@ Set up the local repositories for chosen $REL, removing any changes made for pre
 <code class="gray">cd $MOZBUILD
 hg update $REL -C -R mozilla
 hg update default -C -R $REL/comm-$REL/
-<span class="red">hg update default -C -R l10n/$L10N</span>
+<span class="red">hg update default -C -R l10n/$L10N
+hg update default -C -R comm-l10n</span>
 </code>
 
 <p>
@@ -2061,13 +2072,24 @@ Or, for a known changeset:
 <code class="red loc_border">export <b>L10N_CS</b>=<span class="comment">xxxxxxxxxxxx</span>
 hg checkout -r $L10N_CS -C -R $MOZBUILD/l10n/$L10N
 </code>
+For TB 113+:
+<code class="red loc_border">[[ $MAJ_VER -ge 113 ]] &amp;&amp; {
+export TB_L10N_CS=$(grep -A 16 $L10N $MOZBUILD/$REL/comm-$REL/mail/locales/l10n-changesets.json | grep revision | colrm 34 | colrm 1 21)
+<span class="appx">echo $TB_L10N_CS</span>
+hg checkout -r $TB_L10N_CS -C -R $MOZBUILD/comm-l10n
+<span class="dhash">##</span> Copy calendar,chat,mail to location prior to release 113 to maintain compatibility with the current localization method
+cp -a $MOZBUILD/comm-l10n/$L10N/{calendar,chat,mail} $MOZBUILD/l10n/$L10N
+}
+</code>
 
 <b>Bugs</b>
 Make any changes pending upstream fixes
-<code class="red"><span class="dhash">##</span> for 'British' english locales:
-sed -i 's|dialog…|dialogue|' $MOZBUILD/l10n/$L10N/toolkit/toolkit/printing/printUI.ftl
-sed -i 's|This dialog |This dialogue |' $MOZBUILD/l10n/$L10N/mail/messenger/accountcreation/accountSetup.ftl
-sed -i 's|dialog:|dialogue:|' $MOZBUILD/l10n/$L10N/mail/chrome/messenger/chat.dtd
+<code class="red"><span class="dhash">##</span> for 'British' english locale:
+sed -i 's|dialog…|dialogue|' $MOZBUILD/l10n/en-GB/toolkit/toolkit/printing/printUI.ftl
+sed -i 's|This dialog |This dialogue |' $MOZBUILD/l10n/en-GB/mail/messenger/accountcreation/accountSetup.ftl
+sed -i 's|dialog:|dialogue:|' $MOZBUILD/l10n/en-GB/mail/chrome/messenger/chat.dtd
+sed -i 's|dialog window|dialogue window|' $MOZBUILD/l10n/en-GB/calendar/calendar/preferences.ftl
+sed -i 's|the dialog has|the dialogue has|' $MOZBUILD/l10n/en-GB/calendar/chrome/calendar/calendar.properties
 </code>
 
 <b>User Preferences</b>
@@ -2795,7 +2817,8 @@ mv thunderbird pkg/opt/thunderbird-$(cat $MOZBUILD/$REL/comm-$REL/mail/config/ve
 [[ ! $COMM_BUILD_CS ]] &amp;&amp; COMM_BUILD_CS=$(hg parent -R $MOZBUILD/$REL/comm-$REL | head -n1 | cut -d":" -f3)
 sed -i "s|SourceStamp=.*$|SourceStamp=$COMM_BUILD_CS|" pkg/opt/thunderbird-*/application.ini
 <span class="dhash">##</span> 'for the record', add the mozilla and l10n revisions that this build is based on:</span>
-<span class="red">sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
+<span class="red">[[ $MAJ_VER -ge 113 ]] &amp;&amp; L10N_CS=${TB_L10N_CS:-}
+sed -i "s|SourceStamp.*$|&amp;\nL10n_revision=${L10N_CS:-}|" pkg/opt/thunderbird-*/application.ini</span>
 <span class="green">sed -i "s|SourceStamp.*$|&amp;\nGecko_revision=${Gecko_Rev:-}|" pkg/opt/thunderbird-*/application.ini</span>
 (cd pkg/usr/bin
 ln -s ../../opt/thunderbird-*/thunderbird .)
