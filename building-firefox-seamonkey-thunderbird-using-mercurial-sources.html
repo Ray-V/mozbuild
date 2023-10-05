@@ -149,67 +149,58 @@ and/or <span style="background:#F8F8F8">Thunderbird</span> based on that mozilla
 <br>
 These are builds which have been completed and run.
 <br>
-$L10N repositories are reverted from l10n-central/$L10N during <a href="#l10n"><span class="red">Localization</span></a>
+<span class="dhash">  &blacktriangleright;</span> Armv7 builds complete, but randomly crash since <a class="extlink" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1841661">skia was updated</a> and are therefore not shown here.
 <br>
-From release 113, Thunderbird $L10N repositories are reverted from projects/comm-l10n
+<span class="dhash">  &blacktriangleright;</span> $L10N repositories are reverted from l10n-central/$L10N during <a href="#l10n"><span class="red">Localization</span></a>
+<br>
+<span class="dhash">  &blacktriangleright;</span> From release 113, Thunderbird $L10N repositories are reverted from projects/comm-l10n
 <br><code class="appx">                                      built to <span class="off_rel">{released}</span> revision/changeset
           <u>Firefox</u>   <u>Thunderbird</u>    <u>mozilla</u>         <u>comm-$REL</u>       <u>$L10N</u>          <u>Options</u>
 </code>
 
 <p>
 <b><i>esr115</i></b>
-<br><code class="appx">          115.2.0                  <span class="off_rel">bf2f656d0258</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   115.2.0                  <span class="">bf2f656d0258</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
-<span class="comment green">armv7</span>     115.2.0                  <span class="">bf2f656d0258</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
-<span class="comment green">i686</span>      115.2.0                  <span class="off_rel">bf2f656d0258</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    115.2.0        <span class="">bf2f656d0258</span>    <span class="">ffd49506d62c</span>    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>             115.2.0        bf2f656d0258    ffd49506d62c    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
-<span class="comment green">armv7</span>               115.2.0        bf2f656d0258    ffd49506d62c    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
-<span class="comment green">i686</span>                115.2.0        <span class="">bf2f656d0258</span>    <span class="">ffd49506d62c</span>    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
-<br>
+<br><code class="appx">          115.3.1 <span class="comment">&dagger;</span>                <span class="off_rel">749617c4473c</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   115.3.0                  <span class="">17bedcda2f5c</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
+<span class="comment green">armv7</span>     115.3.0                  <span class="">17bedcda2f5c</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
+<span class="comment green">i686</span>      115.3.0                  <span class="off_rel">17bedcda2f5c</span>    <span class="comment">n/a</span>             9aae743f32df   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    115.3.1 <span class="comment">&dagger;</span>      <span class="">749617c4473c</span>    <span class="">42b3addbca70</span>    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>             115.3.1 <span class="comment">&dagger;</span>      749617c4473c    42b3addbca70    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
+<span class="comment green">armv7</span>               115.3.1        749617c4473c    42b3addbca70    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
+<span class="comment green">i686</span>                115.3.1 <span class="comment">&dagger;</span>      <span class="">749617c4473c</span>    <span class="">42b3addbca70</span>    be4fb849bd0e   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
 
-<p>
-<a name="close_esr102"></a>                                        <!-- esr102 - start -->
-<span class="tabs"><a href="#esr102"><b><i>esr102</i></b></a></span><span style="vertical-align:-30%">&nbsp;&nbsp; built up to 102.12.0</span>
-<div id="esr102" class="tab"><div class=""><span class="tabs"><a href="#close_esr102">close</a></span>
-<code class="appx">         102.12.0                 <span class="off_rel">436a2ee5bfc7</span>    <span class="comment">n/a</span>             1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>  102.12.0                 <span class="">436a2ee5bfc7</span>    <span class="comment">n/a</span>             1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>    102.12.0                 <span class="">436a2ee5bfc7</span>    <span class="comment">n/a</span>             1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>     102.12.0                 <span class="off_rel">436a2ee5bfc7</span>    <span class="comment">n/a</span>             1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                   102.12.0       <span class="off_rel">436a2ee5bfc7</span>    <span class="off_rel">9d42734e1259</span>    1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>            102.12.0       436a2ee5bfc7    9d42734e1259    1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">armv7</span>              102.12.0       436a2ee5bfc7    9d42734e1259    1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">i686</span>               102.12.0       <span class="off_rel">436a2ee5bfc7</span>    <span class="off_rel">9d42734e1259</span>    1da5446d2f1d   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span></code>
-<span class="tabs"><a href="#close_esr102">close</a></span>
-</div></div>                                                     <!-- esr102 - end -->
+<br>
+<span class="comment"><b>&dagger;</b> The changeset 749617c4473c used for the Mozilla builds isn't in the mozilla unified repository -
+<br>   see '<a href="#Locrep">Add new changesets</a>' to pull in the FIREFOX_ESR_115_3_X_RELBRANCH and then
+<br>   update, create bookmark, and checkout to that revision</span>
 
 <p>
 <b><i>release</i></b>
 <br>
-<code class="appx">          117.0                    <span class="off_rel">27de51e74c19</span>    <span class="comment">n/a</span>             0378ea3f5036   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   117.0                    <span class="">27de51e74c19</span>    <span class="comment">n/a</span>             0378ea3f5036   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
-<span class="comment green">armv7</span>     117.0 <span class="comment">&Dagger;</span>                  <span class="">27de51e74c19</span>    <span class="comment">n/a</span>             0378ea3f5036   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
-<span class="comment green">i686</span>      117.0                    <span class="off_rel">27de51e74c19</span>    <span class="comment">n/a</span>             0378ea3f5036   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    117.0b6        <span class="off_rel">79150caa42c9</span>    <span class="off_rel">a15dac16ca00</span>    2582ee2883dd   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          118.0                    <span class="off_rel">cc4649d51632</span>    <span class="comment">n/a</span>             e6f333c18c80   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   118.0                    <span class="">cc4649d51632</span>    <span class="comment">n/a</span>             e6f333c18c80   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
+<span class="comment green">armv7</span>     118.0 <span class="comment">&Dagger;</span>                  <span class="">cc4649d51632</span>    <span class="comment">n/a</span>             e6f333c18c80   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
+<span class="comment green">i686</span>      118.0                    <span class="off_rel">cc4649d51632</span>    <span class="comment">n/a</span>             e6f333c18c80   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    118.0b6        <span class="off_rel">da576bd73ddb</span>    <span class="off_rel">fc317d2544f6</span>    4a93dae3ded7   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <p>
 <b><i>beta</i></b>
 <br>
-<code class="appx">          118.0b2                  <span class="off_rel">22902fb186ba</span>    <span class="comment">n/a</span>             4a167a105945   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-<span class="comment green">aarch64</span>   118.0b2                  <span class="">22902fb186ba</span>    <span class="comment">n/a             </span>4a167a105945   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
-<span class="comment green">armv7</span>     118.0b2 <span class="comment">&Dagger;</span>                <span class="">22902fb186ba</span>    <span class="comment">n/a             </span>4a167a105945   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
-<span class="comment green">i686</span>      118.0b2                  <span class="off_rel">22902fb186ba</span>    <span class="comment">n/a             </span>4a167a105945   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
-                    118.0b1        <span class="off_rel">a51142166ff9    666465475c1d</span>    d6d33876f801   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          119.0b3                  <span class="off_rel">fe5fec837978</span>    <span class="comment">n/a</span>             29dfc4761516   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<span class="comment green">aarch64</span>   119.0b3                  <span class="">fe5fec837978</span>    <span class="comment">n/a             </span>29dfc4761516   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span><!--
+<span class="comment green">armv7</span>     119.0b3 <span class="comment">&Dagger;</span>                <span class="">fe5fec837978</span>    <span class="comment">n/a             </span>29dfc4761516   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>-->
+<span class="comment green">i686</span>      119.0b3                  <span class="off_rel">fe5fec837978</span>    <span class="comment">n/a             </span>29dfc4761516   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+                    119.0b1        <span class="off_rel">704d786ef571    00fd71b5d265</span>    123e0b240d85   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
 <p>
 <b><i>central [Nightly]</i></b>
 <br>
-<code class="appx">          119.0a1                  <span class="off_rel">206a63104549</span> <span class="comment">&ContourIntegral;</span>  <span class="comment">n/a</span>             4a167a105945   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
+<code class="appx">          120.0a1                  <span class="off_rel">8f142cb8ab16</span> <span class="comment">&ContourIntegral;</span>  <span class="comment">n/a</span>             29dfc4761516   <span class="gray"> </span> <span class="green"> </span> <span class="red"> </span> <span class=""> </span>
 </code>
 <br>
-<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2023/08/2023-08-31-09-20-08-mozilla-central/firefox-119.0a1.en-US.linux-x86_64-asan-reporter.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
+<span class="comment"><b>&ContourIntegral;</b> the revision is the <a class="extlink" href="https://archive.mozilla.org/pub/firefox/nightly/2023/09/2023-09-30-09-34-08-mozilla-central/firefox-120.0a1.en-US.linux-x86_64-asan-reporter.txt">changeset of the latest Nightly build</a> at the time of compiling</span>
 
 <p>
 <br>
@@ -365,6 +356,8 @@ cd $MOZBUILD
 hg pull -R mozilla
 <span class="red">hg pull -R l10n/$L10N
 hg pull -R comm-l10n</span>
+<span class="dhash">##</span> <span class="comment">For 115.3.1esr to include changeset 749617c4473c:</span>
+<span class="dhash">##</span> <span class="comment">hg pull -b FIREFOX_ESR_115_3_X_RELBRANCH https://hg.mozilla.org/releases/mozilla-esr115 -R mozilla</span>
 
 for repo in $REPOS
 do
@@ -407,7 +400,7 @@ Building to a changeset - start
 Tg_STR=$(hg log -l 500 -Gr ::$REL | grep -o Tagging.*FIREFOX_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example:
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging bf2f656d025836975b7bf6aeb16901a037a01923 with FIREFOX_115_2_0esr_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 749617c4473c65f8aebb2e3254777ae99dc17cce with FIREFOX_115_3_1esr_RELEASE</span>
 
 <span class="dhash">##</span> Set the changeset for the build
 REL_CS=$(echo $Tg_STR | cut -d" " -f2 | colrm 13)
@@ -451,7 +444,7 @@ Thunderbird builds at the same major revision as Firefox release use the beta re
 Tg_STR=$(hg log -l 500 -R $MOZBUILD/$REL/comm-$REL | grep -o Tagging.*THUNDERBIRD_.*_RELEASE|head -n1)
 <span class="appx">echo $Tg_STR</span>
 <span class="dhash">##</span> which will show, for example
-<span class="dhash">##</span> <span class="console">&nbsp;Tagging ffd49506d62c329824f7adb4896602a8c77ec7e8 with THUNDERBIRD_115_2_0_BUILD2, THUNDERBIRD_115_2_0_RELEASE</span>
+<span class="dhash">##</span> <span class="console">&nbsp;Tagging 42b3addbca70f64493bdbede7f3f66dc40641a0a with THUNDERBIRD_115_3_1_BUILD1, THUNDERBIRD_115_3_1_RELEASE</span>
 
 <span class="dhash">##</span> Get the release version
 TB_REL=$(echo $Tg_STR | cut -d" " -f5 | sed 's|THUNDERBIRD_||;s|_RELEASE||' | tr _ .)
@@ -464,10 +457,10 @@ TB_BUILD=$(echo $Tg_STR | grep -o BUILD[0-9]* | tr [:upper:] [:lower:] )
 <span class="dhash">##</span> Download the .txt file to get the mozilla changeset for that build
 <span style="color: #c50000;">wget https://archive.mozilla.org/pub/thunderbird/candidates/$TB_REL-candidates/$TB_BUILD/linux-x86_64/en-US/thunderbird-$TB_REL.txt</span>
 
-<span style="color: #E7F5E7;">#</span>For example for TBesr 115.2.0, build2 [tagged as 115.2.0 release], the contents of this file are:
-<span style="color: #E7F5E7;"># </span>20230828145448
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr115/rev/ffd49506d62c329824f7adb4896602a8c77ec7e8
-<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr115/rev/bf2f656d025836975b7bf6aeb16901a037a01923
+<span style="color: #E7F5E7;">#</span>For example for TBesr 115.3.1, build1 [tagged as 115.3.1 release], the contents of this file are:
+<span style="color: #E7F5E7;"># </span>20230928194049
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/comm-esr115/rev/42b3addbca70f64493bdbede7f3f66dc40641a0a
+<span style="color: #E7F5E7;"># </span>https://hg.mozilla.org/releases/mozilla-esr115/rev/749617c4473c65f8aebb2e3254777ae99dc17cce
 
 <span class="dhash">##</span> &hellip; and extract the changesets
 COMM_BUILD_CS=$(grep comm- thunderbird-$TB_REL.txt | cut -d"/" -f7 | colrm 13)
@@ -606,13 +599,13 @@ grep 'cbindgen_min_version =' $MOZBUILD/mozilla/build/moz.configure/bindgen.conf
 <br>
 <code class="gray">cd $MOZBUILD/sources
 <span class="dhash">##</span> for the latest version:
-<span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/eqrion/cbindgen/releases</span>
-CBINDGEN_REL=$(grep archive.*tar.gz cbindgen-releases.html | head -n1 | cut -d'"' -f2 | cut -d'/' -f7)
+<span style="color: #c50000;">wget -O cbindgen-releases.html https://github.com/mozilla/cbindgen/releases</span>
+CBINDGEN_REL=$(grep -o expanded_assets.* cbindgen-releases.html | head -n1 | cut -d'"' -f1 | cut -d'/' -f2)
 <span class="appx">echo $CBINDGEN_REL</span>
-<span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL https://github.com/eqrion/cbindgen/archive/$CBINDGEN_REL</span>
+<span style="color: #c50000;">wget -O cbindgen-$CBINDGEN_REL.tar.gz https://github.com/mozilla/cbindgen/archive/refs/tags/$CBINDGEN_REL.tar.gz</span>
 
-tar xf cbindgen-$CBINDGEN_REL
-cd cbindgen-[0-9]*
+tar xf cbindgen-$CBINDGEN_REL.tar.gz
+cd cbindgen-[0-9]*/
 PATH=$MOZBUILD/sources/rust-$ARCH/bin:$PATH
 cargo install --root $MOZBUILD/sources/rust-$ARCH cbindgen
 </code>
@@ -1115,6 +1108,9 @@ EOF
 </code>
 Default to no firefox view tab - about:firefoxview [FF106+]
 <code class="green">sed -i 's|pref("browser.tabs.firefox-view", true);|pref("browser.tabs.firefox-view", false);|' mozilla/browser/app/profile/firefox.js
+</code>
+Default to no 'View recent browsing ...' tab [FF119+]
+<code class="green">sed -i 's|firefox-view-next", true);|firefox-view-next", false);|' mozilla/browser/app/profile/firefox.js
 </code>
 Avoid tab open/close pop-ups [FF115+]
 <code class="green">sed -i 's|view-count.*$|view-count", 1);|' mozilla/browser/app/profile/firefox.js
